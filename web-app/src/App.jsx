@@ -5,7 +5,7 @@ import {
   Calendar, Clipboard, CheckCircle, AlertTriangle, Filter, 
   Sparkles, Settings, ArrowRight, UserPlus, Star, LayoutGrid, 
   ListTodo, Info, HelpCircle, Edit3, ArrowUpRight, Eye, RefreshCw, LogIn, LogOut, LockOpen, ArrowUpDown, Trash, EyeOff, MapPin, Phone, User, ChevronDown, FolderPlus, ArrowUp, ArrowDown,
-  ShoppingBag, Users, Save, X, Flame, MessageSquare, Mail, TrendingUp, Download
+  ShoppingBag, Users, Save, X, Flame, MessageSquare, Mail, TrendingUp, Download, Menu
 } from 'lucide-react';
 
 // ==========================================
@@ -616,11 +616,6 @@ const HeroCarousel = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-[#081225]/90 via-[#081225]/40 to-transparent" />
           
           <div className="absolute inset-0 flex flex-col items-center justify-end pb-16 md:pb-24 px-6 text-center text-white">
-            <img 
-              src="/assets/logo_jae_blanco.png" 
-              alt="Grupo JAE" 
-              className="h-20 md:h-24 w-auto object-contain mb-5 drop-shadow-lg transition-all"
-            />
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif font-light mb-4 drop-shadow-lg max-w-4xl leading-tight">
               {slide.title}
             </h2>
@@ -668,6 +663,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState({ role: ROLES.CLIENTE }); 
   const [currentModule, setCurrentModule] = useState('CLIENT_VIEW'); // Por defecto, la Landing de Cliente
   const [clientSection, setClientSection] = useState('inicio');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // ==========================================
   // ESTADOS DE FONDO DINÁMICO Y TARJETAS INICIO
@@ -688,6 +684,10 @@ export default function App() {
     { id: 'c3', title: 'Ceremonia de Homenaje de la Luz', desc: 'Celebración litúrgica solemne y encendido de velas por la paz eterna de las almas que amamos.', img: '/assets/recursos/IMG_6682.jpg' }
   ]);
   
+  // Sesiones Globales
+  const [systemConfig, setSystemConfig] = useState({ sessionTimeoutMinutes: 15 });
+  const [activeSessions, setActiveSessions] = useState([]);
+
   // Login states
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [emailInput, setEmailInput] = useState('');
@@ -775,6 +775,7 @@ export default function App() {
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
   const [celebration, setCelebration] = useState({ show: false, leadName: '' });
   const [confirmDialog, setConfirmDialog] = useState({ show: false, message: '', onConfirm: null });
+  const [showDemoModal, setShowDemoModal] = useState(false);
 
   // Dialog Helper Functions
   const triggerNotification = (message, type = 'success') => {
@@ -792,6 +793,11 @@ export default function App() {
     });
   };
 
+  const triggerDemoNotification = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    setShowDemoModal(true);
+  };
+
   useEffect(() => {
     if (toast.show) {
       const timer = setTimeout(() => {
@@ -800,6 +806,18 @@ export default function App() {
       return () => clearTimeout(timer);
     }
   }, [toast.show]);
+
+  // Scroll smoothly to branch rooms section when a branch is selected
+  useEffect(() => {
+    if (expandedBranchId) {
+      setTimeout(() => {
+        const element = document.getElementById('salas-sucursal');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 150);
+    }
+  }, [expandedBranchId]);
 
   // Syncs
   // Carga inicial desde la API del Servidor de la PC
@@ -919,6 +937,8 @@ export default function App() {
           if (data.customFormFields) setCustomFormFields(data.customFormFields);
           if (data.contactMethods) setContactMethods(data.contactMethods);
           if (data.activeUsers) setActiveUsers(data.activeUsers);
+          if (data.systemConfig) setSystemConfig(data.systemConfig);
+          if (data.activeSessions) setActiveSessions(data.activeSessions);
           if (data.crmForms) setCrmForms(data.crmForms);
           if (data.crmFormSubmissions) setCrmFormSubmissions(data.crmFormSubmissions);
           if (data.events) setEvents(data.events);
@@ -953,6 +973,38 @@ export default function App() {
             }
           });
           setCustomTables(loadedCustomTables);
+
+          // Restore session from localStorage
+          const storedAuth = localStorage.getItem('jae_auth');
+          if (storedAuth) {
+            try {
+              const authData = JSON.parse(storedAuth);
+              const authUser = (data.activeUsers || activeUsers).find(u => u.id === authData.userId && u.isActive);
+              if (authUser) {
+                const currentSessions = data.activeSessions || activeSessions || [];
+                const sessionStillActive = currentSessions.find(s => s.sessionId === authData.sessionId);
+                
+                // Keep ADMIN always logged in even if session was lost from DB
+                if (sessionStillActive || authUser.role === ROLES.ADMIN) {
+                  setCurrentUser(authUser);
+                  setCurrentModule(authData.currentModule || (authUser.role === ROLES.ADMIN ? 'INTRANET' : 'CLIENT_VIEW'));
+                  localStorage.setItem('jae_last_activity', Date.now().toString());
+                  
+                  if (authUser.role !== ROLES.ADMIN && sessionStillActive) {
+                    // Update last activity immediately on load
+                    const updatedSessions = currentSessions.map(s => 
+                      s.sessionId === authData.sessionId ? { ...s, lastActivity: Date.now() } : s
+                    );
+                    setActiveSessions(updatedSessions);
+                  }
+                } else {
+                  localStorage.removeItem('jae_auth');
+                }
+              }
+            } catch (e) {
+              console.error(e);
+            }
+          }
 
           setDbLoaded(true);
         }
@@ -994,6 +1046,8 @@ export default function App() {
         rooms,
         products,
         directoryGroups,
+        systemConfig,
+        activeSessions,
         ...customTables
       };
 
@@ -1048,17 +1102,40 @@ export default function App() {
       const userRole = roles.find(r => r.id === user.roleId);
       const userPerms = userRole ? userRole.permissions : {};
       
+      let nextModule;
       if (user.role === ROLES.ADMIN) {
-        setCurrentModule('INTRANET');
+        nextModule = 'INTRANET';
       } else {
         const firstAllowed = Object.keys(userPerms).find(key => userPerms[key]);
-        setCurrentModule(firstAllowed || 'CLIENT_VIEW');
+        nextModule = firstAllowed || 'CLIENT_VIEW';
       }
+      setCurrentModule(nextModule);
+      
+      // Create Session
+      const sessionId = 'sess_' + Math.random().toString(36).substr(2, 9);
+      const newSession = {
+        sessionId,
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        loginTime: Date.now(),
+        lastActivity: Date.now()
+      };
+      setActiveSessions(prev => [...prev, newSession]);
+      
+      // Save Auth Locally
+      localStorage.setItem('jae_auth', JSON.stringify({
+        sessionId,
+        userId: user.id,
+        currentModule: nextModule
+      }));
+      localStorage.setItem('jae_last_activity', Date.now().toString());
       
       setShowLoginModal(false);
       setEmailInput('');
       setPasswordInput('');
-      addAuditLog('sessions', user.id, 'LOGIN', null, { email: user.email, role: user.role });
+      addAuditLog('sessions', user.id, 'LOGIN', null, { email: user.email, role: user.role, sessionId });
     } else {
       setLoginError('Credenciales incorrectas. Verifique correo o contraseña.');
     }
@@ -1066,13 +1143,94 @@ export default function App() {
 
   const handleLogout = () => {
     addAuditLog('sessions', currentUser.id || 'anonimo', 'LOGOUT', { email: currentUser.email, role: currentUser.role }, null);
+    
+    const storedAuth = localStorage.getItem('jae_auth');
+    if (storedAuth) {
+      try {
+        const { sessionId } = JSON.parse(storedAuth);
+        setActiveSessions(prev => prev.filter(s => s.sessionId !== sessionId));
+      } catch (e) {}
+    }
+    
+    localStorage.removeItem('jae_auth');
+    localStorage.removeItem('jae_last_activity');
     setCurrentUser({ role: ROLES.CLIENTE });
     setCurrentModule('CLIENT_VIEW');
   };
 
+  // Activity Tracker
+  useEffect(() => {
+    if (currentUser.role === ROLES.CLIENTE) return;
+
+    let timeout;
+    const updateActivity = () => {
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        const storedAuth = localStorage.getItem('jae_auth');
+        if (storedAuth) {
+          try {
+            const { sessionId } = JSON.parse(storedAuth);
+            localStorage.setItem('jae_last_activity', Date.now().toString());
+            setActiveSessions(prev => prev.map(s => 
+              s.sessionId === sessionId ? { ...s, lastActivity: Date.now() } : s
+            ));
+          } catch (e) {}
+        }
+      }, 5000);
+    };
+
+    window.addEventListener('mousemove', updateActivity);
+    window.addEventListener('keydown', updateActivity);
+    window.addEventListener('click', updateActivity);
+    window.addEventListener('scroll', updateActivity);
+
+    return () => {
+      if (timeout) clearTimeout(timeout);
+      window.removeEventListener('mousemove', updateActivity);
+      window.removeEventListener('keydown', updateActivity);
+      window.removeEventListener('click', updateActivity);
+      window.removeEventListener('scroll', updateActivity);
+    };
+  }, [currentUser.role]);
+
+  // Auto Logout Checker
+  useEffect(() => {
+    if (currentUser.role === ROLES.CLIENTE || currentUser.role === ROLES.ADMIN) return;
+
+    const interval = setInterval(() => {
+      const storedAuth = localStorage.getItem('jae_auth');
+      if (!storedAuth) return;
+      
+      const lastAct = localStorage.getItem('jae_last_activity');
+      if (lastAct) {
+        const elapsedMinutes = (Date.now() - parseInt(lastAct, 10)) / 60000;
+        const limit = systemConfig?.sessionTimeoutMinutes || 15;
+        if (elapsedMinutes >= limit) {
+          alert("Tu sesión ha expirado por inactividad.");
+          handleLogout();
+        }
+      }
+    }, 60000); // Check every minute
+
+    return () => clearInterval(interval);
+  }, [currentUser.role, systemConfig]);
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col font-sans selection:bg-[#1E3A8A]/30 selection:text-white relative">
       
+      {/* Banner de Aviso de Demostración */}
+      <div className="bg-[#081225] border-b border-indigo-900/50 text-indigo-100 px-6 py-2.5 text-xs font-semibold flex items-center justify-center z-[99999] shadow-sm text-center">
+        <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 max-w-7xl">
+          <span className="flex h-2.5 w-2.5 relative flex-shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-500"></span>
+          </span>
+          <span>
+            <strong>AVISO IMPORTANTE:</strong> Esta aplicación es una demostración en fase de pruebas, desarrollada de forma independiente con recursos propios. La empresa no tiene derechos sobre este código, ya que se encuentra sujeto a negociación y aprobación pendiente.
+          </span>
+        </div>
+      </div>
+
       {/* Banner de Servidor Offline */}
       {dbError && (
         <div className="bg-amber-50 border-b border-amber-200 text-amber-800 px-6 py-2.5 text-xs font-semibold flex items-center justify-between z-[9999] shadow-sm">
@@ -1153,7 +1311,19 @@ export default function App() {
           ? 'bg-[#0A1728]/40 backdrop-blur-md border-b border-white/10 text-white shadow-sm'
           : 'bg-white border-b border-slate-200/80 text-slate-800 shadow-sm'
       }`}>
-        <div className="flex items-center gap-3">
+        <div 
+          className="flex items-center gap-3 cursor-pointer" 
+          onClick={() => { 
+            if (currentModule === 'CLIENT_VIEW') {
+              if (window.innerWidth < 768) {
+                setIsMobileMenuOpen(true);
+              } else {
+                setClientSection('inicio');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            } 
+          }}
+        >
           <img 
             src={currentModule === 'CLIENT_VIEW' ? "/assets/logo_jae_blanco.png" : "/assets/logo_jae_azul.png"} 
             alt="Grupo JAE" 
@@ -1163,17 +1333,28 @@ export default function App() {
 
         {/* Barra de Navegación Condicional por Vista y Roles */}
         {currentModule === 'CLIENT_VIEW' ? (
-          <nav className="hidden md:flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-[10.5px] font-bold tracking-widest uppercase text-white/80">
-            {['inicio', 'nosotros', 'servicios', 'instalaciones', 'eventos', 'tienda', 'contacto'].map(sec => (
-              <button 
-                key={sec}
-                onClick={() => setClientSection(sec)}
-                className={`transition-all uppercase ${clientSection === sec ? 'text-white border-b border-white pb-0.5' : 'hover:text-white/60'}`}
-              >
-                {sec}
-              </button>
-            ))}
-          </nav>
+          <>
+            <nav className="hidden md:flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-[10.5px] font-bold tracking-widest uppercase text-white/80">
+              {['inicio', 'nosotros', 'servicios', 'instalaciones', 'eventos', 'tienda', 'contacto'].map(sec => (
+                <button 
+                  key={sec}
+                  onClick={() => {
+                    setClientSection(sec);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className={`transition-all uppercase ${clientSection === sec ? 'text-white border-b border-white pb-0.5' : 'hover:text-white/60'}`}
+                >
+                  {sec}
+                </button>
+              ))}
+            </nav>
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="md:hidden p-2 text-white/80 hover:text-white transition-colors ml-auto mr-4"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          </>
         ) : currentUser.role !== ROLES.CLIENTE && (
           <nav className="hidden md:flex items-center gap-1.5 bg-slate-50 border border-slate-200/60 p-1 rounded-full">
             {[
@@ -1277,6 +1458,48 @@ export default function App() {
           )}
         </div>
       </header>
+
+      {/* Menú Móvil Overlay */}
+      {isMobileMenuOpen && currentModule === 'CLIENT_VIEW' && (
+        <div className="fixed inset-0 z-50 flex">
+          {/* Fondo oscuro translúcido */}
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          
+          {/* Panel Lateral */}
+          <div className="relative w-64 max-w-[80%] h-full bg-[#081225] text-white flex flex-col p-6 shadow-2xl animate-fade-in-right overflow-y-auto">
+            <div className="flex items-center justify-between mb-8">
+              <img src="/assets/logo_jae_blanco.png" alt="Grupo JAE" className="h-10 w-auto" />
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-all text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <nav className="flex flex-col gap-4">
+              {['inicio', 'nosotros', 'servicios', 'instalaciones', 'eventos', 'tienda', 'contacto'].map(sec => (
+                <button 
+                  key={sec}
+                  onClick={() => {
+                    setClientSection(sec);
+                    setIsMobileMenuOpen(false);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className={`text-left text-sm uppercase tracking-widest font-semibold py-3 border-b border-white/10 transition-all ${
+                    clientSection === sec ? 'text-white border-white/40' : 'text-white/50 hover:text-white hover:border-white/20'
+                  }`}
+                >
+                  {sec}
+                </button>
+              ))}
+            </nav>
+          </div>
+        </div>
+      )}
 
       {/* Navegación Móvil Rápida para Colaboradores */}
       {currentUser.role !== ROLES.CLIENTE && (
@@ -1516,7 +1739,10 @@ export default function App() {
                       </div>
                       
                       <button 
-                        onClick={() => setClientSection('instalaciones')}
+                        onClick={() => {
+                          setClientSection('instalaciones');
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
                         className="w-full bg-white/10 hover:bg-white text-white hover:text-[#081225] border border-white/20 py-3.5 rounded-xl text-sm font-bold transition-all mt-auto relative z-10 backdrop-blur-sm"
                       >
                         Ver Catálogo de Instalaciones
@@ -1748,7 +1974,7 @@ export default function App() {
 
                 {/* Mostrar las salas de la sucursal seleccionada (fuera del grid de sucursales) */}
                 {expandedBranchId && (
-                  <div className="mt-8 pt-8 border-t border-slate-200 animate-fade-in bg-slate-50/50 rounded-3xl p-6 md:p-8 border border-slate-200/60 shadow-sm">
+                  <div id="salas-sucursal" className="scroll-mt-24 mt-8 pt-8 border-t border-slate-200 animate-fade-in bg-slate-50/50 rounded-3xl p-6 md:p-8 border border-slate-200/60 shadow-sm">
                     {(() => {
                       const branch = branches.find(b => b.id === expandedBranchId);
                       const branchRooms = rooms.filter(r => r.branchId === expandedBranchId);
@@ -1978,7 +2204,7 @@ export default function App() {
                 <div className="flex flex-col md:flex-row gap-8 w-full text-left">
                   <div className="flex-1 bg-white border border-slate-200/80 rounded-3xl p-8 shadow-sm">
                     <h4 className="font-bold text-slate-800 text-sm mb-6">Envíanos un mensaje</h4>
-                    <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                    <form className="space-y-4" onSubmit={triggerDemoNotification}>
                       <div>
                         <label className="block text-xs font-semibold text-slate-600 mb-1">Nombre*</label>
                         <input type="text" className="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm bg-slate-50 focus:bg-white focus:outline-none focus:border-[#1E3A8A]" />
@@ -2251,7 +2477,10 @@ export default function App() {
             rooms={rooms}
             setRooms={setRooms}
             directoryGroups={directoryGroups}
-            setDirectoryGroups={setDirectoryGroups}
+            activeSessions={activeSessions}
+            setActiveSessions={setActiveSessions}
+            systemConfig={systemConfig}
+            setSystemConfig={setSystemConfig}
           />
         )}
 
@@ -2600,60 +2829,56 @@ export default function App() {
       )}
 
       {/* ==========================================
-          PIE DE PÁGINA CORPORATIVO (ESTILO AETERNUM LUXURY)
+          PIE DE PÁGINA PREMIUM (FONDO BLANCO Y LOGOS A COLOR)
           ========================================== */}
-      <footer className="bg-[#081225] border-t border-slate-950 py-16 px-6 md:px-12 text-slate-400 mt-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent pointer-events-none"></div>
+      <footer className="bg-white border-t border-slate-200 py-16 px-6 md:px-12 text-slate-500 mt-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col items-center gap-12 relative z-10">
           
-          {/* Fila de Logotipos (Fusión Comercial y Respaldo) */}
-          <div className="w-full flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-slate-800/60">
+          {/* Fila de Logotipos a Color */}
+          <div className="w-full flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-slate-100">
             {/* Jardín de los Ángeles (Marca Comercial 1) */}
-            <div className="flex flex-col items-center md:items-start gap-2 shrink-0">
-              <span className="text-[8px] tracking-[0.25em] font-serif uppercase font-bold text-slate-500">Marca Comercial</span>
+            <div className="flex flex-col items-center md:items-start gap-1 shrink-0">
               <img 
-                src="/assets/logo_jardin_blanco.png" 
+                src="/assets/logo_jardin_color.png" 
                 alt="Jardín de los Ángeles" 
-                className="h-10 md:h-12 w-auto object-contain opacity-75 hover:opacity-100 hover:scale-105 transition-all duration-300"
+                className="h-10 md:h-12 w-auto object-contain hover:scale-105 transition-all duration-300"
               />
             </div>
 
-            {/* Grupo JAE (Logotipo Corporativo Principal) */}
-            <div className="flex flex-col items-center gap-2 shrink-0">
-              <span className="text-[8px] tracking-[0.25em] font-serif uppercase font-bold text-amber-500">Corporativo Principal</span>
+            {/* Grupo JAE (Logotipo Principal) */}
+            <div className="flex flex-col items-center gap-1 shrink-0">
               <img 
-                src="/assets/logo_jae_blanco.png" 
+                src="/assets/logo_jae_color.png" 
                 alt="Grupo JAE" 
                 className="h-16 md:h-20 w-auto object-contain hover:scale-105 transition-all duration-300"
               />
             </div>
 
             {/* Eternum (Marca Comercial 2) */}
-            <div className="flex flex-col items-center md:items-end gap-2 shrink-0">
-              <span className="text-[8px] tracking-[0.25em] font-serif uppercase font-bold text-slate-500">Marca Comercial</span>
+            <div className="flex flex-col items-center md:items-end gap-1 shrink-0">
               <img 
-                src="/assets/logo_eternum_blanco.png" 
+                src="/assets/logo_eternum_color.png" 
                 alt="Eternum Servicios Funerarios" 
-                className="h-8 md:h-10 w-auto object-contain opacity-75 hover:opacity-100 hover:scale-105 transition-all duration-300"
+                className="h-8 md:h-10 w-auto object-contain hover:scale-105 transition-all duration-300"
               />
             </div>
           </div>
 
           {/* Fila de Enlaces y Derechos de Autor */}
-          <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 text-[11px] text-slate-400">
+          <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 text-[11px] text-slate-550">
             <div className="text-center md:text-left space-y-1.5">
-              <p className="font-semibold text-slate-350">
+              <p className="font-semibold text-slate-800">
                 © 2026 Grupo JAE. Todos los derechos reservados.
               </p>
-              <p className="text-[9.5px] text-slate-500 max-w-xl leading-relaxed">
-                Jardín de los Ángeles y Eternum Servicios Funerarios son marcas comerciales de servicios funerarios y de previsión debidamente registradas y respaldadas bajo la licencia corporativa de Grupo JAE.
+              <p className="text-[9.5px] text-slate-400 max-w-xl leading-relaxed">
+                Jardín de los Ángeles y Eternum Servicios Funerarios son marcas comerciales de servicios funerarios y de previsión debidamente registradas y respaldadas bajo la licencia de Grupo JAE.
               </p>
             </div>
             
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 font-semibold">
-              <a href="#" className="hover:text-white transition-colors">Aviso de Privacidad</a>
-              <a href="#" className="hover:text-white transition-colors">Términos de Servicio</a>
-              <a href="#" className="hover:text-white transition-colors">Soporte Técnico</a>
+              <button onClick={triggerDemoNotification} className="hover:text-[#1E3A8A] text-slate-650 transition-colors cursor-pointer">Aviso de Privacidad</button>
+              <button onClick={triggerDemoNotification} className="hover:text-[#1E3A8A] text-slate-650 transition-colors cursor-pointer">Términos de Servicio</button>
+              <button onClick={triggerDemoNotification} className="hover:text-[#1E3A8A] text-slate-650 transition-colors cursor-pointer">Soporte Técnico</button>
             </div>
           </div>
 
@@ -2675,6 +2900,33 @@ export default function App() {
               className="text-slate-450 hover:text-slate-655 font-bold text-sm ml-1"
             >
               ×
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Centered Dedicated Demo Modal */}
+      {showDemoModal && (
+        <div className="fixed inset-0 bg-[#081225]/75 backdrop-blur-sm flex items-center justify-center z-[100] p-4 animate-fade-in">
+          <div className="bg-white border border-slate-200/80 rounded-3xl max-w-sm w-full p-6 text-center space-y-5 shadow-2xl relative overflow-hidden animate-scale-up">
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 to-yellow-400"></div>
+            
+            <div className="mx-auto w-12 h-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center border border-amber-200/60 shadow-sm animate-pulse">
+              <Info className="w-6 h-6" />
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="font-serif font-bold text-lg text-slate-900">Versión Demo</h3>
+              <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                Esta es una versión demo, esta opción aún no se encuentra disponible.
+              </p>
+            </div>
+
+            <button
+              onClick={() => setShowDemoModal(false)}
+              className="w-full bg-[#081225] hover:bg-[#1E3A8A] text-white py-2.5 rounded-xl text-xs font-bold transition-all shadow-md active:scale-[0.98] cursor-pointer"
+            >
+              Entendido
             </button>
           </div>
         </div>
@@ -6755,7 +7007,11 @@ function SuperAdminModule({
   rooms,
   setRooms,
   directoryGroups,
-  setDirectoryGroups
+  setDirectoryGroups,
+  activeSessions,
+  setActiveSessions,
+  systemConfig,
+  setSystemConfig
 }) {
   const [activeSubTab, setActiveSubTab] = useState('BRANCHES_ADMIN');
   const [selectedLog, setSelectedLog] = useState(null);
@@ -6993,6 +7249,7 @@ function SuperAdminModule({
               label: 'Sistema Avanzado',
               icon: Shield,
               items: [
+                { id: 'SESSIONS_ADMIN', label: '⏱️ Control de Sesiones', desc: 'Gestiona la inactividad y los usuarios activos.' },
                 { id: 'DATABASE', label: '🗄️ Base de Datos Directa', desc: 'Vista CRUD directa e importación JSON de todas las colecciones.' },
                 { id: 'AUDIT', label: '🔍 Auditoría de Cambios', desc: 'Revisa el historial de acciones y ediciones de los empleados.' }
               ]
@@ -7073,6 +7330,18 @@ function SuperAdminModule({
           />
         )}
 
+        {/* Control de Sesiones */}
+        {activeSubTab === 'SESSIONS_ADMIN' && (
+          <SessionsAdminPanel 
+            activeSessions={activeSessions}
+            setActiveSessions={setActiveSessions}
+            systemConfig={systemConfig}
+            setSystemConfig={setSystemConfig}
+            addAuditLog={addAuditLog}
+            triggerNotification={triggerNotification}
+            triggerConfirm={triggerConfirm}
+          />
+        )}
 
       {/* 6. Gestión del Directorio */}
       {activeSubTab === 'DIRECTORY' && (
@@ -9852,6 +10121,262 @@ function RoomsAdminPanel({ rooms, setRooms, branches, addAuditLog, triggerNotifi
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// ====================================================================================
+// PANEL DE ADMINISTRACIÓN DE SESIONES (⏱️ CONTROL DE SESIONES)
+// ====================================================================================
+function SessionsAdminPanel({ activeSessions, setActiveSessions, systemConfig, setSystemConfig, addAuditLog, triggerNotification, triggerConfirm }) {
+  const [timeoutMinutes, setTimeoutMinutes] = useState(systemConfig.sessionTimeoutMinutes || 15);
+
+  const handleKick = (session) => {
+    triggerConfirm(
+      '¿Forzar Cierre de Sesión?',
+      `El colaborador ${session.name} será expulsado inmediatamente y perderá cualquier cambio no guardado en su pestaña activa.`,
+      () => {
+        setActiveSessions(prev => prev.filter(s => s.sessionId !== session.sessionId));
+        addAuditLog('sessions', session.userId, 'KICK', session, null);
+        triggerNotification(`Sesión de ${session.name} cerrada forzosamente.`);
+      }
+    );
+  };
+
+  const handleSaveConfig = (e) => {
+    e.preventDefault();
+    const mins = parseInt(timeoutMinutes);
+    if (isNaN(mins) || mins < 1 || mins > 1440) {
+      triggerNotification('Por favor ingrese un tiempo válido entre 1 y 1440 minutos.', 'error');
+      return;
+    }
+
+    const oldConfig = { ...systemConfig };
+    const newConfig = { ...systemConfig, sessionTimeoutMinutes: mins };
+    
+    setSystemConfig(newConfig);
+    addAuditLog('system_config', 'session_timeout', 'UPDATE', oldConfig, newConfig);
+    triggerNotification('Configuración de inactividad guardada con éxito.');
+  };
+
+  // Helpers de formato de tiempo
+  const formatTime = (ts) => {
+    if (!ts) return 'N/A';
+    return new Date(ts).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const formatTimeAgo = (ts) => {
+    if (!ts) return 'N/A';
+    const diffMs = Date.now() - ts;
+    const diffMins = Math.floor(diffMs / 60000);
+    if (diffMins < 1) return 'Hace un momento';
+    if (diffMins === 1) return 'Hace 1 minuto';
+    return `Hace ${diffMins} min`;
+  };
+
+  // Contar roles activos
+  const adminCount = activeSessions.filter(s => s.role === 'ADMIN').length;
+  const staffCount = activeSessions.filter(s => s.role === 'EMPLEADO').length;
+
+  return (
+    <div className="space-y-6">
+      
+      {/* Encabezado y Estadísticas Rápidas */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        {/* Tarjeta 1: Total de Sesiones */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex items-center gap-5 relative overflow-hidden group">
+          <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-[#1E3A8A]/5 rounded-full pointer-events-none transition-transform group-hover:scale-110"></div>
+          <div className="p-4 bg-blue-50 text-[#1E3A8A] rounded-2xl">
+            <Users className="w-6 h-6" />
+          </div>
+          <div>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">Usuarios Online</span>
+            <span className="text-3xl font-bold text-slate-900 font-mono leading-none mt-1 block">
+              {activeSessions.length}
+            </span>
+          </div>
+        </div>
+
+        {/* Tarjeta 2: Administradores */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex items-center gap-5 relative overflow-hidden group">
+          <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-amber-500/5 rounded-full pointer-events-none transition-transform group-hover:scale-110"></div>
+          <div className="p-4 bg-amber-50 text-amber-600 rounded-2xl">
+            <Shield className="w-6 h-6" />
+          </div>
+          <div>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">Administradores</span>
+            <span className="text-3xl font-bold text-slate-900 font-mono leading-none mt-1 block">
+              {adminCount}
+            </span>
+          </div>
+        </div>
+
+        {/* Tarjeta 3: Límite de inactividad */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex items-center gap-5 relative overflow-hidden group">
+          <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-emerald-500/5 rounded-full pointer-events-none transition-transform group-hover:scale-110"></div>
+          <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl">
+            <Clock className="w-6 h-6" />
+          </div>
+          <div>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">Límite de Inactividad</span>
+            <span className="text-3xl font-bold text-slate-900 font-mono leading-none mt-1 block">
+              {systemConfig.sessionTimeoutMinutes || 15} <span className="text-xs font-sans text-slate-400">min</span>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* Columna Izquierda: Lista de Sesiones Activas (2/3) */}
+        <div className="lg:col-span-2 bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-6 flex flex-col justify-between">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center border-b border-slate-100 pb-4">
+              <div>
+                <h4 className="font-serif font-bold text-slate-900 text-lg">Sesiones de Trabajo Activas</h4>
+                <p className="text-xs text-slate-400 mt-1">Colaboradores con sesión de Intranet iniciada actualmente en el corporativo.</p>
+              </div>
+              <span className="flex items-center gap-1.5 text-xs text-emerald-600 font-bold bg-emerald-50 border border-emerald-250 px-3 py-1 rounded-full animate-pulse">
+                <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
+                Sincronizado
+              </span>
+            </div>
+
+            {activeSessions.length === 0 ? (
+              <div className="text-center py-16 border-2 border-dashed border-slate-200 rounded-2xl space-y-4">
+                <div className="w-16 h-16 bg-slate-50 text-slate-400 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                  <Users className="w-7 h-7" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm font-bold text-slate-800">No hay sesiones activas</p>
+                  <p className="text-xs text-slate-400 max-w-xs mx-auto">Actualmente ningún colaborador o administrador está conectado en el sistema.</p>
+                </div>
+              </div>
+            ) : (
+              <div className="divide-y divide-slate-100 max-h-[480px] overflow-y-auto pr-1">
+                {activeSessions.map((session) => (
+                  <div key={session.sessionId} className="py-4 flex flex-col sm:flex-row justify-between sm:items-center gap-4 transition-all hover:bg-slate-50/50 px-3 rounded-2xl border border-transparent hover:border-slate-100">
+                    <div className="flex items-center gap-4">
+                      {/* Avatar representativo */}
+                      <div className={`w-11 h-11 rounded-full flex items-center justify-center font-serif text-lg font-bold shadow-inner ${
+                        session.role === 'ADMIN' 
+                          ? 'bg-amber-50 text-amber-700 border border-amber-250' 
+                          : 'bg-blue-50 text-blue-700 border border-blue-250'
+                      }`}>
+                        {session.name ? session.name.charAt(0).toUpperCase() : 'U'}
+                      </div>
+                      
+                      <div className="space-y-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="font-bold text-sm text-slate-800 leading-none">{session.name}</p>
+                          <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase border shadow-sm ${
+                            session.role === 'ADMIN' 
+                              ? 'bg-amber-50 text-amber-700 border-amber-200/80 shadow-amber-100/10' 
+                              : 'bg-blue-50 text-blue-700 border-blue-200/80 shadow-blue-100/10'
+                          }`}>
+                            {session.role}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-400 font-medium font-mono">{session.email}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between sm:justify-end gap-6 border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100">
+                      
+                      {/* Información de Tiempos */}
+                      <div className="text-left sm:text-right space-y-1.5">
+                        <div className="text-xs text-slate-700 font-semibold flex sm:justify-end items-center gap-1.5">
+                          <span className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Inicio:</span>
+                          <span className="font-mono">{formatTime(session.loginTime)}</span>
+                        </div>
+                        <div className="text-xs text-slate-700 font-semibold flex sm:justify-end items-center gap-1.5">
+                          <span className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Activo:</span>
+                          <span className="text-blue-600 bg-blue-50 border border-blue-150 px-2 py-0.5 rounded-md font-medium text-[10px] tracking-wide whitespace-nowrap">
+                            {formatTimeAgo(session.lastActivity)}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Botón de Expulsión (Kick) */}
+                      <button
+                        type="button"
+                        onClick={() => handleKick(session)}
+                        className="bg-red-50 hover:bg-red-500 text-red-500 hover:text-white p-2.5 rounded-xl transition-all border border-red-200 hover:border-red-500 cursor-pointer shadow-sm hover:shadow-md active:scale-95 group/btn"
+                        title="Forzar Cierre de Sesión"
+                      >
+                        <LogOut className="w-4 h-4 transition-transform group-hover/btn:-translate-x-0.5" />
+                      </button>
+
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Columna Derecha: Configuración de Parámetros Globales (1/3) */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-6 h-full flex flex-col justify-between">
+          <div className="space-y-5">
+            <div className="border-b border-slate-100 pb-4">
+              <h4 className="font-serif font-bold text-slate-900 text-lg">Parámetros de Sesión</h4>
+              <p className="text-xs text-slate-400 mt-1">Configure las políticas de seguridad global del sistema intranet.</p>
+            </div>
+
+            <form onSubmit={handleSaveConfig} className="space-y-5">
+              
+              <div className="space-y-2">
+                <label className="text-xs text-slate-700 font-bold flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-slate-400" />
+                  Tiempo Límite por Inactividad
+                </label>
+                <div className="relative rounded-xl shadow-sm">
+                  <input
+                    type="number"
+                    min="1"
+                    max="1440"
+                    value={timeoutMinutes}
+                    onChange={(e) => setTimeoutMinutes(e.target.value)}
+                    className="w-full bg-[#FAFAFA] border border-slate-200 rounded-xl pl-4 pr-16 py-2.5 text-sm font-semibold text-slate-800 focus:outline-none focus:border-[#1E3A8A] font-mono"
+                    required
+                  />
+                  <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                    <span className="text-xs font-bold text-slate-400 uppercase">minutos</span>
+                  </div>
+                </div>
+                <p className="text-[10px] text-slate-400 leading-relaxed font-medium">
+                  Si un usuario no interactúa en la Intranet durante este tiempo, su sesión se cerrará de forma automática por protección.
+                </p>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-bold text-xs py-3 rounded-xl transition-all shadow-md shadow-blue-500/10 flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.98]"
+              >
+                <Save className="w-3.5 h-3.5" />
+                Guardar Configuración
+              </button>
+
+            </form>
+          </div>
+          
+          {/* Tarjeta de Seguridad */}
+          <div className="mt-8 bg-slate-50 border border-slate-200/80 p-4 rounded-2xl space-y-2">
+            <h5 className="text-xs font-bold text-slate-850 flex items-center gap-1.5">
+              <Shield className="w-3.5 h-3.5 text-blue-600" />
+              Garantía de Sesiones JAE
+            </h5>
+            <p className="text-[10px] text-slate-400 leading-relaxed font-light">
+              Todas las conexiones y auditorías quedan registradas de manera permanente en el registro histórico. La inactividad evita fugas de información.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
   );
 }

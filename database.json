@@ -333,7 +333,7 @@
         "4453563248"
       ],
       "initialNotes": "",
-      "status": "PREPARACION",
+      "status": "DESTINO_FINAL",
       "isLocked": false,
       "createdAt": "2026-05-22T18:11:07.875Z",
       "subtasks": [
@@ -528,6 +528,322 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log_j2amqphbd",
+      "tableName": "services",
+      "recordId": "s_1779473467875",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "s_1779473467875",
+        "folio": "SDNI0005",
+        "clientName": "karina",
+        "deceasedName": "fulanito de tal",
+        "orderService": "OS5000",
+        "phones": [
+          "4453563248"
+        ],
+        "initialNotes": "",
+        "status": "VELACION",
+        "isLocked": false,
+        "createdAt": "2026-05-22T18:11:07.875Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": false
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": false
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": false
+          }
+        ],
+        "notes": [],
+        "documents": [],
+        "contractedPackage": "OS5000",
+        "totalCost": 0,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "",
+        "wakeLocation": "",
+        "extras": "",
+        "wakeRoom": "",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "newValue": {
+        "id": "s_1779473467875",
+        "folio": "SDNI0005",
+        "clientName": "karina",
+        "deceasedName": "fulanito de tal",
+        "orderService": "OS5000",
+        "phones": [
+          "4453563248"
+        ],
+        "initialNotes": "",
+        "status": "DESTINO_FINAL",
+        "isLocked": false,
+        "createdAt": "2026-05-22T18:11:07.875Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": false
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": false
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": false
+          }
+        ],
+        "notes": [],
+        "documents": [],
+        "contractedPackage": "OS5000",
+        "totalCost": 0,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "",
+        "wakeLocation": "",
+        "extras": "",
+        "wakeRoom": "",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-25T05:31:34.849Z"
+    },
+    {
+      "id": "log_02ous8g52",
+      "tableName": "services",
+      "recordId": "s_1779473467875",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "s_1779473467875",
+        "folio": "SDNI0005",
+        "clientName": "karina",
+        "deceasedName": "fulanito de tal",
+        "orderService": "OS5000",
+        "phones": [
+          "4453563248"
+        ],
+        "initialNotes": "",
+        "status": "PREPARACION",
+        "isLocked": false,
+        "createdAt": "2026-05-22T18:11:07.875Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": false
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": false
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": false
+          }
+        ],
+        "notes": [],
+        "documents": [],
+        "contractedPackage": "OS5000",
+        "totalCost": 0,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "",
+        "wakeLocation": "",
+        "extras": "",
+        "wakeRoom": "",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "newValue": {
+        "id": "s_1779473467875",
+        "folio": "SDNI0005",
+        "clientName": "karina",
+        "deceasedName": "fulanito de tal",
+        "orderService": "OS5000",
+        "phones": [
+          "4453563248"
+        ],
+        "initialNotes": "",
+        "status": "VELACION",
+        "isLocked": false,
+        "createdAt": "2026-05-22T18:11:07.875Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": false
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": false
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": false
+          }
+        ],
+        "notes": [],
+        "documents": [],
+        "contractedPackage": "OS5000",
+        "totalCost": 0,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "",
+        "wakeLocation": "",
+        "extras": "",
+        "wakeRoom": "",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-25T05:31:32.668Z"
+    },
+    {
+      "id": "log_havdsi650",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN",
+        "sessionId": "sess_omi2uwddj"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-25T05:26:37.026Z"
+    },
+    {
+      "id": "log_5hmla6653",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN",
+        "sessionId": "sess_6sj018nbh"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-25T05:04:39.425Z"
+    },
     {
       "id": "log_8lmdifijq",
       "tableName": "sessions",
@@ -3770,5 +4086,9 @@
       "name": "Otros / Soporte",
       "order": 9
     }
-  ]
+  ],
+  "systemConfig": {
+    "sessionTimeoutMinutes": 15
+  },
+  "activeSessions": []
 }
