@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .glassmorphism {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+  }
+  .glassmorphism-dark {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .glass-card {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+  }
+  .shadow-glass {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+  }
+}
+
+body {
+  font-family: 'Inter', 'Outfit', sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Custom scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+/* PREMIUM TOAST AND CONFETTI ANIMATIONS */
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.animate-toast-in {
+  animation: toastIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    top: -5%;
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    top: 105%;
+    transform: translateY(105vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.animate-confetti-fall {
+  position: absolute;
+  top: -5%;
+  animation: confettiFall linear infinite;
+}
+
+/* HEARTBEAT PULSE for active stage */
+@keyframes pulseBeat {
+  0%, 100% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.5), 0 0 0 0 rgba(30, 58, 138, 0.25);
+  }
+  30% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 8px rgba(30, 58, 138, 0.2), 0 0 0 16px rgba(30, 58, 138, 0.05);
+  }
+  60% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.15), 0 0 0 10px rgba(30, 58, 138, 0.03);
+  }
+}
+
+@keyframes pulseBeatDark {
+  0%, 100% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.5), 0 0 0 0 rgba(56, 189, 248, 0.25);
+  }
+  30% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 8px rgba(56, 189, 248, 0.2), 0 0 0 16px rgba(56, 189, 248, 0.05);
+  }
+  60% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15), 0 0 0 10px rgba(56, 189, 248, 0.03);
+  }
+}
+
+.animate-pulse-beat {
+  animation: pulseBeat 1.6s ease-in-out infinite;
+}
+
+.animate-pulse-beat-dark {
+  animation: pulseBeatDark 1.6s ease-in-out infinite;
+}
+
+/* Carousel two-column slide */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.animate-slide-in-right {
+  animation: slideInRight 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-slide-in-left {
+  animation: slideInLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Progress bar glow */
+@keyframes progressGlow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; box-shadow: 0 0 12px rgba(30,58,138,0.5); }
+}
+.animate-progress-glow {
+  animation: progressGlow 2s ease-in-out infinite;
+}

@@ -1,0 +1,3774 @@
+{
+  "services": [
+    {
+      "id": "s1",
+      "folio": "SDNI0001",
+      "clientName": "Roberto Sánchez",
+      "deceasedName": "Rosa Sánchez",
+      "orderService": "Servicio Memorial Aeternum Premium",
+      "phones": [
+        "811-234-5678",
+        "811-987-6543"
+      ],
+      "initialNotes": "Familia solicita cremación directa posterior a velación de 4 horas.",
+      "status": "CONCLUIDO",
+      "isLocked": true,
+      "createdAt": "2026-05-18T15:56:00.000Z",
+      "subtasks": [
+        {
+          "id": "st1",
+          "text": "Obtención de Certificado Médico",
+          "completed": true
+        },
+        {
+          "id": "st2",
+          "text": "Verificación de Plan / Pago",
+          "completed": true
+        },
+        {
+          "id": "st3",
+          "text": "Preparación y embalsamado",
+          "completed": false
+        }
+      ],
+      "notes": [
+        {
+          "id": "n1",
+          "author": "Soporte JAE",
+          "text": "Se recibió el acta médica inicial de la funeraria asociada.",
+          "timestamp": "2026-05-19T01:56:00.000Z"
+        }
+      ],
+      "documents": [
+        {
+          "name": "Cotización.pdf",
+          "type": "Cotización",
+          "path": "/servicios/2026/05/SDNI0001/cotizacion.pdf"
+        }
+      ],
+      "contractedPackage": "Aeternum Memorial Premium",
+      "totalCost": 45000,
+      "paymentStatus": "PAGADO",
+      "paymentMethod": "Transferencia Bancaria",
+      "wakeLocation": "Capilla Ecuménica de Homenaje Mayor (Sala Cruz)",
+      "extras": "Cafetería gourmet ilimitada, violinista en misa, flores premium",
+      "wakeRoom": "Sala Cruz Mayor",
+      "cremationTime": "2026-05-22T16:00",
+      "extraFields": [
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "folio": "SDNI0002",
+      "clientName": "María Elena Garza",
+      "deceasedName": "Héctor Garza Ortiz",
+      "orderService": "Servicio de Inhumación Tradicional",
+      "phones": [
+        "818-111-2222"
+      ],
+      "initialNotes": "Familia desea ataúd metálico de color caoba.",
+      "status": "VELACION",
+      "isLocked": false,
+      "createdAt": "2026-05-19T15:56:00.000Z",
+      "subtasks": [
+        {
+          "id": "st1",
+          "text": "Obtención de Certificado Médico",
+          "completed": true
+        },
+        {
+          "id": "st2",
+          "text": "Verificación de Plan / Pago",
+          "completed": true
+        },
+        {
+          "id": "st3",
+          "text": "Preparación y embalsamado",
+          "completed": true
+        }
+      ],
+      "notes": [
+        {
+          "id": "n1",
+          "author": "Empleado Corporativo",
+          "text": "Cuerpo preparado adecuadamente por tanatopractor de guardia.",
+          "timestamp": "2026-05-19T23:56:00.000Z"
+        }
+      ],
+      "documents": [
+        {
+          "name": "Certificado_Medico.pdf",
+          "type": "Certificado Médico",
+          "path": "/servicios/2026/05/SDNI0002/certificado_medico.pdf"
+        },
+        {
+          "name": "Cotización.pdf",
+          "type": "Cotización",
+          "path": "/servicios/2026/05/SDNI0002/cotización.pdf"
+        }
+      ],
+      "contractedPackage": "Inhumación Tradicional Oro",
+      "totalCost": 65000,
+      "paymentStatus": "PENDIENTE",
+      "paymentMethod": "Crédito Interno a 3 meses",
+      "wakeLocation": "Capilla San Gabriel, Sucursal Gómez Morín",
+      "extras": "Servicio de catering extendido, ataúd extra premium",
+      "wakeRoom": "Sala San Gabriel 2",
+      "cremationTime": "",
+      "extraFields": [
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "folio": "SDNI0003",
+      "clientName": "Eduardo Mier",
+      "deceasedName": "Sofía Mier Cantú",
+      "orderService": "Servicio Cremación Directa",
+      "phones": [
+        "811-555-6666",
+        "811-777-8888"
+      ],
+      "initialNotes": "Familia solicita urna de mármol blanco.",
+      "status": "CONCLUIDO",
+      "isLocked": true,
+      "createdAt": "2026-05-15T15:56:00.000Z",
+      "subtasks": [
+        {
+          "id": "st1",
+          "text": "Obtención de Certificado Médico",
+          "completed": true
+        },
+        {
+          "id": "st2",
+          "text": "Verificación de Plan / Pago",
+          "completed": true
+        },
+        {
+          "id": "st3",
+          "text": "Preparación y embalsamado",
+          "completed": true
+        }
+      ],
+      "notes": [
+        {
+          "id": "n1",
+          "author": "Soporte JAE",
+          "text": "Servicio concluido satisfactoriamente y cenizas entregadas.",
+          "timestamp": "2026-05-18T15:56:00.000Z"
+        }
+      ],
+      "documents": [
+        {
+          "name": "Cotización.pdf",
+          "type": "Cotización",
+          "path": "/servicios/2026/05/SDNI0003/cotizacion.pdf"
+        },
+        {
+          "name": "Certificado_Medico.pdf",
+          "type": "Certificado Médico",
+          "path": "/servicios/2026/05/SDNI0003/certificado_medico.pdf"
+        }
+      ],
+      "contractedPackage": "Cremación Express",
+      "totalCost": 28000,
+      "paymentStatus": "PAGADO",
+      "paymentMethod": "Tarjeta de Crédito",
+      "wakeLocation": "No requiere velación (cremación directa)",
+      "extras": "Urna tallada a mano en mármol",
+      "wakeRoom": "No aplica",
+      "cremationTime": "2026-05-18T10:00",
+      "extraFields": [
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        }
+      ]
+    },
+    {
+      "id": "s_1779306893009",
+      "folio": "SDNI0004",
+      "clientName": "Elena",
+      "deceasedName": "Karina",
+      "orderService": "OS3205",
+      "phones": [
+        "4958 6486 425"
+      ],
+      "initialNotes": "",
+      "status": "COTIZACION",
+      "isLocked": false,
+      "createdAt": "2026-05-20T19:54:53.009Z",
+      "subtasks": [
+        {
+          "id": "st1",
+          "text": "Obtención de Certificado Médico",
+          "completed": false
+        },
+        {
+          "id": "st2",
+          "text": "Verificación de Plan / Pago",
+          "completed": false
+        },
+        {
+          "id": "st3",
+          "text": "Preparación y embalsamado",
+          "completed": false
+        }
+      ],
+      "notes": [],
+      "documents": [],
+      "contractedPackage": "OS3205",
+      "totalCost": 0,
+      "paymentStatus": "PENDIENTE",
+      "paymentMethod": "",
+      "wakeLocation": "",
+      "extras": "",
+      "wakeRoom": "",
+      "cremationTime": "",
+      "extraFields": [
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        }
+      ]
+    },
+    {
+      "id": "s_1779473467875",
+      "folio": "SDNI0005",
+      "clientName": "karina",
+      "deceasedName": "fulanito de tal",
+      "orderService": "OS5000",
+      "phones": [
+        "4453563248"
+      ],
+      "initialNotes": "",
+      "status": "PREPARACION",
+      "isLocked": false,
+      "createdAt": "2026-05-22T18:11:07.875Z",
+      "subtasks": [
+        {
+          "id": "st1",
+          "text": "Obtención de Certificado Médico",
+          "completed": false
+        },
+        {
+          "id": "st2",
+          "text": "Verificación de Plan / Pago",
+          "completed": false
+        },
+        {
+          "id": "st3",
+          "text": "Preparación y embalsamado",
+          "completed": false
+        }
+      ],
+      "notes": [],
+      "documents": [],
+      "contractedPackage": "OS5000",
+      "totalCost": 0,
+      "paymentStatus": "PENDIENTE",
+      "paymentMethod": "",
+      "wakeLocation": "",
+      "extras": "",
+      "wakeRoom": "",
+      "cremationTime": "",
+      "extraFields": [
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        },
+        {
+          "title": "",
+          "value": "",
+          "showToClient": false
+        }
+      ]
+    }
+  ],
+  "leads": [
+    {
+      "id": "lead_1779293574856",
+      "name": "Cliente catalina",
+      "phone": "445 928 1927",
+      "email": "",
+      "stage": "CIERRE",
+      "assignedTo": "usr_1779292845749",
+      "createdBy": "usr_1779292845749",
+      "customFields": {},
+      "notes": [],
+      "documents": [],
+      "isDiscarded": false
+    },
+    {
+      "id": "lead_1779307046856",
+      "name": "PROSPECTO 1",
+      "phone": "5486 642 584",
+      "email": "",
+      "stage": "FRIO",
+      "assignedTo": "admin",
+      "createdBy": "admin",
+      "contactMethod": "Visita Presencial",
+      "firstNote": "ESTA INTERESADA EN EL PAQUETE PARA SUS PADRES",
+      "nextActivityDate": "2026-05-20",
+      "serviceOffered": "PAQUETE ORO 2X1",
+      "quoteAmount": 24000,
+      "customFields": {},
+      "notes": [
+        {
+          "id": "ln_1779307046856",
+          "author": "EDGAR ARATH MORALES RIVERA",
+          "text": "ESTA INTERESADA EN EL PAQUETE PARA SUS PADRES",
+          "timestamp": "2026-05-20T19:57:26.856Z"
+        },
+        {
+          "id": "ln_1779307111935",
+          "author": "EDGAR ARATH MORALES RIVERA",
+          "text": "SE ANIMA A SBIR DE CATEGORIA A PREMIER PERO QUEIRE CONSULTAR SI SE PUEDE CONSERVAR LA PROMOCION 2X1",
+          "timestamp": "2026-05-20T19:58:31.935Z"
+        }
+      ],
+      "documents": [],
+      "isDiscarded": false
+    }
+  ],
+  "internalDocs": [
+    {
+      "id": "id1",
+      "title": "Manual de Procedimientos de Caja",
+      "category": "Manuales",
+      "requiredRole": "ADMIN",
+      "isFavorite": false,
+      "path": "/documentos_internos/manuales/manual_caja.pdf"
+    },
+    {
+      "id": "id2",
+      "title": "Políticas de Descuento Corporativo",
+      "category": "Formatos de Descuento",
+      "requiredRole": "OPERACIONES",
+      "isFavorite": false,
+      "path": "/documentos_internos/formatos/politicas_descuento.pdf"
+    },
+    {
+      "id": "id3",
+      "title": "Reglamento Interno de Higiene Tanato",
+      "category": "Reglamentos",
+      "requiredRole": "OPERACIONES",
+      "isFavorite": false,
+      "path": "/documentos_internos/reglamentos/higiene_tanatopraxia.pdf"
+    }
+  ],
+  "documentCategories": [
+    {
+      "id": "cat_0_1779662459650",
+      "name": "Manuales",
+      "parentId": null,
+      "order": 0
+    },
+    {
+      "id": "cat_1_1779662459650",
+      "name": "Formatos de Descuento",
+      "parentId": null,
+      "order": 1
+    },
+    {
+      "id": "cat_2_1779662459650",
+      "name": "Políticas",
+      "parentId": null,
+      "order": 2
+    },
+    {
+      "id": "cat_3_1779662459650",
+      "name": "Reglamentos",
+      "parentId": null,
+      "order": 3
+    }
+  ],
+  "announcements": [
+    {
+      "id": "a1",
+      "title": "Nueva Sala \"Cielo\" Inaugurada",
+      "content": "Nos complace anunciar la apertura de nuestra nueva sala de velación premium \"Cielo\", equipada con tecnología de punta y la mayor comodidad para las familias.",
+      "tag": "Instalaciones",
+      "img": "/assets/recursos/IMG_6820.jpg",
+      "startDate": "2026-05-01",
+      "endDate": "2026-06-30"
+    },
+    {
+      "id": "a2",
+      "title": "Taller de Tanatología Infantil Especial",
+      "content": "Este sábado 23 de mayo contaremos con el taller especial \"Pintando recuerdos con amor\" impartido por la Dra. Mariana Garza. Cupo limitado.",
+      "tag": "Eventos",
+      "img": "/assets/recursos/Imagen13.jpg",
+      "startDate": "2026-05-10",
+      "endDate": "2026-05-25"
+    },
+    {
+      "id": "a3",
+      "title": "Campaña de Previsión Familiar 2026",
+      "content": "Ofrece a tus clientes un 15% de descuento adicional en planes de previsión Aeternum contratados durante esta quincena. Revisa los nuevos formatos.",
+      "tag": "Ventas",
+      "img": "/assets/recursos/IMG_6717.jpg",
+      "startDate": "2026-05-15",
+      "endDate": "2026-05-30"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "t1",
+      "title": "Entregar Acta de Sofia Morales a Caja",
+      "completed": false,
+      "date": "Hoy"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log_8lmdifijq",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-25T00:14:40.685Z"
+    },
+    {
+      "id": "log_i1pznnei7",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGOUT",
+      "oldValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "newValue": null,
+      "userId": "admin",
+      "createdAt": "2026-05-25T00:14:37.542Z"
+    },
+    {
+      "id": "log_m5opiqsg5",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-25T00:12:40.823Z"
+    },
+    {
+      "id": "log_gtrzk69q9",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-25T00:04:35.482Z"
+    },
+    {
+      "id": "log_47ix8aof9",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGOUT",
+      "oldValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "newValue": null,
+      "userId": "admin",
+      "createdAt": "2026-05-25T00:01:00.195Z"
+    },
+    {
+      "id": "log_fmastnjui",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-24T23:57:02.911Z"
+    },
+    {
+      "id": "log_v197odoru",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-24T22:47:21.223Z"
+    },
+    {
+      "id": "log_9je6evw0m",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-24T22:43:16.569Z"
+    },
+    {
+      "id": "log_au043za0y",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-24T21:47:40.378Z"
+    },
+    {
+      "id": "log_an23waov1",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-24T21:41:30.346Z"
+    },
+    {
+      "id": "log_e83m5xxuc",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-24T21:24:34.971Z"
+    },
+    {
+      "id": "log_ewvjiqhnx",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CIERRE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-22T19:42:09.434Z"
+    },
+    {
+      "id": "log_gocl2nfig",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-22T19:41:15.023Z"
+    },
+    {
+      "id": "log_18xgmt7jd",
+      "tableName": "service_documents",
+      "recordId": "s2",
+      "action": "INSERT",
+      "oldValue": null,
+      "newValue": {
+        "name": "Cotización.pdf",
+        "type": "Cotización",
+        "path": "/servicios/2026/05/SDNI-0002/cotización.pdf"
+      },
+      "userId": "usr_1779394062711",
+      "createdAt": "2026-05-22T18:17:08.409Z"
+    },
+    {
+      "id": "log_ko6er7ptg",
+      "tableName": "sessions",
+      "recordId": "usr_1779394062711",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "valassi@grupojae.mx",
+        "role": "EMPLEADO"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-22T18:15:54.760Z"
+    },
+    {
+      "id": "log_gm3v5lrtd",
+      "tableName": "services",
+      "recordId": "s2",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "s2",
+        "folio": "SDNI-0002",
+        "clientName": "María Elena Garza",
+        "deceasedName": "Héctor Garza Ortiz",
+        "orderService": "Servicio de Inhumación Tradicional",
+        "phones": [
+          "818-111-2222"
+        ],
+        "initialNotes": "Familia desea ataúd metálico de color caoba.",
+        "status": "CONCLUIDO",
+        "isLocked": true,
+        "createdAt": "2026-05-19T15:56:00.000Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": true
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": true
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": true
+          }
+        ],
+        "notes": [
+          {
+            "id": "n1",
+            "author": "Empleado Corporativo",
+            "text": "Cuerpo preparado adecuadamente por tanatopractor de guardia.",
+            "timestamp": "2026-05-19T23:56:00.000Z"
+          }
+        ],
+        "documents": [
+          {
+            "name": "Certificado_Medico.pdf",
+            "type": "Certificado Médico",
+            "path": "/servicios/2026/05/SDNI-0002/certificado_medico.pdf"
+          }
+        ],
+        "contractedPackage": "Inhumación Tradicional Oro",
+        "totalCost": 65000,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "Crédito Interno a 3 meses",
+        "wakeLocation": "Capilla San Gabriel, Sucursal Gómez Morín",
+        "extras": "Servicio de catering extendido, ataúd extra premium",
+        "wakeRoom": "Sala San Gabriel 2",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "newValue": {
+        "id": "s2",
+        "folio": "SDNI-0002",
+        "clientName": "María Elena Garza",
+        "deceasedName": "Héctor Garza Ortiz",
+        "orderService": "Servicio de Inhumación Tradicional",
+        "phones": [
+          "818-111-2222"
+        ],
+        "initialNotes": "Familia desea ataúd metálico de color caoba.",
+        "status": "VELACION",
+        "isLocked": false,
+        "createdAt": "2026-05-19T15:56:00.000Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": true
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": true
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": true
+          }
+        ],
+        "notes": [
+          {
+            "id": "n1",
+            "author": "Empleado Corporativo",
+            "text": "Cuerpo preparado adecuadamente por tanatopractor de guardia.",
+            "timestamp": "2026-05-19T23:56:00.000Z"
+          }
+        ],
+        "documents": [
+          {
+            "name": "Certificado_Medico.pdf",
+            "type": "Certificado Médico",
+            "path": "/servicios/2026/05/SDNI-0002/certificado_medico.pdf"
+          }
+        ],
+        "contractedPackage": "Inhumación Tradicional Oro",
+        "totalCost": 65000,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "Crédito Interno a 3 meses",
+        "wakeLocation": "Capilla San Gabriel, Sucursal Gómez Morín",
+        "extras": "Servicio de catering extendido, ataúd extra premium",
+        "wakeRoom": "Sala San Gabriel 2",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-22T18:15:18.034Z"
+    },
+    {
+      "id": "log_ta3l588wk",
+      "tableName": "services",
+      "recordId": "s_1779473467875",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "s_1779473467875",
+        "folio": "SDNI-0005",
+        "clientName": "karina",
+        "deceasedName": "fulanito de tal",
+        "orderService": "OS5000",
+        "phones": [
+          "4453563248"
+        ],
+        "initialNotes": "",
+        "status": "COTIZACION",
+        "isLocked": false,
+        "createdAt": "2026-05-22T18:11:07.875Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": false
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": false
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": false
+          }
+        ],
+        "notes": [],
+        "documents": [],
+        "contractedPackage": "OS5000",
+        "totalCost": 0,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "",
+        "wakeLocation": "",
+        "extras": "",
+        "wakeRoom": "",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "newValue": {
+        "id": "s_1779473467875",
+        "folio": "SDNI-0005",
+        "clientName": "karina",
+        "deceasedName": "fulanito de tal",
+        "orderService": "OS5000",
+        "phones": [
+          "4453563248"
+        ],
+        "initialNotes": "",
+        "status": "PREPARACION",
+        "isLocked": false,
+        "createdAt": "2026-05-22T18:11:07.875Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": false
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": false
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": false
+          }
+        ],
+        "notes": [],
+        "documents": [],
+        "contractedPackage": "OS5000",
+        "totalCost": 0,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "",
+        "wakeLocation": "",
+        "extras": "",
+        "wakeRoom": "",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-22T18:12:34.170Z"
+    },
+    {
+      "id": "log_su66b0ri8",
+      "tableName": "services",
+      "recordId": "s_1779473467875",
+      "action": "INSERT",
+      "oldValue": null,
+      "newValue": {
+        "id": "s_1779473467875",
+        "folio": "SDNI-0005",
+        "clientName": "karina",
+        "deceasedName": "fulanito de tal",
+        "orderService": "OS5000",
+        "phones": [
+          "4453563248"
+        ],
+        "initialNotes": "",
+        "status": "COTIZACION",
+        "isLocked": false,
+        "createdAt": "2026-05-22T18:11:07.875Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": false
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": false
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": false
+          }
+        ],
+        "notes": [],
+        "documents": [],
+        "contractedPackage": "OS5000",
+        "totalCost": 0,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "",
+        "wakeLocation": "",
+        "extras": "",
+        "wakeRoom": "",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-22T18:11:07.875Z"
+    },
+    {
+      "id": "log_nyk5sfnsl",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-22T18:09:53.706Z"
+    },
+    {
+      "id": "log_epdjliity",
+      "tableName": "sessions",
+      "recordId": "usr_1779394062711",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "valassi@grupojae.mx",
+        "role": "EMPLEADO"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-22T18:09:17.716Z"
+    },
+    {
+      "id": "log_hv156dewx",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-22T17:48:17.605Z"
+    },
+    {
+      "id": "log_6wh8d7w6k",
+      "tableName": "roles",
+      "recordId": "rol_1779394031587",
+      "action": "UPDATE",
+      "oldValue": null,
+      "newValue": {
+        "name": "Gerente General",
+        "permissions": {
+          "INTRANET": true,
+          "OPERATIONS": true,
+          "CRM": true,
+          "DOCS": true
+        },
+        "id": "rol_1779394031587"
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-21T20:07:52.631Z"
+    },
+    {
+      "id": "log_y2xd5qgr7",
+      "tableName": "users",
+      "recordId": "usr_1779394062711",
+      "action": "INSERT",
+      "oldValue": null,
+      "newValue": {
+        "name": "JORGE VALASSI",
+        "email": "valassi@grupojae.mx",
+        "password": "12345",
+        "roleId": "rol_1779394031587",
+        "id": "usr_1779394062711",
+        "role": "EMPLEADO",
+        "isActive": true
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-21T20:07:42.711Z"
+    },
+    {
+      "id": "log_v0vkwx070",
+      "tableName": "roles",
+      "recordId": "rol_1779394031587",
+      "action": "INSERT",
+      "oldValue": null,
+      "newValue": {
+        "name": "GERENTE GENERAL",
+        "permissions": {},
+        "id": "rol_1779394031587"
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-21T20:07:11.588Z"
+    },
+    {
+      "id": "log_jdql2a1at",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-21T20:06:15.146Z"
+    },
+    {
+      "id": "log_okag1joun",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T21:43:14.714Z"
+    },
+    {
+      "id": "log_1wfof3kxs",
+      "tableName": "leads",
+      "recordId": "lead_1779307046856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779307046856",
+        "name": "PROSPECTO 1",
+        "phone": "5486 642 584",
+        "email": "",
+        "stage": "FRIO",
+        "assignedTo": "admin",
+        "createdBy": "admin",
+        "contactMethod": "Visita Presencial",
+        "firstNote": "ESTA INTERESADA EN EL PAQUETE PARA SUS PADRES",
+        "nextActivityDate": "2026-05-20",
+        "serviceOffered": "PAQUETE ORO 2X1",
+        "quoteAmount": 24000,
+        "customFields": {},
+        "notes": [
+          {
+            "id": "ln_1779307046856",
+            "author": "EDGAR ARATH MORALES RIVERA",
+            "text": "ESTA INTERESADA EN EL PAQUETE PARA SUS PADRES",
+            "timestamp": "2026-05-20T19:57:26.856Z"
+          }
+        ],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779307046856",
+        "name": "PROSPECTO 1",
+        "phone": "5486 642 584",
+        "email": "",
+        "stage": "FRIO",
+        "assignedTo": "admin",
+        "createdBy": "admin",
+        "contactMethod": "Visita Presencial",
+        "firstNote": "ESTA INTERESADA EN EL PAQUETE PARA SUS PADRES",
+        "nextActivityDate": "2026-05-20",
+        "serviceOffered": "PAQUETE ORO 2X1",
+        "quoteAmount": 24000,
+        "customFields": {},
+        "notes": [
+          {
+            "id": "ln_1779307046856",
+            "author": "EDGAR ARATH MORALES RIVERA",
+            "text": "ESTA INTERESADA EN EL PAQUETE PARA SUS PADRES",
+            "timestamp": "2026-05-20T19:57:26.856Z"
+          },
+          {
+            "id": "ln_1779307111935",
+            "author": "EDGAR ARATH MORALES RIVERA",
+            "text": "SE ANIMA A SBIR DE CATEGORIA A PREMIER PERO QUEIRE CONSULTAR SI SE PUEDE CONSERVAR LA PROMOCION 2X1",
+            "timestamp": "2026-05-20T19:58:31.935Z"
+          }
+        ],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T19:58:31.935Z"
+    },
+    {
+      "id": "log_l1uij2z5v",
+      "tableName": "leads",
+      "recordId": "lead_1779307046856",
+      "action": "INSERT",
+      "oldValue": null,
+      "newValue": {
+        "id": "lead_1779307046856",
+        "name": "PROSPECTO 1",
+        "phone": "5486 642 584",
+        "email": "",
+        "stage": "FRIO",
+        "assignedTo": "admin",
+        "createdBy": "admin",
+        "contactMethod": "Visita Presencial",
+        "firstNote": "ESTA INTERESADA EN EL PAQUETE PARA SUS PADRES",
+        "nextActivityDate": "2026-05-20",
+        "serviceOffered": "PAQUETE ORO 2X1",
+        "quoteAmount": 24000,
+        "customFields": {},
+        "notes": [
+          {
+            "id": "ln_1779307046856",
+            "author": "EDGAR ARATH MORALES RIVERA",
+            "text": "ESTA INTERESADA EN EL PAQUETE PARA SUS PADRES",
+            "timestamp": "2026-05-20T19:57:26.856Z"
+          }
+        ],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T19:57:26.856Z"
+    },
+    {
+      "id": "log_kosh9i9xp",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "FRIO",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T19:55:07.535Z"
+    },
+    {
+      "id": "log_fegynceph",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CIERRE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "FRIO",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T19:55:05.153Z"
+    },
+    {
+      "id": "log_p4w2cahvc",
+      "tableName": "services",
+      "recordId": "s_1779306893009",
+      "action": "INSERT",
+      "oldValue": null,
+      "newValue": {
+        "id": "s_1779306893009",
+        "folio": "SDNI-0004",
+        "clientName": "Elena",
+        "deceasedName": "Karina",
+        "orderService": "OS3205",
+        "phones": [
+          "4958 6486 425"
+        ],
+        "initialNotes": "",
+        "status": "COTIZACION",
+        "isLocked": false,
+        "createdAt": "2026-05-20T19:54:53.009Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": false
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": false
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": false
+          }
+        ],
+        "notes": [],
+        "documents": [],
+        "contractedPackage": "OS3205",
+        "totalCost": 0,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "",
+        "wakeLocation": "",
+        "extras": "",
+        "wakeRoom": "",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T19:54:53.009Z"
+    },
+    {
+      "id": "log_km1lrjka5",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T19:53:48.353Z"
+    },
+    {
+      "id": "log_7fk3wgn9w",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T17:15:01.711Z"
+    },
+    {
+      "id": "log_hfj15j7pv",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CIERRE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T17:11:22.320Z"
+    },
+    {
+      "id": "log_ex2jli94b",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CIERRE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T17:11:21.623Z"
+    },
+    {
+      "id": "log_to6x2m3ij",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T17:10:13.501Z"
+    },
+    {
+      "id": "log_sqee8pcd3",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CIERRE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T17:06:40.775Z"
+    },
+    {
+      "id": "log_5m89qwej9",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CIERRE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T17:06:39.973Z"
+    },
+    {
+      "id": "log_4sl7bucu7",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T17:06:35.762Z"
+    },
+    {
+      "id": "log_ycfxmba6l",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CIERRE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T17:06:28.904Z"
+    },
+    {
+      "id": "log_bbog6sefm",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "FRIO",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T17:06:27.925Z"
+    },
+    {
+      "id": "log_8rfc8ewwo",
+      "tableName": "leads",
+      "recordId": "l2",
+      "action": "DELETE",
+      "oldValue": {
+        "id": "l2",
+        "name": "Familia González Garza",
+        "phone": "812-444-5555",
+        "email": "gonzalez.garza@outlook.com",
+        "stage": "CALIENTE",
+        "assignedTo": "admin",
+        "createdBy": "admin",
+        "customFields": {},
+        "notes": [
+          {
+            "id": "ln2",
+            "author": "Soporte Grupo JAE",
+            "text": "Se envió cotización formal por correo. Respondieron con dudas sobre facilidades de pago.",
+            "timestamp": "2026-05-20T10:56:00.000Z"
+          }
+        ],
+        "documents": [
+          {
+            "id": "ld1",
+            "name": "Cotizacion_Preliminar_Gonzalez.pdf",
+            "path": "/crm/cotizacion_preliminar.pdf"
+          }
+        ],
+        "isDiscarded": true,
+        "isHot": true,
+        "nextContactDate": "2026-05-20",
+        "nextContactTask": "Enviar tabla de amortización para mensualidades congeladas"
+      },
+      "newValue": null,
+      "userId": "admin",
+      "createdAt": "2026-05-20T17:06:24.413Z"
+    },
+    {
+      "id": "log_2iqlobpgp",
+      "tableName": "leads",
+      "recordId": "l1",
+      "action": "DELETE",
+      "oldValue": {
+        "id": "l1",
+        "name": "Familia Ortiz Valdés",
+        "phone": "811-000-1111",
+        "email": "ortiz.valdez@gmail.com",
+        "stage": "FRIO",
+        "assignedTo": "e1",
+        "createdBy": "e1",
+        "customFields": {},
+        "notes": [
+          {
+            "id": "ln1",
+            "author": "Empleado Corporativo",
+            "text": "Primer contacto telefónico. Interesados en plan de previsión familiar.",
+            "timestamp": "2026-05-19T19:56:00.000Z"
+          }
+        ],
+        "documents": [],
+        "isDiscarded": true,
+        "isHot": false,
+        "nextContactDate": "2026-05-25",
+        "nextContactTask": "Llamar para dar seguimiento a dudas de mensualidades"
+      },
+      "newValue": null,
+      "userId": "admin",
+      "createdAt": "2026-05-20T17:06:19.149Z"
+    },
+    {
+      "id": "log_v9wvmcgin",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T17:06:07.936Z"
+    },
+    {
+      "id": "log_hfday508p",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T16:26:44.390Z"
+    },
+    {
+      "id": "log_3cxe1n5gm",
+      "tableName": "sessions",
+      "recordId": "usr_1779292845749",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "catalina@grupojae.mx",
+        "role": "EMPLEADO"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T16:25:18.286Z"
+    },
+    {
+      "id": "log_ugblibrzg",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T16:14:07.545Z"
+    },
+    {
+      "id": "log_3oahhc1am",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "FRIO",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "usr_1779292845749",
+      "createdAt": "2026-05-20T16:13:11.205Z"
+    },
+    {
+      "id": "log_bn7dfcb00",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "usr_1779292845749",
+      "createdAt": "2026-05-20T16:13:08.390Z"
+    },
+    {
+      "id": "log_dwe2jqnqd",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "FRIO",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "CALIENTE",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "usr_1779292845749",
+      "createdAt": "2026-05-20T16:13:03.288Z"
+    },
+    {
+      "id": "log_dqfy14jfx",
+      "tableName": "leads",
+      "recordId": "lead_1779293574856",
+      "action": "INSERT",
+      "oldValue": null,
+      "newValue": {
+        "id": "lead_1779293574856",
+        "name": "Cliente catalina",
+        "phone": "445 928 1927",
+        "email": "",
+        "stage": "FRIO",
+        "assignedTo": "usr_1779292845749",
+        "createdBy": "usr_1779292845749",
+        "customFields": {},
+        "notes": [],
+        "documents": [],
+        "isDiscarded": false
+      },
+      "userId": "usr_1779292845749",
+      "createdAt": "2026-05-20T16:12:54.856Z"
+    },
+    {
+      "id": "log_6n958dvcs",
+      "tableName": "sessions",
+      "recordId": "usr_1779292845749",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "catalina@grupojae.mx",
+        "role": "EMPLEADO"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T16:12:03.624Z"
+    },
+    {
+      "id": "log_94eevgash",
+      "tableName": "sessions",
+      "recordId": "usr_1779292845749",
+      "action": "LOGOUT",
+      "oldValue": {
+        "email": "catalina@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "newValue": null,
+      "userId": "usr_1779292845749",
+      "createdAt": "2026-05-20T16:11:52.951Z"
+    },
+    {
+      "id": "log_j6z0q9cqw",
+      "tableName": "users",
+      "recordId": "e1",
+      "action": "UPDATE",
+      "oldValue": null,
+      "newValue": {
+        "id": "e1",
+        "name": "EMPLEADO DEMO",
+        "email": "empleado@grupojae.mx",
+        "password": "123456789",
+        "roleId": "rol_1779292865735",
+        "role": "EMPLEADO",
+        "avatar": "",
+        "isActive": true
+      },
+      "userId": "usr_1779292845749",
+      "createdAt": "2026-05-20T16:11:49.506Z"
+    },
+    {
+      "id": "log_0786c3a4r",
+      "tableName": "users",
+      "recordId": "usr_1779292845749",
+      "action": "UPDATE",
+      "oldValue": null,
+      "newValue": {
+        "name": "CATALINA MAYA AMBIA",
+        "email": "catalina@grupojae.mx",
+        "password": "123456789",
+        "roleId": "rol_asesor",
+        "id": "usr_1779292845749",
+        "role": "EMPLEADO",
+        "isActive": true
+      },
+      "userId": "usr_1779292845749",
+      "createdAt": "2026-05-20T16:11:42.870Z"
+    },
+    {
+      "id": "log_wcfjrp4sg",
+      "tableName": "sessions",
+      "recordId": "usr_1779292845749",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "catalina@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T16:10:16.118Z"
+    },
+    {
+      "id": "log_n12f5rnlz",
+      "tableName": "sessions",
+      "recordId": "usr_1779292845749",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "catalina@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T16:09:42.944Z"
+    },
+    {
+      "id": "log_8ohi0nsbc",
+      "tableName": "leads",
+      "recordId": "l2",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "l2",
+        "name": "Familia González Garza",
+        "phone": "812-444-5555",
+        "email": "gonzalez.garza@outlook.com",
+        "stage": "CALIENTE",
+        "assignedTo": "admin",
+        "createdBy": "admin",
+        "customFields": {},
+        "notes": [
+          {
+            "id": "ln2",
+            "author": "Soporte Grupo JAE",
+            "text": "Se envió cotización formal por correo. Respondieron con dudas sobre facilidades de pago.",
+            "timestamp": "2026-05-20T10:56:00.000Z"
+          }
+        ],
+        "documents": [
+          {
+            "id": "ld1",
+            "name": "Cotizacion_Preliminar_Gonzalez.pdf",
+            "path": "/crm/cotizacion_preliminar.pdf"
+          }
+        ],
+        "isDiscarded": false,
+        "isHot": true,
+        "nextContactDate": "2026-05-20",
+        "nextContactTask": "Enviar tabla de amortización para mensualidades congeladas"
+      },
+      "newValue": {
+        "id": "l2",
+        "name": "Familia González Garza",
+        "phone": "812-444-5555",
+        "email": "gonzalez.garza@outlook.com",
+        "stage": "CALIENTE",
+        "assignedTo": "admin",
+        "createdBy": "admin",
+        "customFields": {},
+        "notes": [
+          {
+            "id": "ln2",
+            "author": "Soporte Grupo JAE",
+            "text": "Se envió cotización formal por correo. Respondieron con dudas sobre facilidades de pago.",
+            "timestamp": "2026-05-20T10:56:00.000Z"
+          }
+        ],
+        "documents": [
+          {
+            "id": "ld1",
+            "name": "Cotizacion_Preliminar_Gonzalez.pdf",
+            "path": "/crm/cotizacion_preliminar.pdf"
+          }
+        ],
+        "isDiscarded": true,
+        "isHot": true,
+        "nextContactDate": "2026-05-20",
+        "nextContactTask": "Enviar tabla de amortización para mensualidades congeladas"
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T16:03:21.068Z"
+    },
+    {
+      "id": "log_hv51u6m7w",
+      "tableName": "leads",
+      "recordId": "l1",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "l1",
+        "name": "Familia Ortiz Valdés",
+        "phone": "811-000-1111",
+        "email": "ortiz.valdez@gmail.com",
+        "stage": "FRIO",
+        "assignedTo": "e1",
+        "createdBy": "e1",
+        "customFields": {},
+        "notes": [
+          {
+            "id": "ln1",
+            "author": "Empleado Corporativo",
+            "text": "Primer contacto telefónico. Interesados en plan de previsión familiar.",
+            "timestamp": "2026-05-19T19:56:00.000Z"
+          }
+        ],
+        "documents": [],
+        "isDiscarded": false,
+        "isHot": false,
+        "nextContactDate": "2026-05-25",
+        "nextContactTask": "Llamar para dar seguimiento a dudas de mensualidades"
+      },
+      "newValue": {
+        "id": "l1",
+        "name": "Familia Ortiz Valdés",
+        "phone": "811-000-1111",
+        "email": "ortiz.valdez@gmail.com",
+        "stage": "FRIO",
+        "assignedTo": "e1",
+        "createdBy": "e1",
+        "customFields": {},
+        "notes": [
+          {
+            "id": "ln1",
+            "author": "Empleado Corporativo",
+            "text": "Primer contacto telefónico. Interesados en plan de previsión familiar.",
+            "timestamp": "2026-05-19T19:56:00.000Z"
+          }
+        ],
+        "documents": [],
+        "isDiscarded": true,
+        "isHot": false,
+        "nextContactDate": "2026-05-25",
+        "nextContactTask": "Llamar para dar seguimiento a dudas de mensualidades"
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T16:03:19.313Z"
+    },
+    {
+      "id": "log_108txbqn0",
+      "tableName": "users",
+      "recordId": "admin",
+      "action": "UPDATE",
+      "oldValue": null,
+      "newValue": {
+        "id": "admin",
+        "name": "EDGAR ARATH MORALES RIVERA",
+        "email": "soporte@grupojae.mx",
+        "password": "2812",
+        "roleId": "rol_admin",
+        "role": "ADMIN",
+        "avatar": "",
+        "isActive": true
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T16:02:28.830Z"
+    },
+    {
+      "id": "log_7af02zh3i",
+      "tableName": "users",
+      "recordId": "e1",
+      "action": "UPDATE",
+      "oldValue": null,
+      "newValue": {
+        "id": "e1",
+        "name": "EMPLEADO DEMO",
+        "email": "empleado@grupojae.mx",
+        "password": "123456789",
+        "roleId": "rol_asesor",
+        "role": "EMPLEADO",
+        "avatar": "",
+        "isActive": true
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T16:02:15.690Z"
+    },
+    {
+      "id": "log_vy2x0ryii",
+      "tableName": "users",
+      "recordId": "admin",
+      "action": "UPDATE",
+      "oldValue": null,
+      "newValue": {
+        "id": "admin",
+        "name": "EDGAR ARATH MORALES RIVERA",
+        "email": "soporte@grupojae.mx",
+        "password": "123",
+        "roleId": "rol_admin",
+        "role": "ADMIN",
+        "avatar": "",
+        "isActive": true
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T16:01:45.409Z"
+    },
+    {
+      "id": "log_6s5zof108",
+      "tableName": "roles",
+      "recordId": "rol_1779292865735",
+      "action": "UPDATE",
+      "oldValue": null,
+      "newValue": {
+        "name": "Consultor Familiar",
+        "permissions": {},
+        "id": "rol_1779292865735"
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T16:01:16.201Z"
+    },
+    {
+      "id": "log_um8h49ic2",
+      "tableName": "roles",
+      "recordId": "rol_1779292855688",
+      "action": "DELETE",
+      "oldValue": {
+        "name": "Ventas",
+        "permissions": {},
+        "id": "rol_1779292855688"
+      },
+      "newValue": null,
+      "userId": "admin",
+      "createdAt": "2026-05-20T16:01:10.142Z"
+    },
+    {
+      "id": "log_s0bbshfe7",
+      "tableName": "roles",
+      "recordId": "rol_1779292865735",
+      "action": "INSERT",
+      "oldValue": null,
+      "newValue": {
+        "name": "Consultor familiar",
+        "permissions": {},
+        "id": "rol_1779292865735"
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T16:01:05.735Z"
+    },
+    {
+      "id": "log_ogd06cldh",
+      "tableName": "roles",
+      "recordId": "rol_1779292855688",
+      "action": "INSERT",
+      "oldValue": null,
+      "newValue": {
+        "name": "Ventas",
+        "permissions": {},
+        "id": "rol_1779292855688"
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T16:00:55.688Z"
+    },
+    {
+      "id": "log_hb2if3yij",
+      "tableName": "users",
+      "recordId": "usr_1779292845749",
+      "action": "INSERT",
+      "oldValue": null,
+      "newValue": {
+        "name": "CATALINA MAYA AMBIA",
+        "email": "catalina@grupojae.mx",
+        "password": "123456789",
+        "roleId": "rol_admin",
+        "id": "usr_1779292845749",
+        "role": "ADMIN",
+        "isActive": true
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T16:00:45.749Z"
+    },
+    {
+      "id": "log_6re9u02tm",
+      "tableName": "services",
+      "recordId": "s2",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "s2",
+        "folio": "SDNI-0002",
+        "clientName": "María Elena Garza",
+        "deceasedName": "Héctor Garza Ortiz",
+        "orderService": "Servicio de Inhumación Tradicional",
+        "phones": [
+          "818-111-2222"
+        ],
+        "initialNotes": "Familia desea ataúd metálico de color caoba.",
+        "status": "PREPARACION",
+        "isLocked": false,
+        "createdAt": "2026-05-19T15:56:00.000Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": true
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": true
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": true
+          }
+        ],
+        "notes": [
+          {
+            "id": "n1",
+            "author": "Empleado Corporativo",
+            "text": "Cuerpo preparado adecuadamente por tanatopractor de guardia.",
+            "timestamp": "2026-05-19T23:56:00.000Z"
+          }
+        ],
+        "documents": [
+          {
+            "name": "Certificado_Medico.pdf",
+            "type": "Certificado Médico",
+            "path": "/servicios/2026/05/SDNI-0002/certificado_medico.pdf"
+          }
+        ],
+        "contractedPackage": "Inhumación Tradicional Oro",
+        "totalCost": 65000,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "Crédito Interno a 3 meses",
+        "wakeLocation": "Capilla San Gabriel, Sucursal Gómez Morín",
+        "extras": "Servicio de catering extendido, ataúd extra premium",
+        "wakeRoom": "Sala San Gabriel 2",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "newValue": {
+        "id": "s2",
+        "folio": "SDNI-0002",
+        "clientName": "María Elena Garza",
+        "deceasedName": "Héctor Garza Ortiz",
+        "orderService": "Servicio de Inhumación Tradicional",
+        "phones": [
+          "818-111-2222"
+        ],
+        "initialNotes": "Familia desea ataúd metálico de color caoba.",
+        "status": "CONCLUIDO",
+        "isLocked": true,
+        "createdAt": "2026-05-19T15:56:00.000Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": true
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": true
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": true
+          }
+        ],
+        "notes": [
+          {
+            "id": "n1",
+            "author": "Empleado Corporativo",
+            "text": "Cuerpo preparado adecuadamente por tanatopractor de guardia.",
+            "timestamp": "2026-05-19T23:56:00.000Z"
+          }
+        ],
+        "documents": [
+          {
+            "name": "Certificado_Medico.pdf",
+            "type": "Certificado Médico",
+            "path": "/servicios/2026/05/SDNI-0002/certificado_medico.pdf"
+          }
+        ],
+        "contractedPackage": "Inhumación Tradicional Oro",
+        "totalCost": 65000,
+        "paymentStatus": "PENDIENTE",
+        "paymentMethod": "Crédito Interno a 3 meses",
+        "wakeLocation": "Capilla San Gabriel, Sucursal Gómez Morín",
+        "extras": "Servicio de catering extendido, ataúd extra premium",
+        "wakeRoom": "Sala San Gabriel 2",
+        "cremationTime": "",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T15:59:34.054Z"
+    },
+    {
+      "id": "log_egw6vkhe2",
+      "tableName": "services",
+      "recordId": "s1",
+      "action": "UPDATE",
+      "oldValue": {
+        "id": "s1",
+        "folio": "SDNI-0001",
+        "clientName": "Roberto Sánchez",
+        "deceasedName": "Rosa Sánchez",
+        "orderService": "Servicio Memorial Aeternum Premium",
+        "phones": [
+          "811-234-5678",
+          "811-987-6543"
+        ],
+        "initialNotes": "Familia solicita cremación directa posterior a velación de 4 horas.",
+        "status": "COTIZACION",
+        "isLocked": false,
+        "createdAt": "2026-05-18T15:56:00.000Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": true
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": true
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": false
+          }
+        ],
+        "notes": [
+          {
+            "id": "n1",
+            "author": "Soporte JAE",
+            "text": "Se recibió el acta médica inicial de la funeraria asociada.",
+            "timestamp": "2026-05-19T01:56:00.000Z"
+          }
+        ],
+        "documents": [
+          {
+            "name": "Cotización.pdf",
+            "type": "Cotización",
+            "path": "/servicios/2026/05/SDNI-0001/cotizacion.pdf"
+          }
+        ],
+        "contractedPackage": "Aeternum Memorial Premium",
+        "totalCost": 45000,
+        "paymentStatus": "PAGADO",
+        "paymentMethod": "Transferencia Bancaria",
+        "wakeLocation": "Capilla Ecuménica de Homenaje Mayor (Sala Cruz)",
+        "extras": "Cafetería gourmet ilimitada, violinista en misa, flores premium",
+        "wakeRoom": "Sala Cruz Mayor",
+        "cremationTime": "2026-05-22T16:00",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "newValue": {
+        "id": "s1",
+        "folio": "SDNI-0001",
+        "clientName": "Roberto Sánchez",
+        "deceasedName": "Rosa Sánchez",
+        "orderService": "Servicio Memorial Aeternum Premium",
+        "phones": [
+          "811-234-5678",
+          "811-987-6543"
+        ],
+        "initialNotes": "Familia solicita cremación directa posterior a velación de 4 horas.",
+        "status": "CONCLUIDO",
+        "isLocked": true,
+        "createdAt": "2026-05-18T15:56:00.000Z",
+        "subtasks": [
+          {
+            "id": "st1",
+            "text": "Obtención de Certificado Médico",
+            "completed": true
+          },
+          {
+            "id": "st2",
+            "text": "Verificación de Plan / Pago",
+            "completed": true
+          },
+          {
+            "id": "st3",
+            "text": "Preparación y embalsamado",
+            "completed": false
+          }
+        ],
+        "notes": [
+          {
+            "id": "n1",
+            "author": "Soporte JAE",
+            "text": "Se recibió el acta médica inicial de la funeraria asociada.",
+            "timestamp": "2026-05-19T01:56:00.000Z"
+          }
+        ],
+        "documents": [
+          {
+            "name": "Cotización.pdf",
+            "type": "Cotización",
+            "path": "/servicios/2026/05/SDNI-0001/cotizacion.pdf"
+          }
+        ],
+        "contractedPackage": "Aeternum Memorial Premium",
+        "totalCost": 45000,
+        "paymentStatus": "PAGADO",
+        "paymentMethod": "Transferencia Bancaria",
+        "wakeLocation": "Capilla Ecuménica de Homenaje Mayor (Sala Cruz)",
+        "extras": "Cafetería gourmet ilimitada, violinista en misa, flores premium",
+        "wakeRoom": "Sala Cruz Mayor",
+        "cremationTime": "2026-05-22T16:00",
+        "extraFields": [
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          },
+          {
+            "title": "",
+            "value": "",
+            "showToClient": false
+          }
+        ]
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T15:59:31.275Z"
+    },
+    {
+      "id": "log_gb9j6ma7c",
+      "tableName": "sessions",
+      "recordId": "admin",
+      "action": "LOGIN",
+      "oldValue": null,
+      "newValue": {
+        "email": "soporte@grupojae.mx",
+        "role": "ADMIN"
+      },
+      "userId": "cliente_anonimo",
+      "createdAt": "2026-05-20T15:59:11.896Z"
+    },
+    {
+      "id": "log1",
+      "tableName": "users",
+      "recordId": "admin",
+      "action": "INSERT",
+      "oldValue": null,
+      "newValue": {
+        "name": "Soporte JAE",
+        "role": "ADMIN"
+      },
+      "userId": "admin",
+      "createdAt": "2026-05-20T15:56:00.000Z"
+    }
+  ],
+  "crmColumns": [
+    "FRIO",
+    "CALIENTE",
+    "CIERRE"
+  ],
+  "customFormFields": [
+    "Formulario Evento X"
+  ],
+  "contactMethods": [
+    "Llamada Telefónica",
+    "WhatsApp",
+    "Correo Electrónico",
+    "Visita Presencial",
+    "Redes Sociales",
+    "Referido"
+  ],
+  "activeUsers": [
+    {
+      "id": "admin",
+      "name": "EDGAR ARATH MORALES RIVERA",
+      "email": "soporte@grupojae.mx",
+      "password": "2812",
+      "roleId": "rol_admin",
+      "role": "ADMIN",
+      "avatar": "",
+      "isActive": true
+    },
+    {
+      "id": "e1",
+      "name": "EMPLEADO DEMO",
+      "email": "empleado@grupojae.mx",
+      "password": "123456789",
+      "roleId": "rol_1779292865735",
+      "role": "EMPLEADO",
+      "avatar": "",
+      "isActive": true
+    },
+    {
+      "name": "CATALINA MAYA AMBIA",
+      "email": "catalina@grupojae.mx",
+      "password": "123456789",
+      "roleId": "rol_asesor",
+      "id": "usr_1779292845749",
+      "role": "EMPLEADO",
+      "isActive": true
+    },
+    {
+      "name": "JORGE VALASSI",
+      "email": "valassi@grupojae.mx",
+      "password": "12345",
+      "roleId": "rol_1779394031587",
+      "id": "usr_1779394062711",
+      "role": "EMPLEADO",
+      "isActive": true
+    }
+  ],
+  "crmForms": [
+    {
+      "id": "f1",
+      "title": "Estudio de Previsión Funeraria",
+      "published": true,
+      "fields": [
+        {
+          "id": "f_age",
+          "label": "Edad del titular",
+          "type": "number",
+          "required": true
+        },
+        {
+          "id": "f_budget",
+          "label": "Presupuesto Estimado",
+          "type": "number",
+          "required": false
+        },
+        {
+          "id": "f_package",
+          "label": "Paquete de Interés",
+          "type": "select",
+          "options": [
+            "Cremación Express",
+            "Homenaje Tradicional",
+            "Premium JAE"
+          ],
+          "required": true
+        },
+        {
+          "id": "f_notes",
+          "label": "Observaciones de Prospección",
+          "type": "text",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "crmFormSubmissions": [],
+  "events": [
+    {
+      "id": "e_1",
+      "title": "Taller: Sanando el Duelo en Familia",
+      "date": "2026-05-24",
+      "time": "18:00",
+      "location": "Capilla Principal JAE",
+      "description": "Un espacio de apoyo guiado por expertos en tanatología.",
+      "registeredLeads": [
+        "l2"
+      ]
+    },
+    {
+      "id": "e_2",
+      "title": "Conferencia: Recordar con Luz",
+      "date": "2026-06-05",
+      "time": "19:30",
+      "location": "Transmisión Online JAE",
+      "description": "Liturgia solemne y reflexión de resiliencia.",
+      "registeredLeads": []
+    }
+  ],
+  "landingCards": [
+    {
+      "id": "c1",
+      "title": "Duelo y Aceptación Grupal",
+      "desc": "Sesión tanatológica grupal y presencial para brindar paz y apoyo emocional a las familias.",
+      "img": "/assets/recursos/Imagen13.jpg"
+    },
+    {
+      "id": "c2",
+      "title": "Plática: Recordar con Amor",
+      "desc": "Conferencias virtuales dedicadas a honrar la memoria de nuestros seres queridos en un entorno seguro.",
+      "img": "/assets/recursos/IMG_6717.jpg"
+    },
+    {
+      "id": "c3",
+      "title": "Ceremonia de Homenaje de la Luz",
+      "desc": "Celebración litúrgica solemne y encendido de velas por la paz eterna de las almas que amamos.",
+      "img": "/assets/recursos/IMG_6682.jpg"
+    }
+  ],
+  "roles": [
+    {
+      "id": "rol_admin",
+      "name": "Administrador Supremo",
+      "permissions": {
+        "INTRANET": true,
+        "OPERATIONS": true,
+        "CRM": true,
+        "DOCS": true,
+        "ADMIN": true
+      }
+    },
+    {
+      "id": "rol_asesor",
+      "name": "Asesor de Ventas",
+      "permissions": {
+        "INTRANET": true,
+        "OPERATIONS": false,
+        "CRM": true,
+        "DOCS": true,
+        "ADMIN": false
+      }
+    },
+    {
+      "name": "Consultor Familiar",
+      "permissions": {
+        "INTRANET": true,
+        "OPERATIONS": true,
+        "DOCS": true
+      },
+      "id": "rol_1779292865735"
+    },
+    {
+      "name": "Gerente General",
+      "permissions": {
+        "INTRANET": true,
+        "OPERATIONS": true,
+        "CRM": true,
+        "DOCS": true
+      },
+      "id": "rol_1779394031587"
+    }
+  ],
+  "directory": [
+    {
+      "id": "dir_1",
+      "extension": "401",
+      "name": "R.I CENTRO",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_2",
+      "extension": "722",
+      "name": "VENTAS SOL 2",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_3",
+      "extension": "3001",
+      "name": "CelAeternum",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_4",
+      "extension": "101",
+      "name": "R.I MEDIEVO",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_5",
+      "extension": "743",
+      "name": "VENTAS CENTRO 3",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_6",
+      "extension": "108",
+      "name": "GERENTE 2",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_7",
+      "extension": "721",
+      "name": "VENTAS SOL 1",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_8",
+      "extension": "201",
+      "name": "R.I SOL",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_9",
+      "extension": "301",
+      "name": "R.I PARQUE",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_10",
+      "extension": "104",
+      "name": "INGRESOS",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_11",
+      "extension": "106",
+      "name": "NOMINA",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_12",
+      "extension": "402",
+      "name": "ANFITRIONES CENTRO",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_13",
+      "extension": "302",
+      "name": "CREMATORIO",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_14",
+      "extension": "105",
+      "name": "GERENTE 1",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_15",
+      "extension": "902",
+      "name": "GERENTE VENTAS",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_16",
+      "extension": "501",
+      "name": "R.I JURIQUILLA",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_17",
+      "extension": "600",
+      "name": "ENCARGADO DE SUCURSAL SJR",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_18",
+      "extension": "700",
+      "name": "REDES SOCIALES",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_19",
+      "extension": "723",
+      "name": "VENTAS SOL 3",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_20",
+      "extension": "762",
+      "name": "VENTAS SJR 2",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_21",
+      "extension": "720",
+      "name": "GUARDIA VENTAS SOL",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_22",
+      "extension": "740",
+      "name": "GUARDIA VENTAS CENTRO",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_23",
+      "extension": "741",
+      "name": "VENTAS CENTRO 1",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_24",
+      "extension": "751",
+      "name": "VENTAS JURIQUILLA 1",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_25",
+      "extension": "752",
+      "name": "VENTAS JURIQUILLA 2",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_26",
+      "extension": "753",
+      "name": "VENTAS JURIQUILLA 3",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_27",
+      "extension": "761",
+      "name": "VENTAS SJR 1",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_28",
+      "extension": "901",
+      "name": "GERENTE GENERAL",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_29",
+      "extension": "742",
+      "name": "VENTAS CENTRO 2",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_30",
+      "extension": "730",
+      "name": "GUARDIA VENTAS PARQUE",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_31",
+      "extension": "300",
+      "name": "ENCARGADO DE SUCURSAL PARQUE",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_32",
+      "extension": "110",
+      "name": "RECLUTADOR DE TALENTO",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_33",
+      "extension": "200",
+      "name": "ENCARGADO DE SUCURSAL SOL",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_34",
+      "extension": "102",
+      "name": "CAPITAL HUMANO",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_35",
+      "extension": "103",
+      "name": "EGRESOS",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_36",
+      "extension": "107",
+      "name": "AUXILIAR DE INGRESOS",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_37",
+      "extension": "109",
+      "name": "COMPRAS",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_38",
+      "extension": "900",
+      "name": "DIRECTOR GENERAL",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_39",
+      "extension": "400",
+      "name": "ENCARGADO DE SUCURSAL CENTRO",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_40",
+      "extension": "500",
+      "name": "ENCARGADO DE SUCURSAL JURIQUILLA",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_41",
+      "extension": "601",
+      "name": "R.I SJR",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_42",
+      "extension": "3000",
+      "name": "CelCentro",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_43",
+      "extension": "760",
+      "name": "GUARDIA VENTAS SJR",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_44",
+      "extension": "750",
+      "name": "GUARDIA VENTAS JURIQUILLA",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_45",
+      "extension": "999",
+      "name": "Soporte-ARDO",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    },
+    {
+      "id": "dir_46",
+      "extension": "100",
+      "name": "SISTEMAS",
+      "photo": "",
+      "showToClients": false,
+      "showToEmployees": true,
+      "contactPerson": ""
+    }
+  ],
+  "branches": [
+    {
+      "id": "b_sol",
+      "name": "Sucursal Sol",
+      "address": "Av. del Sol, Centro Comercial Plaza del Sol 1 Loc. 3D",
+      "ext": "230",
+      "img": "/assets/recursos/Imagen13.jpg",
+      "description": "Esta sucursal cuenta con tres espacios operativos. La Sala 21 es la de mayor capacidad con un aforo de 55 personas, ofreciendo servicios de categoría Premier y Platino tanto para necesidades inmediatas (NI) como para previsión. La Sala 22 permite hasta 45 personas y atiende servicios inmediatos de nivel Oro, Bronce, Clásico y Básico, mientras que en previsión cubre los niveles Clásico y Oro. Por último, la Sala 23 tiene una capacidad para 35 personas y se destina exclusivamente a los servicios gestionados mediante Póliza, tanto en necesidad inmediata como en previsión."
+    },
+    {
+      "id": "b_parque",
+      "name": "Sucursal Parque",
+      "address": "Carretera Libre a Celaya Km 12.5, Col. Los Ángeles, Corregidora",
+      "ext": "350",
+      "img": "/assets/recursos/IMG_6717.jpg",
+      "description": "En esta ubicación hay dos salas activas y dos fuera de servicio. La Sala 31 puede recibir hasta 50 personas y se enfoca en servicios Premier, Platino y Oro para ambas modalidades (inmediata y previsión). La Sala 32 tiene un aforo de 35 personas, manejando servicios inmediatos Bronce y Clásico, y previsión únicamente Clásica. Las Salas 33 y 34 se encuentran actualmente marcadas como 'Sin Operar' y no tienen aforo asignado."
+    },
+    {
+      "id": "b_centro",
+      "name": "Sucursal Centro",
+      "address": "Av Constituyentes 12 Oriente, Col. Centro, Querétaro",
+      "ext": "470",
+      "img": "/assets/recursos/IMG_6685.jpg",
+      "description": "Esta sucursal opera con cinco salas distintas. La Sala 41 tiene capacidad para 30 personas y brinda atención de nivel Premier, Platino y Oro en ambas modalidades. Las Salas 42 y 44 son idénticas en características: ambas tienen un aforo de 20 personas, atienden necesidades inmediatas Bronce, Clásico y Básico, y servicios de previsión nivel Clásico. La Sala 43 es la más pequeña con un aforo de 15 personas, dedicada exclusivamente a trámites por Póliza. Finalmente, la Sala 45 es la más amplia, con capacidad para 50 personas, ofreciendo servicios Premier, Platino y Oro en modalidad inmediata y de previsión."
+    },
+    {
+      "id": "b_juri",
+      "name": "Sucursal Juriquilla",
+      "address": "Av. de las Ciencias No. 2999, Col. Juriquilla, Querétaro",
+      "ext": "590",
+      "img": "/assets/recursos/IMG_6631.jpg",
+      "description": "Aquí se dispone de cuatro salas, con características físicas particulares. La Sala 51 tiene capacidad para 50 personas y atiende servicios Premier y Platino en ambas modalidades; cabe destacar que este espacio es el resultado de la fusión de las salas 53 y 54. La Sala 52, ubicada en la planta alta, tiene un aforo de 40 personas y también está dedicada a servicios Premier y Platino. Las Salas 53 y 54 funcionan como 'salas dinámicas'; la 53 permite 20 personas (servicios inmediatos Oro/Bronce y previsión Oro), y la 54 permite 15 personas (exclusiva para nivel Clásico en ambas modalidades)."
+    },
+    {
+      "id": "b_sjr",
+      "name": "Sucursal San Juan del Río",
+      "address": "Av. Gral. Felipe Ángeles 50A, San Juan del Río",
+      "ext": "600",
+      "img": "/assets/recursos/IMG_6645.jpg",
+      "description": "Esta es la sucursal con configuraciones más complejas debido a la fusión de espacios. La Sala 61 tiene el mayor aforo de toda la lista, con capacidad para 80 personas, y ofrece servicios Premier, Platino y Oro; este espacio se logra fusionando las salas 65 y 64 junto con el lobby. La Sala 62 admite a 30 personas y se usa para la 'Mejora de Póliza' (sin aplicar en previsión), lográndose al fusionar la sala 65 con el lobby. La Sala 63 tiene capacidad para 30 personas y ofrece servicios inmediatos Bronce/Oro y previsión Clásica; funciona fusionando las salas 64 y 65, pero tiene una nota importante de mantenimiento: su motor no sirve. Finalmente, las Salas 64 y 65 son 'salas dinámicas'; la 64 tiene aforo de 20 personas (servicios inmediatos Básico/Clásico, sin previsión) y la 65 permite 15 personas (exclusiva para Póliza)."
+    },
+    {
+      "id": "b_med",
+      "name": "Sucursal Medievo",
+      "address": "Dirección Medievo",
+      "ext": "Extensión",
+      "img": "/assets/recursos/IMG_6808.jpg",
+      "description": "Sucursal Medievo con instalaciones de primer nivel y atención personalizada."
+    }
+  ],
+  "rooms": [
+    {
+      "id": "r_s1",
+      "branchId": "b_sol",
+      "name": "Sala 21",
+      "type": "PREMIER/PLATINO",
+      "capacity": 55,
+      "observations": "Inmediata/Previsión",
+      "img": "/assets/recursos/IMG_6631.jpg"
+    },
+    {
+      "id": "r_s2",
+      "branchId": "b_sol",
+      "name": "Sala 22",
+      "type": "ORO/BRONCE / CLASICO/BASICO",
+      "capacity": 45,
+      "observations": "Previsión Clásico y Oro",
+      "img": "/assets/recursos/IMG_6645.jpg"
+    },
+    {
+      "id": "r_s3",
+      "branchId": "b_sol",
+      "name": "Sala 23",
+      "type": "PÓLIZA",
+      "capacity": 35,
+      "observations": "Exclusiva para Póliza",
+      "img": "/assets/recursos/IMG_6682.jpg"
+    },
+    {
+      "id": "r_p1",
+      "branchId": "b_parque",
+      "name": "Sala 31",
+      "type": "PREMIER/PLATINO/ORO",
+      "capacity": 50,
+      "observations": "Inmediata/Previsión",
+      "img": "/assets/recursos/Imagen13.jpg"
+    },
+    {
+      "id": "r_p2",
+      "branchId": "b_parque",
+      "name": "Sala 32",
+      "type": "BRONCE/CLASICO",
+      "capacity": 35,
+      "observations": "Previsión únicamente Clásica",
+      "img": "/assets/recursos/IMG_6717.jpg"
+    },
+    {
+      "id": "r_p3",
+      "branchId": "b_parque",
+      "name": "Sala 33",
+      "type": "SIN OPERAR",
+      "capacity": 0,
+      "observations": "Sin Operar",
+      "img": "/assets/recursos/IMG_6815.jpg"
+    },
+    {
+      "id": "r_p4",
+      "branchId": "b_parque",
+      "name": "Sala 34",
+      "type": "SIN OPERAR",
+      "capacity": 0,
+      "observations": "Sin Operar",
+      "img": "/assets/recursos/IMG_6820.jpg"
+    },
+    {
+      "id": "r_c1",
+      "branchId": "b_centro",
+      "name": "Sala 41",
+      "type": "PREMIER/PLATINO/ORO",
+      "capacity": 30,
+      "observations": "Inmediata/Previsión",
+      "img": "/assets/recursos/IMG_6655.jpg"
+    },
+    {
+      "id": "r_c2",
+      "branchId": "b_centro",
+      "name": "Sala 42",
+      "type": "BRONCE/CLASICO/BASICO",
+      "capacity": 20,
+      "observations": "Previsión nivel Clásico",
+      "img": "/assets/recursos/IMG_6685.jpg"
+    },
+    {
+      "id": "r_c3",
+      "branchId": "b_centro",
+      "name": "Sala 43",
+      "type": "PÓLIZA",
+      "capacity": 15,
+      "observations": "Exclusiva Póliza",
+      "img": "/assets/recursos/IMG_6693.jpg"
+    },
+    {
+      "id": "r_c4",
+      "branchId": "b_centro",
+      "name": "Sala 44",
+      "type": "BRONCE/CLASICO/BASICO",
+      "capacity": 20,
+      "observations": "Previsión nivel Clásico",
+      "img": "/assets/recursos/IMG_6685.jpg"
+    },
+    {
+      "id": "r_c5",
+      "branchId": "b_centro",
+      "name": "Sala 45",
+      "type": "PREMIER/PLATINO/ORO",
+      "capacity": 50,
+      "observations": "Inmediata/Previsión",
+      "img": "/assets/recursos/IMG_6631.jpg"
+    },
+    {
+      "id": "r_j1",
+      "branchId": "b_juri",
+      "name": "Sala 51",
+      "type": "PREMIER/PLATINO",
+      "capacity": 50,
+      "observations": "Fusión 53+54",
+      "img": "/assets/recursos/IMG_6717.jpg"
+    },
+    {
+      "id": "r_j2",
+      "branchId": "b_juri",
+      "name": "Sala 52",
+      "type": "PREMIER/PLATINO",
+      "capacity": 40,
+      "observations": "Planta Alta",
+      "img": "/assets/recursos/Imagen13.jpg"
+    },
+    {
+      "id": "r_j3",
+      "branchId": "b_juri",
+      "name": "Sala 53",
+      "type": "ORO/BRONCE",
+      "capacity": 20,
+      "observations": "Dinámica - Previsión Oro",
+      "img": "/assets/recursos/IMG_6645.jpg"
+    },
+    {
+      "id": "r_j4",
+      "branchId": "b_juri",
+      "name": "Sala 54",
+      "type": "CLASICO",
+      "capacity": 15,
+      "observations": "Dinámica - Exclusiva Clásico",
+      "img": "/assets/recursos/IMG_6682.jpg"
+    },
+    {
+      "id": "r_sjr1",
+      "branchId": "b_sjr",
+      "name": "Sala 61",
+      "type": "PREMIER/PLATINO/ORO",
+      "capacity": 80,
+      "observations": "Fusión 65+64+Lobby",
+      "img": "/assets/recursos/IMG_6820.jpg"
+    },
+    {
+      "id": "r_sjr2",
+      "branchId": "b_sjr",
+      "name": "Sala 62",
+      "type": "MEJORA DE PÓLIZA",
+      "capacity": 30,
+      "observations": "Fusión 65+Lobby (Sin Previsión)",
+      "img": "/assets/recursos/IMG_6815.jpg"
+    },
+    {
+      "id": "r_sjr3",
+      "branchId": "b_sjr",
+      "name": "Sala 63",
+      "type": "BRONCE/ORO",
+      "capacity": 30,
+      "observations": "Fusión 64+65 - NO SIRVE MOTOR",
+      "img": "/assets/recursos/IMG_6655.jpg"
+    },
+    {
+      "id": "r_sjr4",
+      "branchId": "b_sjr",
+      "name": "Sala 64",
+      "type": "BASICO/CLASICO",
+      "capacity": 20,
+      "observations": "Dinámica - Sin Previsión",
+      "img": "/assets/recursos/IMG_6693.jpg"
+    },
+    {
+      "id": "r_sjr5",
+      "branchId": "b_sjr",
+      "name": "Sala 65",
+      "type": "PÓLIZA",
+      "capacity": 15,
+      "observations": "Dinámica - Exclusiva Póliza",
+      "img": "/assets/recursos/IMG_6631.jpg"
+    }
+  ],
+  "products": [
+    {
+      "id": "p_covid",
+      "name": "Cremación COVID",
+      "desc": "Servicio de cremación preventiva con protocolo COVID-19 completo. Incluye traslado inmediato, preparación básica, urna metálica estándar y gestoría de trámites.",
+      "price": 13500,
+      "category": "Paquetes",
+      "img": "/assets/recursos/IMG_6631.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6682.jpg",
+        "/assets/recursos/IMG_6685.jpg"
+      ],
+      "hasPromo": false
+    },
+    {
+      "id": "p_directa",
+      "name": "Paquetes a Futuro – Cremación Directa",
+      "desc": "Plan de cremación directa a futuro sin velación. Incluye traslados locales en carroza, preparación higiénica del cuerpo, cremación y urna de madera clásica estándar.",
+      "price": 15000,
+      "category": "Paquetes",
+      "img": "/assets/recursos/IMG_6645.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6682.jpg",
+        "/assets/recursos/Imagen13.jpg"
+      ],
+      "hasPromo": false
+    },
+    {
+      "id": "p_basico",
+      "name": "Paquetes a Futuro – Plan Básico",
+      "desc": "Plan básico a previsión familiar. Incluye traslado, preparación, velación en sala estándar JAE (hasta 4 horas), cremación y urna metálica o de cerámica estándar.",
+      "price": 16500,
+      "category": "Paquetes",
+      "img": "/assets/recursos/IMG_6682.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6685.jpg",
+        "/assets/recursos/Imagen13.jpg"
+      ],
+      "hasPromo": false
+    },
+    {
+      "id": "p_bronce",
+      "name": "Paquetes a Futuro – Plan Bronce",
+      "desc": "Servicio de previsión premium. Incluye ataúd de madera de fina manufactura con apariencia mate o brillo. Medidas estándar: 195 x 60 x 46 cm. Urna Vertical París o similar, velación de hasta 24 horas y cremación.",
+      "price": 26250,
+      "category": "Paquetes",
+      "img": "/assets/recursos/IMG_6820.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6685.jpg",
+        "/assets/recursos/IMG_6693.jpg",
+        "/assets/recursos/IMG_6808.jpg",
+        "/assets/recursos/IMG_6815.jpg",
+        "/assets/recursos/IMG_6631.jpg"
+      ],
+      "hasPromo": true,
+      "promoDiscount": 15,
+      "promoStartDate": "2026-05-01",
+      "promoEndDate": "2026-06-30",
+      "promoLabel": "Buen Fin Previsión"
+    },
+    {
+      "id": "p_clasico",
+      "name": "Paquetes a Futuro – Plan Clásico",
+      "desc": "Plan clásico integral de previsión. Cuenta con ataúd metálico premium con acabados satinados, velación de 24 horas, cafetería básica, cremación y urna clásica.",
+      "price": 22500,
+      "category": "Paquetes",
+      "img": "/assets/recursos/IMG_6717.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6645.jpg",
+        "/assets/recursos/IMG_6685.jpg"
+      ],
+      "hasPromo": false
+    },
+    {
+      "id": "p_oro",
+      "name": "Paquetes a Futuro – Plan Oro",
+      "desc": "Plan de alta gama. Incluye ataúd de madera fina barnizada de cedro u oyamel, velación en Capilla de Honor tipo Oro, servicio de cafetería ilimitada, flores de honor y cremación con urna de mármol pulido.",
+      "price": 30000,
+      "category": "Paquetes",
+      "img": "/assets/recursos/IMG_6815.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6820.jpg",
+        "/assets/recursos/IMG_6682.jpg",
+        "/assets/recursos/IMG_6631.jpg"
+      ],
+      "hasPromo": false
+    },
+    {
+      "id": "p_platino",
+      "name": "Paquetes a Futuro – Plan Platino",
+      "desc": "Plan de lujo total. Incluye velación en nuestra exclusiva Capilla Platino, arreglos florales extraordinarios diseñados a medida, ataúd de madera de caoba fina maciza y urna artesanal grabada.",
+      "price": 60000,
+      "category": "Paquetes",
+      "img": "/assets/recursos/IMG_6655.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6693.jpg",
+        "/assets/recursos/IMG_6685.jpg"
+      ],
+      "hasPromo": false
+    },
+    {
+      "id": "p_premier",
+      "name": "Paquetes a Futuro – Plan Premier",
+      "desc": "Nuestra máxima distinción familiar. Capilla monumental privada con sala de descanso y cafetería gourmet exclusiva, violines/música litúrgica solemne en vivo, ataúd imperial de maderas preciosas, urna de mármol italiano y cobertura total de previsión sin límites.",
+      "price": 75000,
+      "category": "Paquetes",
+      "img": "/assets/recursos/IMG_6693.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6820.jpg",
+        "/assets/recursos/IMG_6815.jpg",
+        "/assets/recursos/IMG_6682.jpg"
+      ],
+      "hasPromo": false
+    },
+    {
+      "id": "p_poliza_fam",
+      "name": "Póliza Familiar de Previsión Aeternum",
+      "desc": "Cobertura anual familiar completa para hasta 5 miembros. Incluye traslado en carroza de emergencia, preparación higiénica de emergencia y tarifas fijas preferenciales congeladas en capillas y servicios de inhumación o cremación.",
+      "price": 1800,
+      "category": "Pólizas",
+      "img": "/assets/recursos/IMG_6717.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6720.jpg"
+      ],
+      "hasPromo": false
+    },
+    {
+      "id": "p_fosa",
+      "name": "Fosa a Perpetuidad en Parque Funerario",
+      "desc": "Propiedad a perpetuidad en fosa doble en nuestro Parque Funerario Jardín de los Ángeles. Cuenta con mantenimiento permanente de áreas verdes, título de propiedad oficial y servicios de inhumación y excavación preferenciales.",
+      "price": 24000,
+      "category": "Espacios",
+      "img": "/assets/recursos/IMG_6720.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6717.jpg",
+        "/assets/recursos/IMG_6808.jpg"
+      ],
+      "hasPromo": false
+    },
+    {
+      "id": "p_nicho",
+      "name": "Nicho Ecológico Cuádruple",
+      "desc": "Nicho monumental a perpetuidad con capacidad para hasta 4 urnas. Fachada de granito pulido, opción de placa de bronce grabada y mantenimiento de áreas comunes incluido.",
+      "price": 14500,
+      "category": "Espacios",
+      "img": "/assets/recursos/IMG_6808.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6717.jpg",
+        "/assets/recursos/IMG_6720.jpg"
+      ],
+      "hasPromo": true,
+      "promoDiscount": 10,
+      "promoStartDate": "2026-05-15",
+      "promoEndDate": "2026-06-15",
+      "promoLabel": "Especial Primavera"
+    },
+    {
+      "id": "p_ataud_cedro",
+      "name": "Ataúd de Cedro Imperial (Mejora)",
+      "desc": "Elegante ataúd fabricado enteramente en madera de cedro rojo seleccionada con barniz brillante premium, herrajes de bronce pulido y tapicería capitonada de seda natural.",
+      "price": 28500,
+      "category": "Mejoras",
+      "img": "/assets/recursos/IMG_6631.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6655.jpg"
+      ],
+      "hasPromo": false
+    },
+    {
+      "id": "p_urna_carrara",
+      "name": "Urna de Mármol Blanco Carrara (Mejora)",
+      "desc": "Urna cineraria de diseño esférico elegante tallada a mano en una sola pieza de auténtico mármol italiano Carrara. Detalles metálicos dorados pulidos.",
+      "price": 6500,
+      "category": "Mejoras",
+      "img": "/assets/recursos/IMG_6682.jpg",
+      "gallery": [
+        "/assets/recursos/IMG_6815.jpg"
+      ],
+      "hasPromo": false
+    }
+  ],
+  "directoryGroups": [
+    {
+      "id": "g_medievo",
+      "name": "Sucursal Medievo",
+      "order": 1
+    },
+    {
+      "id": "g_sol",
+      "name": "Plaza del Sol",
+      "order": 2
+    },
+    {
+      "id": "g_parque",
+      "name": "Parque Funerario",
+      "order": 3
+    },
+    {
+      "id": "g_centro",
+      "name": "Sucursal Centro",
+      "order": 4
+    },
+    {
+      "id": "g_juriquilla",
+      "name": "Juriquilla",
+      "order": 5
+    },
+    {
+      "id": "g_sjr",
+      "name": "San Juan del Río",
+      "order": 6
+    },
+    {
+      "id": "g_ventas",
+      "name": "Ventas y Guardias",
+      "order": 7
+    },
+    {
+      "id": "g_directivos",
+      "name": "Cargos Directivos",
+      "order": 8
+    },
+    {
+      "id": "g_otros",
+      "name": "Otros / Soporte",
+      "order": 9
+    }
+  ]
+}

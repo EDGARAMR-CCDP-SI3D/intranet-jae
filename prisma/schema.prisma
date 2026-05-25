@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+  VENTAS
+  OPERACIONES
+  CAJA
+}
+
+enum ServiceStatus {
+  COTIZACION
+  PREPARACION
+  VELACION
+  EVENTOS_RELIGIOSOS
+  DESTINO_FINAL
+  CONCLUIDO
+}
+
+enum LeadStage {
+  FRIO
+  CALIENTE
+  CIERRE
+}
+
+model User {
+  id                 String              @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email              String              @unique @db.VarChar(255)
+  passwordHash       String              @map("password_hash") @db.VarChar(255)
+  fullName           String              @map("full_name") @db.VarChar(255)
+  role               Role                @default(VENTAS)
+  isActive           Boolean             @default(true) @map("is_active")
+  createdAt          DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime            @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  
+  auditLogs          AuditLog[]          @relation("UserAuditLogs")
+  servicesCreated    Service[]           @relation("ServiceCreatedBy")
+  documentsUploaded  ServiceDocument[]   @relation("DocumentUploadedBy")
+  leadsAssigned      Lead[]              @relation("LeadAssignedTo")
+  internalDocsUpload InternalDocument[]  @relation("InternalDocUploadedBy")
+
+  @@map("users")
+}
+
+model AuditLog {
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  tableName String   @map("table_name") @db.VarChar(100)
+  recordId  String   @map("record_id") @db.Uuid
+  action    String   @db.VarChar(20)
+  oldValue  Json?    @map("old_value")
+  newValue  Json?    @map("new_value")
+  userId    String?  @map("user_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  user      User?    @relation("UserAuditLogs", fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("audit_logs")
+}
+
+model Service {
+  id           String            @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  folio        String            @unique @db.VarChar(50)
+  clientName   String            @map("client_name") @db.VarChar(255)
+  deceasedName String            @map("deceased_name") @db.VarChar(255)
+  status       ServiceStatus     @default(COTIZACION)
+  isLocked     Boolean           @default(false) @map("is_locked")
+  createdById  String            @map("created_by") @db.Uuid
+  createdAt    DateTime          @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  createdBy    User              @relation("ServiceCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  documents    ServiceDocument[]
+
+  @@map("services")
+}
+
+model ServiceDocument {
+  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  serviceId    String   @map("service_id") @db.Uuid
+  documentType String   @map("document_type") @db.VarChar(100)
+  filePath     String   @map("file_path") @db.Text
+  uploadedById String   @map("uploaded_by") @db.Uuid
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  service      Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  uploadedBy   User     @relation("DocumentUploadedBy", fields: [uploadedById], references: [id], onDelete: Restrict)
+
+  @@map("service_documents")
+}
+
+model Lead {
+  id           String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  contactName  String    @map("contact_name") @db.VarChar(255)
+  phone        String?   @db.VarChar(50)
+  email        String?   @db.VarChar(255)
+  stage        LeadStage @default(FRIO)
+  assignedToId String?   @map("assigned_to") @db.Uuid
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  assignedTo   User?     @relation("LeadAssignedTo", fields: [assignedToId], references: [id], onDelete: SetNull)
+
+  @@map("leads")
+}
+
+model InternalDocument {
+  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title        String   @db.VarChar(255)
+  category     String   @db.VarChar(100)
+  filePath     String   @map("file_path") @db.Text
+  requiredRole Role?    @map("required_role")
+  isFavorite   Boolean  @default(false) @map("is_favorite")
+  uploadedById String   @map("uploaded_by") @db.Uuid
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  uploadedBy   User     @relation("InternalDocUploadedBy", fields: [uploadedById], references: [id], onDelete: Restrict)
+
+  @@map("internal_documents")
+}
