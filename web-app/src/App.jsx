@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-unused-vars, react-hooks/set-state-in-effect, react-hooks/purity, react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useRef } from 'react';
+import * as XLSX from 'xlsx';
 import { 
   Search, CheckSquare, Plus, Folder, UserCheck, Shield, Lock, Unlock, 
   Upload, FileText, ChevronRight, ChevronLeft, BarChart2, Bell, Trash2, 
   Calendar, Clipboard, CheckCircle, AlertTriangle, Filter, 
   Sparkles, Settings, ArrowRight, UserPlus, Star, LayoutGrid, 
   ListTodo, Info, HelpCircle, Edit3, ArrowUpRight, Eye, RefreshCw, LogIn, LogOut, LockOpen, ArrowUpDown, Trash, EyeOff, MapPin, Phone, User, ChevronDown, FolderPlus, ArrowUp, ArrowDown,
-  ShoppingBag, Users, Save, X, Flame, MessageSquare, Mail, TrendingUp, Download, Menu
+  ShoppingBag, Users, Save, X, Flame, MessageSquare, Mail, TrendingUp, Download, Menu,
+  Clock, AlertCircle, Camera, Send
 } from 'lucide-react';
 
 // ==========================================
@@ -24,6 +27,161 @@ const STAGES = [
   { id: 'EVENTOS_RELIGIOSOS', label: '4. Misa / Evento Religioso', desc: 'Celebraciones litúrgicas acordadas' },
   { id: 'DESTINO_FINAL', label: '5. Destino Final', desc: 'Cremación o Sepultura en panteón' }
 ];
+const NEW_SUBTASKS = [
+  {
+    "id": "st1",
+    "text": "DATOS GENERALES DEL SERVICIO",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "COTIZACION"
+  },
+  {
+    "id": "st2",
+    "text": "DOCUMENTOS OFICIALES DEL SERVICIO",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "COTIZACION"
+  },
+  {
+    "id": "st3",
+    "text": "DOCUMENTOS INTERNOS DE LA EMPRESA",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "COTIZACION"
+  },
+  {
+    "id": "st4",
+    "text": "INICIO DE RECOLECÓN",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "PREPARACION"
+  },
+  {
+    "id": "st5",
+    "text": "LLEGADA A PUNTO DE RECUPERACÓN",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "PREPARACION"
+  },
+  {
+    "id": "st6",
+    "text": "EN TRANSITO",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "PREPARACION"
+  },
+  {
+    "id": "st7",
+    "text": "EN SUCURSAL PARA ENVALSAMADO",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "PREPARACION"
+  },
+  {
+    "id": "st8",
+    "text": "INICIO DE EMBALSAMADO",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "PREPARACION"
+  },
+  {
+    "id": "st9",
+    "text": "FIN DE EMBALSAMADO",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "PREPARACION"
+  },
+  {
+    "id": "st10",
+    "text": "PREPARACION DE SALA DE VELACÓN",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "VELACION"
+  },
+  {
+    "id": "st11",
+    "text": "INICIO DE SERVICIO",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "VELACION"
+  },
+  {
+    "id": "st12",
+    "text": "FIN DE SERVICIO",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "VELACION"
+  },
+  {
+    "id": "st12_1",
+    "text": "INICIO TRASLADO A EVENTO RELIGIOSO",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "EVENTOS_RELIGIOSOS"
+  },
+  {
+    "id": "st12_2",
+    "text": "LLEGADA A EVENTO RELIGIOSO",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "EVENTOS_RELIGIOSOS"
+  },
+  {
+    "id": "st12_3",
+    "text": "FIN DE EVENTO / CARGA A CARROZA",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "EVENTOS_RELIGIOSOS"
+  },
+  {
+    "id": "st13",
+    "text": "INICIO TRASLADO A DESTINO FINAL",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "DESTINO_FINAL"
+  },
+  {
+    "id": "st14",
+    "text": "LLEGADA A DESTINO FINAL",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "DESTINO_FINAL"
+  },
+  {
+    "id": "st15",
+    "text": "CREMACION (SI ES EL CASO)",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "DESTINO_FINAL"
+  },
+  {
+    "id": "st16",
+    "text": "ENTREGA FINAL",
+    "completed": false,
+    "completedBy": null,
+    "completedAt": null,
+    "phase": "DESTINO_FINAL"
+  }
+];
+
 
 const EMPTY_EXTRA_FIELDS = [
   { title: '', value: '', showToClient: false },
@@ -471,7 +629,7 @@ const INITIAL_DIRECTORY = [
   { id: 'dir_46', extension: '100', name: 'SISTEMAS', photo: '', showToClients: false, showToEmployees: true },
 ];
 
-export const INITIAL_DIRECTORY_GROUPS = [
+const INITIAL_DIRECTORY_GROUPS = [
   { id: 'g_medievo', name: 'Sucursal Medievo', order: 1 },
   { id: 'g_sol', name: 'Plaza del Sol', order: 2 },
   { id: 'g_parque', name: 'Parque Funerario', order: 3 },
@@ -483,7 +641,7 @@ export const INITIAL_DIRECTORY_GROUPS = [
   { id: 'g_otros', name: 'Otros / Soporte', order: 9 }
 ];
 
-export const getGroupIdFromExtension = (ext) => {
+const getGroupIdFromExtension = (ext) => {
   const numStr = String(ext || '').trim();
   if (numStr.startsWith('1')) return 'g_medievo';
   if (numStr.startsWith('2')) return 'g_sol';
@@ -499,7 +657,7 @@ export const getGroupIdFromExtension = (ext) => {
   return 'g_otros';
 };
 
-export const getDirectoryGroup = (dir, groups = INITIAL_DIRECTORY_GROUPS) => {
+const getDirectoryGroup = (dir, groups = INITIAL_DIRECTORY_GROUPS) => {
   if (dir.groupId && groups.some(g => g.id === dir.groupId)) {
     return groups.find(g => g.id === dir.groupId);
   }
@@ -513,7 +671,7 @@ export const getDirectoryGroup = (dir, groups = INITIAL_DIRECTORY_GROUPS) => {
 };
 
 // Mantener compatibilidad con llamadas existentes si las hubiera
-export const DIRECTORY_CATEGORIES = [
+const DIRECTORY_CATEGORIES = [
   'Todos',
   'Sucursal Medievo',
   'Plaza del Sol',
@@ -526,7 +684,7 @@ export const DIRECTORY_CATEGORIES = [
   'Otros / Soporte'
 ];
 
-export const getExtensionCategory = (ext) => {
+const getExtensionCategory = (ext) => {
   const numStr = String(ext || '').trim();
   if (numStr.startsWith('1')) return 'Sucursal Medievo';
   if (numStr.startsWith('2')) return 'Plaza del Sol';
@@ -642,7 +800,107 @@ const HeroCarousel = () => {
   );
 };
 
+const STATIC_CONFETTI = Array.from({ length: 90 }).map((_, i) => {
+  const colors = ['bg-rose-500', 'bg-emerald-500', 'bg-sky-500', 'bg-amber-500', 'bg-fuchsia-500', 'bg-violet-500'];
+  const randomColor = colors[Math.floor(((i * 17) % 100) / 100 * colors.length)];
+  const size = ((i * 23) % 8) + 6; // size between 6 and 14
+  const delay = ((i * 11) % 40) / 10; // delay between 0 and 4
+  const duration = (((i * 31) % 30) / 10) + 2; // duration between 2 and 5
+  const left = (i * 1.11) % 100; // left between 0 and 100
+  const opacity = (((i * 7) % 70) / 100) + 0.3; // opacity between 0.3 and 1.0
+  return {
+    color: randomColor,
+    size,
+    delay,
+    duration,
+    left,
+    opacity
+  };
+});
+
+// ==========================================
+// COMPONENTE PARA ELIMINACIÓN SEGURA
+// ==========================================
+const downloadBackup = (data, filename) => {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+const SecureDeleteModal = ({ isOpen, onClose, onConfirm, itemName, adminPassword, dataToBackup, backupFilename }) => {
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  if (!isOpen) return null;
+
+  const handleConfirm = () => {
+    if (password !== adminPassword) {
+      setError('Contraseña incorrecta. Solo el administrador puede eliminar.');
+      setPassword('');
+      return;
+    }
+    setError('');
+    setPassword('');
+    
+    // 2. Execute deletion (no backup download per user request)
+    onConfirm();
+  };
+
+  const handleClose = () => {
+    setPassword('');
+    setError('');
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+      <div className="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl relative">
+        <button onClick={handleClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
+          <X className="w-5 h-5" />
+        </button>
+        <div className="text-center space-y-4 mb-6">
+          <div className="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+            <AlertTriangle className="w-8 h-8 text-red-600" />
+          </div>
+          <h3 className="font-bold text-xl text-slate-900">Eliminación Permanente</h3>
+          <p className="text-sm text-slate-600">
+            Estás a punto de eliminar <strong>{itemName}</strong>. Esta acción no se puede deshacer. 
+          </p>
+        </div>
+        <div className="space-y-4">
+          <div>
+            <label className="text-xs font-bold text-slate-700 block mb-1">Contraseña de Administrador requerida:</label>
+            <input 
+              type="password" 
+              value={password}
+              onChange={(e) => { setPassword(e.target.value); setError(''); }}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-500 transition-colors"
+              placeholder="Ingresa tu contraseña de admin..."
+            />
+            {error && <p className="text-red-500 text-xs mt-1 font-semibold">{error}</p>}
+          </div>
+          <div className="flex gap-3 pt-2">
+            <button onClick={handleClose} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl font-bold transition-all text-sm">
+              Cancelar
+            </button>
+            <button onClick={handleConfirm} className="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-bold transition-all shadow-md shadow-red-600/20 text-sm flex items-center justify-center gap-2">
+              <Trash2 className="w-4 h-4" /> Eliminar Definitivamente
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   // Forzar limpieza de base de datos de prueba local en el navegador del cliente para cumplir con su instrucción al 100%
   useEffect(() => {
     if (!localStorage.getItem('jae_clean_slate_v5')) {
@@ -664,6 +922,24 @@ export default function App() {
   const [currentModule, setCurrentModule] = useState('CLIENT_VIEW'); // Por defecto, la Landing de Cliente
   const [clientSection, setClientSection] = useState('inicio');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Guardar la vista actual (módulo) en localStorage para recordarla al refrescar
+  useEffect(() => {
+    if (currentModule !== 'CLIENT_VIEW') {
+      const storedAuth = localStorage.getItem('jae_auth');
+      if (storedAuth) {
+        try {
+          const authData = JSON.parse(storedAuth);
+          if (authData.currentModule !== currentModule) {
+            authData.currentModule = currentModule;
+            localStorage.setItem('jae_auth', JSON.stringify(authData));
+          }
+        } catch (e) {
+          console.error('Error guardando la vista actual', e);
+        }
+      }
+    }
+  }, [currentModule]);
 
   // ==========================================
   // ESTADOS DE FONDO DINÁMICO Y TARJETAS INICIO
@@ -696,12 +972,40 @@ export default function App() {
 
   // Gestión de Roles Dinámicos
   const [roles, setRoles] = useState([
-    { id: 'rol_admin', name: 'Administrador Supremo', permissions: { INTRANET: true, OPERATIONS: true, CRM: true, DOCS: true, ADMIN: true } },
-    { id: 'rol_asesor', name: 'Asesor de Ventas', permissions: { INTRANET: true, OPERATIONS: false, CRM: true, DOCS: false, ADMIN: false } }
+    { id: 'rol_admin', name: 'Administrador Supremo', permissions: { INTRANET: true, OPERATIONS: true, CRM: true, CONTRACTS: true, HR: true, DOCS: true, ADMIN: true } },
+    { id: 'rol_1', name: 'Agente Funerario', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_2', name: 'Asesor de Ventas', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_3', name: 'Asesor Empresarial', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_4', name: 'Asesor TMK', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_5', name: 'Asistente de Piso', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_6', name: 'Asistente Familiar', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_7', name: 'Auxiliar de Ingresos', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_8', name: 'Capacitador', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_9', name: 'Chofer', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_10', name: 'Compras', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_11', name: 'Conservación y Cartera', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_12', name: 'Consultor Familiar', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_13', name: 'Egresos', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_14', name: 'Embalsamador', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_15', name: 'Gerente Comercial', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_16', name: 'Gerente General', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_17', name: 'Ingresos', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_18', name: 'Mantenimiento', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_19', name: 'Nomina', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_20', name: 'Operativo', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_21', name: 'Recepcion de Ingresos', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } },
+    { id: 'rol_22', name: 'Recursos Humanos', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: true, DOCS: false, ADMIN: false } },
+    { id: 'rol_23', name: 'Sistemas', permissions: { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false } }
   ]);
 
   // Datos del Sistema
   const [services, setServices] = useState(INITIAL_SERVICES);
+  const [contractRequests, setContractRequests] = useState([]);
+  const [defaultContractTemplates, setDefaultContractTemplates] = useState([
+    { id: 't1', name: 'Plantilla Crédito (PDF)', url: '#' },
+    { id: 't2', name: 'Plantilla Débito (PDF)', url: '#' },
+    { id: 't3', name: 'Formato Cotización (PDF)', url: '#' }
+  ]);
   const [leads, setLeads] = useState(INITIAL_LEADS);
   const [internalDocs, setInternalDocs] = useState(INITIAL_INTERNAL_DOCS);
   const [documentCategories, setDocumentCategories] = useState(INITIAL_DOCUMENT_CATEGORIES);
@@ -720,9 +1024,17 @@ export default function App() {
   const [customFormFields, setCustomFormFields] = useState(['Formulario Evento X']);
   const [contactMethods, setContactMethods] = useState(INITIAL_CONTACT_METHODS);
   const [activeUsers, setActiveUsers] = useState([
-    { id: 'admin', name: 'Soporte Grupo JAE', email: 'soporte@grupojae.mx', password: '12345#JAE', roleId: 'rol_admin', role: ROLES.ADMIN, avatar: '', isActive: true },
-    { id: 'e1', name: 'Empleado Corporativo', email: 'empleado@grupojae.mx', password: '54321#JAE', roleId: 'rol_asesor', role: ROLES.EMPLEADO, avatar: '', isActive: true }
-  ]);
+    {
+        "id": "admin",
+        "name": "Soporte Grupo JAE",
+        "email": "soporte@grupojae.mx",
+        "password": "Van#2812#8164q88",
+        "roleId": "rol_admin",
+        "role": ROLES.ADMIN,
+        "avatar": "",
+        "isActive": true
+    }
+]);
 
   // Dynamic CRM forms
   const [crmForms, setCrmForms] = useState([
@@ -846,7 +1158,7 @@ export default function App() {
             crmColumns: ['FRIO', 'CALIENTE', 'CIERRE'],
             customFormFields: ['Formulario Evento X'],
             activeUsers: [
-              { id: 'admin', name: 'Soporte Grupo JAE', email: 'soporte@grupojae.mx', password: '12345#JAE', roleId: 'rol_admin', role: ROLES.ADMIN, avatar: '', isActive: true },
+              { id: 'admin', name: 'Soporte Grupo JAE', email: 'soporte@grupojae.mx', password: 'Van#2812#8164q88', roleId: 'rol_admin', role: ROLES.ADMIN, avatar: '', isActive: true },
               { id: 'e1', name: 'Empleado Corporativo', email: 'empleado@grupojae.mx', password: '54321#JAE', roleId: 'rol_asesor', role: ROLES.EMPLEADO, avatar: '', isActive: true }
             ],
             crmForms: [
@@ -879,7 +1191,8 @@ export default function App() {
             directory: INITIAL_DIRECTORY,
             branches: INITIAL_BRANCHES,
             rooms: INITIAL_ROOMS,
-            products: INITIAL_PRODUCTS
+            products: INITIAL_PRODUCTS,
+            contractRequests: []
           };
 
           fetch('/api/data', {
@@ -893,15 +1206,42 @@ export default function App() {
           // Cargar datos remotos en los estados locales y migrar folios viejos
           if (data.services) {
             const migratedServices = data.services.map(s => {
-              if (s.folio && s.folio.includes('-')) {
-                const newFol = s.folio.replace('-', '');
-                const newDocs = s.documents ? s.documents.map(d => ({
+              let migrated = { ...s };
+              
+              // 1. Migración de folio viejo con guion
+              if (migrated.folio && migrated.folio.includes('-')) {
+                const newFol = migrated.folio.replace('-', '');
+                const newDocs = migrated.documents ? migrated.documents.map(d => ({
                   ...d,
-                  path: d.path ? d.path.replace(s.folio, newFol) : d.path
+                  path: d.path ? d.path.replace(migrated.folio, newFol) : d.path
                 })) : [];
-                return { ...s, folio: newFol, documents: newDocs };
+                migrated = { ...migrated, folio: newFol, documents: newDocs };
               }
-              return s;
+              
+              // 2. Migración del Checklist Operativo a la última versión (19 tareas)
+              if (!migrated.subtasks || migrated.subtasks.length < 19) {
+                const oldTasks = migrated.subtasks || [];
+                const freshTasks = JSON.parse(JSON.stringify(NEW_SUBTASKS));
+                
+                // Preserve completed state if IDs match
+                freshTasks.forEach(ft => {
+                  const found = oldTasks.find(ot => ot.id === ft.id);
+                  if (found) {
+                    ft.completed = found.completed;
+                    ft.completedBy = found.completedBy;
+                    ft.completedAt = found.completedAt;
+                  }
+                });
+                
+                migrated.subtasks = freshTasks;
+                
+                // Recalculate status if it was locked by old legacy format
+                if (oldTasks.length < 5 && migrated.status !== 'CONCLUIDO') {
+                  migrated.status = 'COTIZACION';
+                }
+              }
+
+              return migrated;
             });
             setServices(migratedServices);
           }
@@ -936,7 +1276,13 @@ export default function App() {
           if (data.crmColumns) setCrmColumns(data.crmColumns);
           if (data.customFormFields) setCustomFormFields(data.customFormFields);
           if (data.contactMethods) setContactMethods(data.contactMethods);
-          if (data.activeUsers) setActiveUsers(data.activeUsers);
+          if (data.activeUsers) {
+            if (data.activeUsers.length < 30) {
+              // Legacy users, ignore to use hardcoded 50+ users
+            } else {
+              setActiveUsers(data.activeUsers);
+            }
+          }
           if (data.systemConfig) setSystemConfig(data.systemConfig);
           if (data.activeSessions) setActiveSessions(data.activeSessions);
           if (data.crmForms) setCrmForms(data.crmForms);
@@ -959,12 +1305,13 @@ export default function App() {
           if (data.branches) setBranches(data.branches);
           if (data.rooms) setRooms(data.rooms);
           if (data.products) setProducts(data.products);
+          if (data.contractRequests) setContractRequests(data.contractRequests);
 
           // Cargar cualquier tabla personalizada externa (llaves no estándar)
           const standardKeys = [
             'services', 'leads', 'internalDocs', 'documentCategories', 'announcements', 'tasks', 'auditLogs',
             'crmColumns', 'customFormFields', 'contactMethods', 'activeUsers', 'crmForms',
-            'crmFormSubmissions', 'events', 'landingCards', 'roles', 'directory', 'branches', 'rooms', 'products', 'directoryGroups', 'empty'
+            'crmFormSubmissions', 'events', 'landingCards', 'roles', 'directory', 'branches', 'rooms', 'products', 'directoryGroups', 'empty', 'contractRequests'
           ];
           const loadedCustomTables = {};
           Object.keys(data).forEach(key => {
@@ -1018,6 +1365,34 @@ export default function App() {
       });
   }, []);
 
+  // Polling silencioso en tiempo real
+  const dbSavingRef = useRef(false);
+  useEffect(() => { dbSavingRef.current = dbSaving; }, [dbSaving]);
+
+  useEffect(() => {
+    if (!dbLoaded) return;
+    const interval = setInterval(() => {
+      if (dbSavingRef.current) return;
+      fetch('/api/data')
+        .then(res => {
+          if (!res.ok) throw new Error();
+          return res.json();
+        })
+        .then(data => {
+          if (data && !data.empty) {
+            if (data.contractRequests) setContractRequests(data.contractRequests);
+            if (data.services) setServices(data.services);
+            if (data.leads) setLeads(data.leads);
+            if (data.tasks) setTasks(data.tasks);
+            if (data.directory) setDirectory(data.directory);
+            if (data.crmFormSubmissions) setCrmFormSubmissions(data.crmFormSubmissions);
+          }
+        })
+        .catch(() => {});
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [dbLoaded]);
+
   // Guardado permanente automático en la base de datos de la PC host (debounced)
   useEffect(() => {
     if (!dbLoaded) return;
@@ -1048,6 +1423,7 @@ export default function App() {
         directoryGroups,
         systemConfig,
         activeSessions,
+        contractRequests,
         ...customTables
       };
 
@@ -1073,7 +1449,7 @@ export default function App() {
     }, 1000); // 1 segundo de retardo para agrupar cambios rápidos
 
     return () => clearTimeout(timer);
-  }, [services, leads, internalDocs, documentCategories, announcements, tasks, auditLogs, crmColumns, customFormFields, contactMethods, activeUsers, crmForms, crmFormSubmissions, events, landingCards, roles, directory, branches, rooms, products, directoryGroups, customTables, dbLoaded]);
+  }, [services, leads, internalDocs, documentCategories, announcements, tasks, auditLogs, crmColumns, customFormFields, contactMethods, activeUsers, crmForms, crmFormSubmissions, events, landingCards, roles, directory, branches, rooms, products, directoryGroups, contractRequests, customTables, dbLoaded]);
 
   // Registro de Auditoría
   const addAuditLog = (tableName, recordId, action, oldValue, newValue) => {
@@ -1149,7 +1525,7 @@ export default function App() {
       try {
         const { sessionId } = JSON.parse(storedAuth);
         setActiveSessions(prev => prev.filter(s => s.sessionId !== sessionId));
-      } catch (e) {}
+      } catch { /* ignore */ }
     }
     
     localStorage.removeItem('jae_auth');
@@ -1174,7 +1550,7 @@ export default function App() {
             setActiveSessions(prev => prev.map(s => 
               s.sessionId === sessionId ? { ...s, lastActivity: Date.now() } : s
             ));
-          } catch (e) {}
+          } catch { /* ignore */ }
         }
       }, 5000);
     };
@@ -1261,12 +1637,22 @@ export default function App() {
                     if (data.auditLogs) setAuditLogs(data.auditLogs);
                     if (data.crmColumns) setCrmColumns(data.crmColumns);
                     if (data.customFormFields) setCustomFormFields(data.customFormFields);
-                    if (data.activeUsers) setActiveUsers(data.activeUsers);
+                    if (data.activeUsers) {
+                      if (data.activeUsers.length >= 30) {
+                        setActiveUsers(data.activeUsers);
+                      }
+                    }
                     if (data.crmForms) setCrmForms(data.crmForms);
                     if (data.crmFormSubmissions) setCrmFormSubmissions(data.crmFormSubmissions);
                     if (data.events) setEvents(data.events);
                     if (data.landingCards) setLandingCards(data.landingCards);
                     if (data.roles) setRoles(data.roles);
+                    if (data.contractRequests) setContractRequests(data.contractRequests);
+                    if (data.branches) setBranches(data.branches);
+                    if (data.rooms) setRooms(data.rooms);
+                    if (data.products) setProducts(data.products);
+                    if (data.directoryGroups) setDirectoryGroups(data.directoryGroups);
+                    if (data.directory) setDirectory(data.directory);
                   }
                   setDbLoaded(true);
                   setDbError(false);
@@ -1358,9 +1744,11 @@ export default function App() {
         ) : currentUser.role !== ROLES.CLIENTE && (
           <nav className="hidden md:flex items-center gap-1.5 bg-slate-50 border border-slate-200/60 p-1 rounded-full">
             {[
-              { id: 'INTRANET', label: 'Intranet & Avisos', icon: LayoutGrid },
-              { id: 'OPERATIONS', label: 'Operaciones', icon: Clipboard },
-              { id: 'CRM', label: 'CRM Ventas', icon: BarChart2 },
+              { id: 'INTRANET', label: 'Home', icon: LayoutGrid },
+              { id: 'OPERATIONS', label: 'Servicios', icon: Clipboard },
+              { id: 'CONTRACTS', label: 'Contratos', icon: FileText },
+              { id: 'CRM', label: 'CRM', icon: BarChart2 },
+              { id: 'HR', label: 'RH', icon: Users },
               { id: 'DOCS', label: 'Documentos', icon: Folder },
               { id: 'ADMIN', label: 'Administración', icon: Shield, adminOnly: true }
             ].map(mod => {
@@ -1394,29 +1782,7 @@ export default function App() {
         {/* Acceso e Identidad (Login en Esquina Superior Derecha) */}
         <div className="flex items-center gap-4">
           
-          {/* Indicador de Sincronización de Base de Datos */}
-          {currentUser.role !== ROLES.CLIENTE && dbLoaded && !dbError && (
-            <div className="flex items-center gap-1.5 text-[11px] font-semibold transition-all">
-              {dbSaving ? (
-                <div className="flex items-center gap-1 text-amber-600 bg-amber-50 border border-amber-200/50 px-2 py-1 rounded-full animate-pulse">
-                  <span className="flex h-1.5 w-1.5 relative">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500"></span>
-                  </span>
-                  <span>Guardando...</span>
-                </div>
-              ) : showSavedBadge ? (
-                <div className="flex items-center gap-1 text-emerald-600 bg-emerald-50 border border-emerald-200/50 px-2 py-1 rounded-full transition-all animate-bounce">
-                  <span>✓ Guardado</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1 text-slate-400 bg-slate-50 border border-slate-200/40 px-2 py-1 rounded-full opacity-60 hover:opacity-100 transition-opacity">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                  <span>BD Conectada</span>
-                </div>
-              )}
-            </div>
-          )}
+          {/* Eliminated DB connection indicator as requested */}
           {currentUser.role === ROLES.CLIENTE ? (
             <button
               onClick={() => setShowLoginModal(true)}
@@ -1430,30 +1796,45 @@ export default function App() {
               Iniciar Sesión
             </button>
           ) : (
-            <div className="flex items-center gap-3">
-              <div className="text-right hidden sm:block">
-                <p className="font-semibold text-xs text-slate-800">{currentUser.name}</p>
-                <span className="text-[10px] text-slate-400 font-bold uppercase">{currentUser.role}</span>
-              </div>
-              
-              {/* Botón Volver a Cliente */}
-              {currentModule !== 'CLIENT_VIEW' && (
-                <button
-                  onClick={() => setCurrentModule('CLIENT_VIEW')}
-                  className="text-slate-400 hover:text-slate-600 transition-colors"
-                  title="Ver Vista Pública de Cliente"
-                >
-                  <Eye className="w-4 h-4" />
-                </button>
-              )}
-
-              <button
-                onClick={handleLogout}
-                className="bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-red-500 p-2 rounded-full transition-all border border-slate-200/40"
-                title="Cerrar Sesión"
+            <div className="relative">
+              <button 
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                className="flex items-center justify-center w-9 h-9 bg-[#1E3A8A] text-white rounded-full font-bold shadow-md hover:bg-[#1E40AF] transition-all"
+                title={currentUser.name}
               >
-                <LogOut className="w-4 h-4" />
+                {currentUser.name.charAt(0).toUpperCase()}
               </button>
+
+              {showProfileMenu && (
+                <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 shadow-lg rounded-xl overflow-hidden z-50 animate-fade-in">
+                  <div className="p-4 border-b border-slate-100 bg-slate-50/50">
+                    <p className="font-bold text-sm text-slate-800 truncate">{currentUser.name}</p>
+                    <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{currentUser.role}</span>
+                  </div>
+                  
+                  <div className="p-2 space-y-1">
+                    {currentModule !== 'CLIENT_VIEW' && (
+                      <button
+                        onClick={() => {
+                          setCurrentModule('CLIENT_VIEW');
+                          setShowProfileMenu(false);
+                        }}
+                        className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-600 hover:text-[#1E3A8A] hover:bg-slate-100 rounded-lg flex items-center gap-2 transition-all"
+                      >
+                        <Eye className="w-4 h-4" />
+                        Ver Vista Pública
+                      </button>
+                    )}
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 rounded-lg flex items-center gap-2 transition-all"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Cerrar Sesión
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -1505,9 +1886,11 @@ export default function App() {
       {currentUser.role !== ROLES.CLIENTE && (
         <div className="bg-slate-50 md:hidden border-b border-slate-200 px-4 py-2.5 flex gap-2 overflow-x-auto">
           {[
-            { id: 'INTRANET', label: 'Intranet', icon: LayoutGrid },
-            { id: 'OPERATIONS', label: 'Operaciones', icon: Clipboard },
+            { id: 'INTRANET', label: 'Home', icon: LayoutGrid },
+            { id: 'OPERATIONS', label: 'Servicios', icon: Clipboard },
             { id: 'CRM', label: 'CRM', icon: BarChart2 },
+            { id: 'CONTRACTS', label: 'Contratos', icon: FileText },
+            { id: 'HR', label: 'RH', icon: Users },
             { id: 'DOCS', label: 'Documentos', icon: Folder },
             { id: 'ADMIN', label: 'Admin', icon: Shield, adminOnly: true }
           ].map(mod => {
@@ -1535,7 +1918,7 @@ export default function App() {
       {/* ==========================================
           CONTENEDOR DE CONTENIDO PRINCIPAL
           ========================================== */}
-      <main className={`flex-1 w-full mx-auto flex flex-col justify-start relative ${currentModule === 'CLIENT_VIEW' ? 'p-0 max-w-none' : 'p-6 max-w-7xl'}`}>
+      <main className={`flex-1 w-full mx-auto flex flex-col justify-start relative z-20 ${currentModule === 'CLIENT_VIEW' ? 'p-0 max-w-none' : 'p-6 max-w-7xl'}`}>
         
         {/* ==========================================
             MÓDULO A: LANDING PÚBLICA DEL CLIENTE (ESTILO AETERNUM CON FOTOS REALES)
@@ -2384,6 +2767,8 @@ export default function App() {
             addAuditLog={addAuditLog}
             triggerNotification={triggerNotification}
             triggerConfirm={triggerConfirm}
+            adminPassword={activeUsers.find(u => u.role === ROLES.ADMIN)?.password || 'Van#2812#8164q88'}
+            activeUsers={activeUsers}
           />
         )}
 
@@ -2481,6 +2866,34 @@ export default function App() {
             setActiveSessions={setActiveSessions}
             systemConfig={systemConfig}
             setSystemConfig={setSystemConfig}
+          />
+        )}
+
+        {/* ==========================================
+            MÓDULO G: RECURSOS HUMANOS
+            ========================================== */}
+        {currentModule === 'HR' && (
+          <HRModule 
+            currentUser={currentUser}
+            triggerNotification={triggerNotification}
+            triggerConfirm={triggerConfirm}
+            activeUsers={activeUsers}
+            setActiveUsers={setActiveUsers}
+          />
+        )}
+
+        {/* ==========================================
+            MÓDULO H: SOLICITUDES DE CONTRATO
+            ========================================== */}
+        {currentModule === 'CONTRACTS' && (
+          <ContractsModule 
+            currentUser={currentUser}
+            triggerNotification={triggerNotification}
+            triggerConfirm={triggerConfirm}
+            contractRequests={contractRequests}
+            setContractRequests={setContractRequests}
+            defaultContractTemplates={defaultContractTemplates}
+            adminPassword={activeUsers.find(u => u.role === ROLES.ADMIN)?.password || 'Van#2812#8164q88'}
           />
         )}
 
@@ -2967,29 +3380,20 @@ export default function App() {
       {celebration.show && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-md overflow-hidden animate-fade-in">
           <div className="absolute inset-0 pointer-events-none">
-            {Array.from({ length: 90 }).map((_, i) => {
-              const colors = ['bg-rose-500', 'bg-emerald-500', 'bg-sky-500', 'bg-amber-500', 'bg-fuchsia-500', 'bg-violet-500'];
-              const randomColor = colors[Math.floor(Math.random() * colors.length)];
-              const size = Math.random() * 8 + 6;
-              const delay = Math.random() * 4;
-              const duration = Math.random() * 3 + 2;
-              const left = Math.random() * 100;
-              
-              return (
-                <div
-                  key={i}
-                  className={`absolute animate-confetti-fall ${randomColor} rounded-full`}
-                  style={{
-                    width: `${size}px`,
-                    height: `${size}px`,
-                    left: `${left}%`,
-                    animationDelay: `${delay}s`,
-                    animationDuration: `${duration}s`,
-                    opacity: Math.random() * 0.7 + 0.3
-                  }}
-                />
-              );
-            })}
+            {STATIC_CONFETTI.map((c, i) => (
+              <div
+                key={i}
+                className={`absolute animate-confetti-fall ${c.color} rounded-full`}
+                style={{
+                  width: `${c.size}px`,
+                  height: `${c.size}px`,
+                  left: `${c.left}%`,
+                  animationDelay: `${c.delay}s`,
+                  animationDuration: `${c.duration}s`,
+                  opacity: c.opacity
+                }}
+              />
+            ))}
           </div>
           
           <div className="bg-white border border-slate-200 rounded-3xl p-8 max-w-md w-full text-center space-y-6 shadow-2xl animate-scale-up relative m-4">
@@ -3584,22 +3988,26 @@ function ClientTrackingWidget({ services, isDarkBg }) {
 function IntranetModule({ announcements, setAnnouncements, currentUser, services, leads, tasks, setTasks, directory, directoryGroups }) {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [activeSlide, setActiveSlide] = useState(0);
-  const [slideKey, setSlideKey] = useState(0);
+  const [fadeState, setFadeState] = useState('visible'); // 'visible' | 'fading-out'
   const [selectedIntranetCat, setSelectedIntranetCat] = useState('Todos');
 
-  // Obtener la duración de rotación del primer anuncio (o default 6s)
-  const slideDuration = (announcements[0]?.duration || 6) * 1000;
+  // Smooth crossfade: fade out → change slide → fade in
+  const goToSlide = (nextIndex) => {
+    if (nextIndex === activeSlide) return;
+    setFadeState('fading-out');
+    setTimeout(() => {
+      setActiveSlide(nextIndex);
+      setFadeState('visible');
+    }, 250); // match CSS transition duration
+  };
 
-  // Auto-rotar el carrusel con duración configurable
+  // Auto-rotate carousel
   useEffect(() => {
     if (announcements.length <= 1) return;
     const duration = (announcements[activeSlide]?.duration || 6) * 1000;
     const timer = setInterval(() => {
-      setActiveSlide(prev => {
-        const next = (prev + 1) % announcements.length;
-        setSlideKey(k => k + 1);
-        return next;
-      });
+      const next = (activeSlide + 1) % announcements.length;
+      goToSlide(next);
     }, duration);
     return () => clearInterval(timer);
   }, [announcements, activeSlide]);
@@ -3632,13 +4040,11 @@ function IntranetModule({ announcements, setAnnouncements, currentUser, services
   });
 
   const nextSlide = () => {
-    setSlideKey(k => k + 1);
-    setActiveSlide((activeSlide + 1) % announcements.length);
+    goToSlide((activeSlide + 1) % announcements.length);
   };
 
   const prevSlide = () => {
-    setSlideKey(k => k + 1);
-    setActiveSlide((activeSlide - 1 + announcements.length) % announcements.length);
+    goToSlide((activeSlide - 1 + announcements.length) % announcements.length);
   };
 
   const currentAnnouncement = announcements[activeSlide];
@@ -3662,7 +4068,7 @@ function IntranetModule({ announcements, setAnnouncements, currentUser, services
 
           {/* Carrusel 2 Columnas */}
           {announcements.length > 0 ? (
-            <div key={slideKey} className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-slide-in-right">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4" style={{ opacity: fadeState === 'visible' ? 1 : 0, transition: 'opacity 0.25s ease-in-out' }}>
               {/* Columna Izquierda: Texto */}
               <div className="flex flex-col justify-between bg-gradient-to-br from-[#081225] to-[#1E3A8A] rounded-2xl p-5 text-white space-y-4 min-h-[200px]">
                 <div className="space-y-2">
@@ -3688,7 +4094,7 @@ function IntranetModule({ announcements, setAnnouncements, currentUser, services
                       {announcements.map((_, idx) => (
                         <button
                           key={idx}
-                          onClick={() => { setSlideKey(k => k + 1); setActiveSlide(idx); }}
+                          onClick={() => goToSlide(idx)}
                           className={`rounded-full transition-all duration-300 ${
                             idx === activeSlide ? 'bg-white w-5 h-1.5' : 'bg-white/35 w-1.5 h-1.5'
                           }`}
@@ -3942,24 +4348,64 @@ function IntranetModule({ announcements, setAnnouncements, currentUser, services
   );
 }
 
-function OperationsModule({ services, setServices, currentUser, addAuditLog, triggerNotification, triggerConfirm }) {
+const REQUIRED_DOCUMENTS = [
+  { name: 'COTIZACION', canNotApply: false },
+  { name: 'ORDEN DE SERVICIO', canNotApply: false },
+  { name: 'DOCUMENTO QUE AVALA EL SERVICIO', canNotApply: false },
+  { name: 'INE TITULAR', canNotApply: false },
+  { name: 'INE FINADO', canNotApply: false },
+  { name: 'CERTIFICADO DE DEFUNCION', canNotApply: false },
+  { name: 'ACTA DE DEFUNCION', canNotApply: false },
+  { name: 'ACTA DE DESTINO FINAL', canNotApply: false },
+  { name: 'PERMISO DE TRASLADO', canNotApply: true },
+  { name: 'HOJA DE RECUPERACION', canNotApply: true },
+  { name: 'HOJA DE TANATOPRAXIA', canNotApply: true },
+  { name: 'ENTREGA DE SALA', canNotApply: true },
+  { name: 'REPORTE DE LIMPIEZA', canNotApply: true },
+  { name: 'CHECK LIST DE CAFETERIA', canNotApply: true },
+  { name: 'ORDEN DE COMPRA', canNotApply: true },
+  { name: 'PASE DE SALIDA', canNotApply: true }
+];
+
+function OperationsModule({ services, setServices, currentUser, addAuditLog, triggerNotification, triggerConfirm, adminPassword, activeUsers }) {
   const [selectedService, setSelectedService] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [hideConcluded, setHideConcluded] = useState(true);
-  const [activeTab, setActiveTab] = useState('logistica'); // logistica or expediente
+  const [showConcluded, setShowConcluded] = useState(false);
+  const [activeTab, setActiveTab] = useState('expediente'); // logistica or expediente
+  const [showCamposExtra, setShowCamposExtra] = useState(false);
+
+  // Secure Delete State
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [serviceToDelete, setServiceToDelete] = useState(null);
 
   // Form states for creation
   const [clientName, setClientName] = useState('');
   const [deceasedName, setDeceasedName] = useState('');
-  const [orderService, setOrderService] = useState('');
+  const [clientNumber, setClientNumber] = useState('');
+  const [contractProfeco, setContractProfeco] = useState('');
+  const [serviceCategory, setServiceCategory] = useState('');
+  const [initialConsultant, setInitialConsultant] = useState('');
   const [phone1, setPhone1] = useState('');
   const [phone2, setPhone2] = useState('');
-  const [phone3, setPhone3] = useState('');
   const [initialNotes, setInitialNotes] = useState('');
+  
+  // New Initial Capture States
+  const [initialWakeLocation, setInitialWakeLocation] = useState('');
+  const [initialEsquelas, setInitialEsquelas] = useState([]);
+  const [initialServicePrice, setInitialServicePrice] = useState(0);
+  const [initialUpgradesPrice, setInitialUpgradesPrice] = useState(0);
+  const [initialPendingPlan, setInitialPendingPlan] = useState(0);
+  const [initialPayments, setInitialPayments] = useState(0);
 
   // Local edit states for Tab 2
   const [editPackage, setEditPackage] = useState('');
-  const [editCost, setEditCost] = useState(0);
+  const [editConsultantInitial, setEditConsultantInitial] = useState('');
+  const [editConsultantSecondary, setEditConsultantSecondary] = useState('');
+  const [editConsultantFinal, setEditConsultantFinal] = useState('');
+  const [editServicePrice, setEditServicePrice] = useState(0);
+  const [editUpgrades, setEditUpgrades] = useState(0);
+  const [editPendingPlan, setEditPendingPlan] = useState(0);
+  const [editPayments, setEditPayments] = useState(0);
   const [editPaymentStatus, setEditPaymentStatus] = useState('PENDIENTE');
   const [editPaymentMethod, setEditPaymentMethod] = useState('');
   const [editWakeLocation, setEditWakeLocation] = useState('');
@@ -3967,6 +4413,7 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
   const [editWakeRoom, setEditWakeRoom] = useState('');
   const [editCremationTime, setEditCremationTime] = useState('');
   const [editExtraFields, setEditExtraFields] = useState([...EMPTY_EXTRA_FIELDS]);
+  const [editProgramacion, setEditProgramacion] = useState({});
 
   // Comment posting state
   const [newComment, setNewComment] = useState('');
@@ -3974,7 +4421,13 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
   useEffect(() => {
     if (selectedService) {
       setEditPackage(selectedService.contractedPackage || '');
-      setEditCost(selectedService.totalCost || 0);
+      setEditConsultantInitial(selectedService.consultantInitial || '');
+      setEditConsultantSecondary(selectedService.consultantSecondary || '');
+      setEditConsultantFinal(selectedService.consultantFinal || '');
+      setEditServicePrice(selectedService.servicePrice || 0);
+      setEditUpgrades(selectedService.upgradesPrice || 0);
+      setEditPendingPlan(selectedService.pendingPlanAmount || 0);
+      setEditPayments(selectedService.payments || 0);
       setEditPaymentStatus(selectedService.paymentStatus || 'PENDIENTE');
       setEditPaymentMethod(selectedService.paymentMethod || '');
       setEditWakeLocation(selectedService.wakeLocation || '');
@@ -3982,6 +4435,7 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
       setEditWakeRoom(selectedService.wakeRoom || '');
       setEditCremationTime(selectedService.cremationTime || '');
       setEditExtraFields(selectedService.extraFields?.length === 5 ? [...selectedService.extraFields] : [...EMPTY_EXTRA_FIELDS]);
+      setEditProgramacion(selectedService.programacion || {});
     }
   }, [selectedService]);
 
@@ -4040,9 +4494,148 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
     });
   };
 
+  const handleNotApplicable = (docType) => {
+    if (!selectedService) return;
+    if (selectedService.isLocked && currentUser.role !== ROLES.ADMIN) {
+      triggerNotification("No autorizado: Este servicio se encuentra finalizado y bloqueado.", "error");
+      return;
+    }
+    const updatedDocuments = [...(selectedService.documents || []), { name: 'N/A', type: docType, path: 'NO_APLICA' }];
+    const updatedServices = services.map(s => s.id === selectedService.id ? { ...s, documents: updatedDocuments } : s);
+    setServices(updatedServices);
+    setSelectedService({ ...selectedService, documents: updatedDocuments });
+    addAuditLog('service_documents', selectedService.id, 'INSERT', null, { name: 'N/A', type: docType, path: 'NO_APLICA' });
+    triggerNotification(`Documento "${docType}" marcado como No Aplica.`);
+  };
+
+  const handleRemoveDocument = (docType) => {
+    if (!selectedService) return;
+    if (selectedService.isLocked && currentUser.role !== ROLES.ADMIN) {
+      triggerNotification("No autorizado: Este servicio se encuentra finalizado y bloqueado.", "error");
+      return;
+    }
+    triggerConfirm(`¿Seguro que deseas eliminar el documento "${docType}"?`, () => {
+      const updatedDocuments = (selectedService.documents || []).filter(d => d.type !== docType);
+      const updatedServices = services.map(s => s.id === selectedService.id ? { ...s, documents: updatedDocuments } : s);
+      setServices(updatedServices);
+      setSelectedService({ ...selectedService, documents: updatedDocuments });
+      addAuditLog('service_documents', selectedService.id, 'DELETE', { type: docType }, null);
+      triggerNotification(`Documento "${docType}" eliminado.`);
+    });
+  };
+
+  const handleEsquelaUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file || !selectedService) return;
+    if (selectedService.isLocked && currentUser.role !== ROLES.ADMIN) {
+      triggerNotification("No autorizado: Este servicio se encuentra finalizado y bloqueado.", "error");
+      return;
+    }
+
+    const fileExt = file.name.split('.').pop() || 'png';
+    const filename = `${selectedService.folio}_esquela_${Date.now()}.${fileExt}`;
+
+    fetch(`/api/upload?filename=${encodeURIComponent(filename)}`, {
+      method: 'POST',
+      body: file
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Error al subir esquela');
+      return res.json();
+    })
+    .then(data => {
+      const docPath = data.path;
+      const updatedEsquelas = [...(selectedService.esquelas || []), { name: file.name, path: docPath }];
+      const updatedServices = services.map(s => {
+        if (s.id === selectedService.id) {
+          return { ...s, esquelas: updatedEsquelas };
+        }
+        return s;
+      });
+      setServices(updatedServices);
+      setSelectedService({ ...selectedService, esquelas: updatedEsquelas });
+      triggerNotification(`Esquela "${file.name}" cargada con éxito.`);
+    })
+    .catch(err => {
+      console.warn('Backend upload offline, falling back to local base64 storage:', err);
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Data = reader.result;
+        const updatedEsquelas = [...(selectedService.esquelas || []), { name: file.name, path: base64Data }];
+        const updatedServices = services.map(s => {
+          if (s.id === selectedService.id) {
+            return { ...s, esquelas: updatedEsquelas };
+          }
+          return s;
+        });
+        setServices(updatedServices);
+        setSelectedService({ ...selectedService, esquelas: updatedEsquelas });
+        triggerNotification(`Esquela "${file.name}" cargada con éxito.`);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleInitialEsquelaSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setInitialEsquelas(prev => [...prev, {
+          id: Date.now().toString(),
+          name: file.name,
+          path: reader.result
+        }]);
+      };
+      reader.readAsDataURL(file);
+    }
+    e.target.value = ''; // Reset input
+  };
+
+  const removeInitialEsquela = (id) => {
+    setInitialEsquelas(prev => prev.filter(eq => eq.id !== id));
+  };
+
+  const replaceInitialEsquela = (e, id) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setInitialEsquelas(prev => prev.map(eq => eq.id === id ? { ...eq, name: file.name, path: reader.result } : eq));
+      };
+      reader.readAsDataURL(file);
+    }
+    e.target.value = ''; // Reset input
+  };
+
+  const viewInitialEsquela = (path) => {
+    const w = window.open();
+    if (w) {
+      w.document.write(`<iframe src="${path}" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>`);
+    }
+  };
+
+  const handleGetLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          setInitialWakeLocation(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`);
+          triggerNotification('Ubicación GPS capturada con éxito.', 'success');
+        },
+        (error) => {
+          triggerNotification('Error obteniendo ubicación. Verifica los permisos.', 'error');
+        }
+      );
+    } else {
+      triggerNotification('Geolocalización no soportada.', 'error');
+    }
+  };
+
   const handleCreateService = (e) => {
     e.preventDefault();
-    if (!clientName.trim() || !deceasedName.trim() || !orderService.trim()) {
+    if (!clientName.trim() || !deceasedName.trim() || !serviceCategory.trim()) {
       triggerNotification("Por favor complete los campos obligatorios.", "error");
       return;
     }
@@ -4052,32 +4645,38 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
       : 0;
     const newFolio = `SDNI${String(lastFolioNum + 1).padStart(4, '0')}`;
 
-    // Collect phones array (max 3, filter out empty)
-    const phonesCollected = [phone1, phone2, phone3].map(p => p.trim()).filter(Boolean);
+    // Collect phones array (max 2, filter out empty)
+    const phonesCollected = [phone1, phone2].map(p => p.trim()).filter(Boolean);
 
     const newService = {
       id: 's_' + Date.now(),
       folio: newFolio,
       clientName: clientName.trim(),
       deceasedName: deceasedName.trim(),
-      orderService: orderService.trim(),
+      serviceCategory: serviceCategory.trim(),
+      clientNumber: clientNumber.trim(),
+      contractProfeco: contractProfeco.trim(),
+      consultantInitial: initialConsultant.trim(),
+      consultantSecondary: '',
+      consultantFinal: '',
       phones: phonesCollected,
       initialNotes: initialNotes.trim(),
       status: 'COTIZACION',
       isLocked: false,
       createdAt: new Date().toISOString(),
-      subtasks: [
-        { id: 'st1', text: 'Obtención de Certificado Médico', completed: false },
-        { id: 'st2', text: 'Verificación de Plan / Pago', completed: false },
-        { id: 'st3', text: 'Preparación y embalsamado', completed: false }
-      ],
+      subtasks: JSON.parse(JSON.stringify(NEW_SUBTASKS)),
       notes: [],
       documents: [],
-      contractedPackage: orderService.trim(),
-      totalCost: 0,
+      esquelas: [...initialEsquelas], // Set initially captured esquelas
+      contractedPackage: serviceCategory.trim(),
+      servicePrice: Number(initialServicePrice),
+      upgradesPrice: Number(initialUpgradesPrice),
+      pendingPlanAmount: Number(initialPendingPlan),
+      payments: Number(initialPayments),
+      totalCost: 0, 
       paymentStatus: 'PENDIENTE',
       paymentMethod: '',
-      wakeLocation: '',
+      wakeLocation: initialWakeLocation.trim(),
       extras: '',
       wakeRoom: '',
       cremationTime: '',
@@ -4091,11 +4690,19 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
     // Clear inputs
     setClientName('');
     setDeceasedName('');
-    setOrderService('');
+    setClientNumber('');
+    setContractProfeco('');
+    setServiceCategory('');
+    setInitialConsultant('');
     setPhone1('');
     setPhone2('');
-    setPhone3('');
     setInitialNotes('');
+    setInitialWakeLocation('');
+    setInitialEsquelas([]);
+    setInitialServicePrice(0);
+    setInitialUpgradesPrice(0);
+    setInitialPendingPlan(0);
+    setInitialPayments(0);
 
     triggerNotification(`Orden de Servicio creada con Folio: ${newFolio}`);
   };
@@ -4149,11 +4756,51 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
     }
 
     const oldVal = { ...selectedService };
-    const updatedSubtasks = selectedService.subtasks.map(st => 
-      st.id === taskId ? { ...st, completed: !st.completed } : st
-    );
+    const updatedSubtasks = selectedService.subtasks.map(st => {
+      if (st.id === taskId) {
+        const isNowCompleted = !st.completed;
+        return { 
+          ...st, 
+          completed: isNowCompleted,
+          completedBy: isNowCompleted ? currentUser.name : null,
+          completedAt: isNowCompleted ? new Date().toISOString() : null
+        };
+      }
+      return st;
+    });
 
-    const newVal = { ...selectedService, subtasks: updatedSubtasks };
+    // Calcular la fase automáticamente.
+    // Iteramos por STAGES. Si todos los items de una fase están completados, pasamos a la siguiente.
+    let newPhase = 'COTIZACION';
+    for (const stage of STAGES) {
+      const stageTasks = updatedSubtasks.filter(st => st.phase === stage.id);
+      if (stageTasks.length > 0) {
+        const allCompleted = stageTasks.every(st => st.completed);
+        if (allCompleted) {
+          // Find next stage
+          const idx = STAGES.findIndex(s => s.id === stage.id);
+          if (idx < STAGES.length - 1) {
+             // Default to the next phase, but only if the next phase has tasks or it's the end.
+             // If event religiously has no tasks, we should skip it to DESTINO_FINAL if its previous is fully complete.
+             let nextIdx = idx + 1;
+             while(nextIdx < STAGES.length - 1 && updatedSubtasks.filter(st => st.phase === STAGES[nextIdx].id).length === 0) {
+               nextIdx++;
+             }
+             newPhase = STAGES[nextIdx].id;
+          } else {
+             newPhase = 'DESTINO_FINAL';
+          }
+        } else {
+          newPhase = stage.id;
+          break; // Stop advancing
+        }
+      } else if (stage.id === 'EVENTOS_RELIGIOSOS') {
+         // skip this phase automatically since it has no checklist items yet, 
+         // but only if we reached here meaning all previous phases are done.
+      }
+    }
+
+    const newVal = { ...selectedService, subtasks: updatedSubtasks, status: newPhase };
 
     const updated = services.map(s => {
       if (s.id === selectedService.id) {
@@ -4179,14 +4826,21 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
     const newVal = {
       ...selectedService,
       contractedPackage: editPackage,
-      totalCost: Number(editCost),
+      consultantInitial: editConsultantInitial,
+      consultantSecondary: editConsultantSecondary,
+      consultantFinal: editConsultantFinal,
+      servicePrice: Number(editServicePrice),
+      upgradesPrice: Number(editUpgrades),
+      pendingPlanAmount: Number(editPendingPlan),
+      payments: Number(editPayments),
       paymentStatus: editPaymentStatus,
       paymentMethod: editPaymentMethod,
       wakeLocation: editWakeLocation,
       extras: editExtras,
       wakeRoom: editWakeRoom,
       cremationTime: editCremationTime,
-      extraFields: editExtraFields
+      extraFields: editExtraFields,
+      programacion: editProgramacion
     };
 
     const updated = services.map(s => {
@@ -4234,39 +4888,75 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
     addAuditLog('services_comments', selectedService.id, 'INSERT', oldVal, newNote);
   };
 
-  // Filter services by default
-  const displayedServices = services.filter(s => !hideConcluded || s.status !== 'CONCLUIDO');
+  // Filter services: active view vs concluded view
+  const displayedServices = showConcluded
+    ? services.filter(s => s.status === 'CONCLUIDO')
+    : services.filter(s => s.status !== 'CONCLUIDO');
+
+  const getStageIndex = (status) => {
+    const idx = STAGES.findIndex(st => st.id === status);
+    return idx >= 0 ? idx : (status === 'CONCLUIDO' ? STAGES.length : 0);
+  };
+
+  const nextFolioNum = services.length > 0
+    ? parseInt(services[services.length - 1].folio.replace(/[^0-9]/g, '')) + 1
+    : 1;
+  const nextFolioPreview = `SDNI${String(nextFolioNum).padStart(4, '0')}`;
+
+  const executeSecureDelete = () => {
+    if (!serviceToDelete) return;
+    const updated = services.filter(s => s.id !== serviceToDelete.id);
+    setServices(updated);
+    if (selectedService?.id === serviceToDelete.id) {
+      setSelectedService(null);
+    }
+    setDeleteModalOpen(false);
+    setServiceToDelete(null);
+    triggerNotification('Servicio eliminado y respaldado con éxito.');
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       
+      {/* Modal de Borrado Seguro */}
+      <SecureDeleteModal
+        isOpen={deleteModalOpen}
+        onClose={() => { setDeleteModalOpen(false); setServiceToDelete(null); }}
+        onConfirm={executeSecureDelete}
+        itemName={`Servicio ${serviceToDelete?.folio}`}
+        adminPassword={adminPassword}
+        dataToBackup={serviceToDelete}
+        backupFilename={`Respaldo_Servicio_${serviceToDelete?.folio}_${Date.now()}.json`}
+      />
+
       {/* Listado de Órdenes */}
       <div className="lg:col-span-1 bg-white border border-slate-200 rounded-3xl p-6 flex flex-col shadow-sm">
         <div className="flex flex-col gap-4 mb-6">
           <div className="flex justify-between items-center">
-            <h3 className="font-bold text-slate-800 text-sm tracking-wider uppercase">Folios Registrados</h3>
-            <button
-              onClick={() => setShowCreateModal(true)}
-              className="bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-semibold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all shadow-md shadow-[#1E3A8A]/10"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              Nuevo Folio
-            </button>
+            <h3 className="font-bold text-slate-800 text-sm tracking-wider uppercase">{showConcluded ? 'Servicios Concluidos' : 'Servicios Activos'}</h3>
+            {!showConcluded && (
+              <button
+                onClick={() => setShowCreateModal(true)}
+                className="bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-semibold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all shadow-md shadow-[#1E3A8A]/10"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                Nuevo Folio
+              </button>
+            )}
           </div>
           
-          {/* Switch Filter for Concluded Services */}
-          <div className="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-            <span className="text-xs text-slate-500 font-semibold flex items-center gap-1.5">
-              {hideConcluded ? <EyeOff className="w-3.5 h-3.5 text-slate-400" /> : <Eye className="w-3.5 h-3.5 text-[#1E3A8A]" />}
-              Ocultar Concluidos
-            </span>
-            <button
-              onClick={() => setHideConcluded(!hideConcluded)}
-              className={`w-10 h-5 rounded-full p-0.5 transition-colors relative flex items-center ${hideConcluded ? 'bg-[#1E3A8A]' : 'bg-slate-300'}`}
-            >
-              <div className={`w-4 h-4 bg-white rounded-full shadow transition-transform ${hideConcluded ? 'translate-x-5' : 'translate-x-0'}`} />
-            </button>
-          </div>
+          {/* Toggle between active and concluded */}
+          <button
+            onClick={() => { setShowConcluded(!showConcluded); setSelectedService(null); }}
+            className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all ${
+              showConcluded
+                ? 'bg-[#1E3A8A] text-white hover:bg-[#1E40AF]'
+                : 'bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100'
+            }`}
+          >
+            {showConcluded ? <ChevronLeft className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+            {showConcluded ? 'Volver a Servicios Activos' : 'Consultar Servicios Concluidos'}
+          </button>
         </div>
 
         <div className="space-y-3 flex-1 max-h-[500px] overflow-y-auto pr-1">
@@ -4280,22 +4970,85 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
                   : 'bg-white border-slate-100 hover:border-slate-200 text-slate-650'
               }`}
             >
+              {/* Row 1: Folio + Status */}
               <div className="flex justify-between items-center">
-                <span className="font-mono font-bold text-xs block text-[#1E3A8A]">
-                  {s.folio}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="font-mono font-bold text-xs block text-[#1E3A8A]">
+                    {s.folio}
+                  </span>
+                  {currentUser.role === ROLES.ADMIN && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setServiceToDelete(s);
+                        setDeleteModalOpen(true);
+                      }}
+                      className="p-1 rounded-full text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors"
+                      title="Eliminar permanentemente"
+                    >
+                      <Trash className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
                 <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold ${
                   s.status === 'CONCLUIDO' 
                     ? 'bg-emerald-50 border border-emerald-100 text-emerald-600' 
                     : 'bg-[#1E3A8A]/10 border border-[#1E3A8A]/20 text-[#081225]'
                 }`}>
-                  {s.status}
+                  {s.status === 'CONCLUIDO' ? 'CONCLUIDO' : STAGES.find(st => st.id === s.status)?.label?.split('. ')[1] || s.status}
                 </span>
               </div>
-              <h4 className="font-semibold text-xs mt-2.5 text-slate-800">{s.deceasedName}</h4>
-              <div className="flex justify-between items-center mt-3 pt-3 border-t border-slate-100 text-[10px] text-slate-400">
-                <span>Docs: {s.documents?.length || 0}</span>
-                {s.isLocked && <Lock className="w-3 h-3 text-red-500" />}
+              {/* Row 2: Client & Profeco numbers */}
+              <div className="flex gap-3 mt-1.5 text-[10px] text-slate-500">
+                {s.clientNumber && <span>Cliente: <strong className="text-slate-700">{s.clientNumber}</strong></span>}
+                {s.contractProfeco && <span>Profeco: <strong className="text-slate-700">{s.contractProfeco}</strong></span>}
+              </div>
+              {/* Row 3: Deceased name */}
+              <h4 className="font-semibold text-xs mt-1.5 text-slate-800">{s.deceasedName}</h4>
+              {/* Row 4: Timestamp */}
+              {s.createdAt && (
+                <p className="text-[9px] text-slate-400 mt-1">
+                  {new Date(s.createdAt).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                </p>
+              )}
+              {/* Row 5: Progress bar */}
+              <div className="mt-3 pt-3 border-t border-slate-100">
+                {s.status === 'CONCLUIDO' ? (
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 h-1.5 bg-emerald-500 rounded-full" />
+                    <span className="text-[9px] text-emerald-600 font-bold">Finalizado</span>
+                    {s.isLocked && <Lock className="w-3 h-3 text-red-400" />}
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2 w-full mt-2">
+                    {/* Barra de Fases Generales */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-[9px] uppercase tracking-wider text-slate-400 font-bold w-12 shrink-0">Fases</span>
+                      <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-[#1E3A8A] rounded-full transition-all duration-500"
+                          style={{ width: `${((getStageIndex(s.status) + 1) / STAGES.length) * 100}%` }}
+                        />
+                      </div>
+                      <span className="text-[9px] text-slate-500 font-bold whitespace-nowrap w-5 text-right shrink-0">
+                        {getStageIndex(s.status) + 1}/{STAGES.length}
+                      </span>
+                    </div>
+                    {/* Barra de Pasos / Checklist */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-[9px] uppercase tracking-wider text-slate-400 font-bold w-12 shrink-0">Pasos</span>
+                      <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                          style={{ width: `${((s.subtasks?.filter(st => st.completed).length || 0) / (s.subtasks?.length || 1)) * 100}%` }}
+                        />
+                      </div>
+                      <span className="text-[9px] text-slate-500 font-bold whitespace-nowrap w-5 text-right shrink-0">
+                        {s.subtasks?.filter(st => st.completed).length || 0}/{s.subtasks?.length || 0}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -4329,127 +5082,114 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
                 )}
                 
                 <div className="flex flex-col">
-                  <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Cambiar Fase Logística</span>
-                  <select
-                    value={selectedService.status}
-                    onChange={(e) => handleStatusChange(e.target.value)}
-                    disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
-                    className="bg-[#FAFAFA] border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-700 focus:outline-none focus:border-[#1E3A8A] mt-1 cursor-pointer font-medium"
-                  >
-                    {STAGES.map(st => (
-                      <option key={st.id} value={st.id}>{st.label}</option>
-                    ))}
-                    <option value="CONCLUIDO">Concluir Servicio (Bloquear)</option>
-                  </select>
+                  <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Fase Logística Actual</span>
+                  {currentUser.role === ROLES.ADMIN ? (
+                    <select
+                      value={selectedService.status}
+                      onChange={(e) => handleStatusChange(e.target.value)}
+                      className="bg-[#FAFAFA] border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-[#1E3A8A] focus:outline-none focus:border-[#1E3A8A] mt-1 cursor-pointer font-bold"
+                    >
+                      {STAGES.map(st => (
+                        <option key={st.id} value={st.id}>{st.label}</option>
+                      ))}
+                      <option value="CONCLUIDO">CONCLUIDO (Bloqueado)</option>
+                    </select>
+                  ) : (
+                    <div className="bg-[#1E3A8A]/5 border border-[#1E3A8A]/20 text-[#1E3A8A] rounded-xl px-3 py-1.5 text-xs font-bold mt-1 inline-flex items-center gap-2">
+                      {STAGES.find(s => s.id === selectedService.status)?.label || selectedService.status}
+                      {selectedService.status !== 'CONCLUIDO' && (
+                        <span className="relative flex h-2 w-2 ml-1">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1E3A8A] opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#1E3A8A]"></span>
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
             {/* Pestañas de la Ficha Detallada */}
-            <div className="flex border-b border-slate-200 gap-4">
-              <button
-                onClick={() => setActiveTab('logistica')}
-                className={`text-xs px-4 py-2 font-bold border-b-2 transition-all ${
-                  activeTab === 'logistica' 
-                    ? 'border-[#1E3A8A] text-[#1E3A8A]' 
-                    : 'border-transparent text-slate-400 hover:text-slate-650'
-                }`}
-              >
-                Logística y Checklist
-              </button>
-              <button
-                onClick={() => setActiveTab('expediente')}
-                className={`text-xs px-4 py-2 font-bold border-b-2 transition-all ${
-                  activeTab === 'expediente' 
-                    ? 'border-[#1E3A8A] text-[#1E3A8A]' 
-                    : 'border-transparent text-slate-400 hover:text-slate-650'
-                }`}
-              >
-                Expediente, Precios y Rastro Público
-              </button>
+            <div className="flex border-b border-slate-200 gap-4 overflow-x-auto pb-1 mb-6">
+              <button onClick={() => setActiveTab('expediente')} className={`text-xs px-4 py-2 font-bold border-b-2 transition-all whitespace-nowrap ${activeTab === 'expediente' ? 'border-[#1E3A8A] text-[#1E3A8A]' : 'border-transparent text-slate-400 hover:text-slate-650'}`}>Expediente</button>
+              <button onClick={() => setActiveTab('programacion')} className={`text-xs px-4 py-2 font-bold border-b-2 transition-all whitespace-nowrap ${activeTab === 'programacion' ? 'border-[#1E3A8A] text-[#1E3A8A]' : 'border-transparent text-slate-400 hover:text-slate-650'}`}>Programación</button>
+              <button onClick={() => setActiveTab('checklist')} className={`text-xs px-4 py-2 font-bold border-b-2 transition-all whitespace-nowrap ${activeTab === 'checklist' ? 'border-[#1E3A8A] text-[#1E3A8A]' : 'border-transparent text-slate-400 hover:text-slate-650'}`}>Checklist</button>
+              <button onClick={() => setActiveTab('precios')} className={`text-xs px-4 py-2 font-bold border-b-2 transition-all whitespace-nowrap ${activeTab === 'precios' ? 'border-[#1E3A8A] text-[#1E3A8A]' : 'border-transparent text-slate-400 hover:text-slate-650'}`}>Precios y Rastreo Público</button>
+              <button onClick={() => setActiveTab('esquelas')} className={`text-xs px-4 py-2 font-bold border-b-2 transition-all whitespace-nowrap ${activeTab === 'esquelas' ? 'border-[#1E3A8A] text-[#1E3A8A]' : 'border-transparent text-slate-400 hover:text-slate-650'}`}>Esquelas</button>
             </div>
 
-            {/* Contenido Pestaña 1: Logística y Comentarios */}
-            {activeTab === 'logistica' && (
+            {activeTab === 'checklist' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                {/* Checklist & Documentos */}
                 <div className="space-y-6">
                   {/* Checklist */}
                   <div className="space-y-3">
                     <h4 className="font-bold text-xs text-slate-800 flex items-center gap-2 uppercase tracking-wider">
                       <CheckSquare className="w-4 h-4 text-emerald-500" />
-                      Pasos Operativos
+                      Fases y Pasos Operativos
                     </h4>
 
-                    <div className="space-y-2 bg-[#FAFAFA]/50 p-2 rounded-2xl border border-slate-200/60 max-h-[220px] overflow-y-auto">
-                      {selectedService.subtasks?.map(st => (
-                        <div
-                          key={st.id}
-                          onClick={() => handleToggleSubtask(st.id)}
-                          className={`flex items-center gap-3 p-2.5 rounded-xl border cursor-pointer transition-all bg-white ${
-                            st.completed 
-                              ? 'border-slate-100 opacity-60' 
-                              : 'border-slate-200 hover:border-slate-300'
-                          }`}
-                        >
-                          <div className={`w-4 h-4 rounded mt-0.5 border flex items-center justify-center ${st.completed ? 'bg-emerald-500 border-emerald-400 text-white' : 'border-slate-350'}`}>
-                            {st.completed && <CheckCircle className="w-3.5 h-3.5" />}
-                          </div>
-                          <span className={`text-xs font-semibold ${st.completed ? 'line-through text-slate-400' : 'text-slate-700'}`}>{st.text}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Documentos */}
-                  <div className="space-y-4">
-                    <h4 className="font-bold text-xs text-slate-800 flex items-center gap-2 uppercase tracking-wider">
-                      <Upload className="w-4 h-4 text-[#1E3A8A]" />
-                      Expediente Digital
-                    </h4>
-                    
-                    <div className="space-y-2 bg-[#FAFAFA] p-3 rounded-2xl border border-slate-200/60">
-                      {['Cotización', 'Certificado Médico', 'Documento de Titularidad'].map(docType => {
-                        const foundDoc = selectedService.documents?.find(d => d.type === docType);
-                        return (
-                          <div key={docType} className="flex items-center justify-between bg-white border border-slate-100 p-2.5 rounded-xl text-xs">
-                            <span className="font-semibold text-slate-700">{docType}</span>
-                            {foundDoc ? (
-                              <div className="flex items-center gap-2">
-                                <span className="text-emerald-500 font-bold flex items-center gap-1 text-[10px]">
-                                  <CheckCircle className="w-3.5 h-3.5" />
-                                  Listo
-                                </span>
-                                <a 
-                                  href={foundDoc.path} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                  className="text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md hover:bg-blue-100 transition-colors font-bold text-[9px] flex items-center gap-0.5"
-                                >
-                                  <Eye className="w-3 h-3" /> Ver
-                                </a>
+                    <div className="space-y-4 bg-[#FAFAFA]/50 p-2 rounded-2xl border border-slate-200/60 max-h-[400px] overflow-y-auto">
+                      {/* Tareas Antiguas Compatibilidad */}
+                      {selectedService.subtasks?.filter(st => !st.phase).length > 0 && (
+                        <div className="space-y-2">
+                           <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">PASOS ANTIGUOS</h5>
+                           {selectedService.subtasks.filter(st => !st.phase).map(st => (
+                              <div
+                                key={st.id}
+                                onClick={() => handleToggleSubtask(st.id)}
+                                className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-all bg-white ${
+                                  st.completed 
+                                    ? 'border-slate-100 opacity-60' 
+                                    : 'border-slate-200 hover:border-slate-300'
+                                }`}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className={`w-4 h-4 rounded mt-0.5 border flex items-center justify-center shrink-0 ${st.completed ? 'bg-emerald-500 border-emerald-400 text-white' : 'border-slate-350'}`}>
+                                    {st.completed && <CheckCircle className="w-3 h-3" />}
+                                  </div>
+                                  <span className={`text-xs font-semibold ${st.completed ? 'line-through text-slate-400' : 'text-slate-700'}`}>{st.text}</span>
+                                </div>
                               </div>
-                            ) : (
-                              <label className={`bg-slate-50 hover:bg-slate-100 text-[#1E3A8A] font-semibold px-2.5 py-1 rounded-lg border border-slate-200 text-[10px] transition-all cursor-pointer flex items-center gap-1 ${(selectedService.isLocked && currentUser.role !== ROLES.ADMIN) ? 'opacity-40 pointer-events-none' : ''}`}>
-                                <Upload className="w-3 h-3" />
-                                Subir PDF
-                                <input 
-                                  type="file" 
-                                  accept=".pdf,.png,.jpg,.jpeg"
-                                  className="hidden" 
-                                  onChange={(e) => handleRealUpload(e, docType)} 
-                                  disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
-                                />
-                              </label>
-                            )}
+                           ))}
+                        </div>
+                      )}
+                      {STAGES.map(stage => {
+                        const stageTasks = selectedService.subtasks?.filter(st => st.phase === stage.id) || [];
+                        if (stageTasks.length === 0) return null;
+                        
+                        return (
+                          <div key={stage.id} className="space-y-2">
+                            <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">{stage.label}</h5>
+                            {stageTasks.map(st => (
+                              <div
+                                key={st.id}
+                                onClick={() => handleToggleSubtask(st.id)}
+                                className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-all bg-white ${
+                                  st.completed 
+                                    ? 'border-slate-100 opacity-60' 
+                                    : 'border-slate-200 hover:border-slate-300'
+                                }`}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className={`w-4 h-4 rounded mt-0.5 border flex items-center justify-center shrink-0 ${st.completed ? 'bg-emerald-500 border-emerald-400 text-white' : 'border-slate-350'}`}>
+                                    {st.completed && <CheckCircle className="w-3 h-3" />}
+                                  </div>
+                                  <span className={`text-xs font-semibold ${st.completed ? 'line-through text-slate-400' : 'text-slate-700'}`}>{st.text}</span>
+                                </div>
+                                {st.completed && st.completedBy && (
+                                  <div className="flex flex-col items-end shrink-0">
+                                    <span className="text-[9px] font-bold text-emerald-600">{st.completedBy}</span>
+                                    <span className="text-[8px] text-slate-400">{new Date(st.completedAt).toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' })}</span>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
                           </div>
                         );
                       })}
                     </div>
                   </div>
                 </div>
-
                 {/* Comentarios libres y notas internas (Bitácora) */}
                 <div className="space-y-4 flex flex-col justify-between min-h-[350px]">
                   <div className="space-y-3">
@@ -4494,138 +5234,335 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
                     </button>
                   </form>
                 </div>
-
               </div>
             )}
 
-            {/* Contenido Pestaña 2: Expediente y Información Pública de Rastro */}
-            {activeTab === 'expediente' && (
+            {(activeTab === 'expediente' || activeTab === 'programacion' || activeTab === 'precios' || activeTab === 'esquelas') && (
               <form onSubmit={handleSaveExpediente} className="space-y-6">
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  
-                  {/* Seccion 1: Finanzas y lo Contratado */}
-                  <div className="space-y-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-200">
-                    <h4 className="font-bold text-xs text-slate-850 border-b pb-2 uppercase tracking-wider flex items-center gap-1.5">
-                      💵 Finanzas y Contrato JAE
+                {activeTab === 'expediente' && (
+                  <div className="grid grid-cols-1 gap-6">
+                    {/* Documentos */}
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <h4 className="font-bold text-xs text-slate-800 flex items-center gap-2 uppercase tracking-wider">
+                        <Upload className="w-4 h-4 text-[#1E3A8A]" />
+                        Expediente Digital
+                      </h4>
+                      <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
+                        {selectedService.documents?.length || 0} de {REQUIRED_DOCUMENTS.length}
+                      </span>
+                    </div>
+                    
+                    <div className="space-y-2 bg-[#FAFAFA] p-3 rounded-2xl border border-slate-200/60 max-h-[400px] overflow-y-auto">
+                      {REQUIRED_DOCUMENTS.map(doc => {
+                        const foundDoc = selectedService.documents?.find(d => d.type === doc.name);
+                        return (
+                          <div key={doc.name} className="flex items-center justify-between bg-white border border-slate-100 p-2.5 rounded-xl text-xs">
+                            <span className="font-semibold text-slate-700 w-1/2 truncate" title={doc.name}>{doc.name}</span>
+                            {foundDoc ? (
+                              <div className="flex items-center gap-2">
+                                {foundDoc.path === 'NO_APLICA' ? (
+                                  <span className="text-slate-500 font-bold flex items-center gap-1 text-[10px] bg-slate-100 px-2 py-0.5 rounded-md">
+                                    N/A
+                                  </span>
+                                ) : (
+                                  <>
+                                    <span className="text-emerald-500 font-bold flex items-center gap-1 text-[10px]">
+                                      <CheckCircle className="w-3.5 h-3.5" />
+                                      Listo
+                                    </span>
+                                    <a 
+                                      href={foundDoc.path} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md hover:bg-blue-100 transition-colors font-bold text-[9px] flex items-center gap-0.5"
+                                    >
+                                      <Eye className="w-3 h-3" /> Ver
+                                    </a>
+                                  </>
+                                )}
+                                <button 
+                                  onClick={() => handleRemoveDocument(doc.name)}
+                                  disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                                  className="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 p-1 rounded-md transition-colors disabled:opacity-40"
+                                  title="Eliminar documento"
+                                >
+                                  <Trash className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="flex gap-1.5 items-center">
+                                <label className={`bg-slate-50 hover:bg-slate-100 text-[#1E3A8A] font-semibold px-2.5 py-1 rounded-lg border border-slate-200 text-[10px] transition-all cursor-pointer flex items-center gap-1 ${(selectedService.isLocked && currentUser.role !== ROLES.ADMIN) ? 'opacity-40 pointer-events-none' : ''}`}>
+                                  <Upload className="w-3 h-3" />
+                                  Subir
+                                  <input 
+                                    type="file" 
+                                    accept=".pdf,.png,.jpg,.jpeg"
+                                    className="hidden" 
+                                    onChange={(e) => handleRealUpload(e, doc.name)} 
+                                    disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                                  />
+                                </label>
+                                {doc.canNotApply && (
+                                  <button
+                                    onClick={() => handleNotApplicable(doc.name)}
+                                    disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                                    className="bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold px-2.5 py-1 rounded-lg border border-slate-200 text-[10px] transition-all disabled:opacity-40"
+                                  >
+                                    N/A
+                                  </button>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                                      </div>
+                )}
+
+                {activeTab === 'programacion' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                      {/* Nueva Seccion: Programacion Operativa */}
+                  <div className="space-y-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-200 col-span-full">
+                    <h4 className="font-bold text-xs text-slate-850 border-b pb-2 uppercase tracking-wider flex items-center gap-1.5 text-indigo-700">
+                      📅 Programación Operativa
                     </h4>
                     
-                    <div className="space-y-3">
-                      <div>
-                        <label className="text-[10px] text-slate-500 font-bold block mb-1">Paquete / Servicio Contratado</label>
-                        <input
-                          type="text"
-                          value={editPackage}
-                          onChange={(e) => setEditPackage(e.target.value)}
-                          disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
-                          className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
-                        />
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-3">
-                        <div>
-                          <label className="text-[10px] text-slate-500 font-bold block mb-1">Costo Total ($)</label>
-                          <input
-                            type="number"
-                            value={editCost}
-                            onChange={(e) => setEditCost(e.target.value)}
-                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
-                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
-                          />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                      {/* SOLICITUD DE RECUPERACION */}
+                      <div className="space-y-3 bg-white p-3 rounded-xl border border-slate-200">
+                        <h5 className="text-[10px] font-bold text-slate-600 bg-slate-100 p-1.5 rounded uppercase text-center">SOLICITUD DE RECUPERACION</h5>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Domicilio</label>
+                            <input type="text" value={editProgramacion.sol_rec_domicilio || ''} onChange={e => setEditProgramacion({...editProgramacion, sol_rec_domicilio: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Ubicación</label>
+                            <input type="text" value={editProgramacion.sol_rec_ubicacion || ''} onChange={e => setEditProgramacion({...editProgramacion, sol_rec_ubicacion: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Fecha y Hora Programada</label>
+                            <input type="datetime-local" value={editProgramacion.sol_rec_fecha_hora || ''} onChange={e => setEditProgramacion({...editProgramacion, sol_rec_fecha_hora: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Responsable</label>
+                            <input type="text" value={editProgramacion.sol_rec_responsable || ''} onChange={e => setEditProgramacion({...editProgramacion, sol_rec_responsable: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
                         </div>
+                      </div>
+
+                      {/* GESTION DE TRAMITES */}
+                      <div className="space-y-3 bg-white p-3 rounded-xl border border-slate-200">
+                        <h5 className="text-[10px] font-bold text-slate-600 bg-slate-100 p-1.5 rounded uppercase text-center">GESTION DE TRAMITES</h5>
                         <div>
-                          <label className="text-[10px] text-slate-500 font-bold block mb-1">Estatus de Pago</label>
-                          <select
-                            value={editPaymentStatus}
-                            onChange={(e) => setEditPaymentStatus(e.target.value)}
-                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
-                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
-                          >
-                            <option value="PENDIENTE">PENDIENTE</option>
-                            <option value="PAGADO">PAGADO</option>
+                          <label className="text-[9px] text-slate-500 font-bold block mb-1">Acompañamiento</label>
+                          <select value={editProgramacion.gestion_tramites || ''} onChange={e => setEditProgramacion({...editProgramacion, gestion_tramites: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]">
+                            <option value="">Seleccione...</option>
+                            <option value="CON ACOMPAÑAMIENTO">CON ACOMPAÑAMIENTO</option>
+                            <option value="SIN ACOMPAÑAMIENTO">SIN ACOMPAÑAMIENTO</option>
                           </select>
                         </div>
                       </div>
 
-                      <div>
-                        <label className="text-[10px] text-slate-500 font-bold block mb-1">Método de Pago</label>
-                        <input
-                          type="text"
-                          placeholder="Ej. Tarjeta de Crédito, Transferencia"
-                          value={editPaymentMethod}
-                          onChange={(e) => setEditPaymentMethod(e.target.value)}
-                          disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
-                          className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
-                        />
+                      {/* RECUPERACION */}
+                      <div className="space-y-3 bg-white p-3 rounded-xl border border-slate-200 col-span-full">
+                        <h5 className="text-[10px] font-bold text-slate-600 bg-slate-100 p-1.5 rounded uppercase text-center">RECUPERACION</h5>
+                        <div className="grid grid-cols-4 gap-2">
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Hora Programada</label>
+                            <input type="time" value={editProgramacion.rec_hora_programada || ''} onChange={e => setEditProgramacion({...editProgramacion, rec_hora_programada: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Unidad</label>
+                            <input type="text" value={editProgramacion.rec_unidad || ''} onChange={e => setEditProgramacion({...editProgramacion, rec_unidad: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Operativo</label>
+                            <input type="text" value={editProgramacion.rec_operativo || ''} onChange={e => setEditProgramacion({...editProgramacion, rec_operativo: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Hora Real</label>
+                            <input type="time" value={editProgramacion.rec_hora_real || ''} onChange={e => setEditProgramacion({...editProgramacion, rec_hora_real: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* PROCESO DE EMBALSAMADO */}
+                      <div className="space-y-3 bg-white p-3 rounded-xl border border-slate-200 col-span-full">
+                        <h5 className="text-[10px] font-bold text-slate-600 bg-slate-100 p-1.5 rounded uppercase text-center">PROCESO DE EMBALSAMADO</h5>
+                        <div className="grid grid-cols-4 gap-2">
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Valoración</label>
+                            <input type="text" value={editProgramacion.emb_valoracion || ''} onChange={e => setEditProgramacion({...editProgramacion, emb_valoracion: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Hora Inicio</label>
+                            <input type="time" value={editProgramacion.emb_hora_inicio || ''} onChange={e => setEditProgramacion({...editProgramacion, emb_hora_inicio: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Hora Término</label>
+                            <input type="time" value={editProgramacion.emb_hora_termino || ''} onChange={e => setEditProgramacion({...editProgramacion, emb_hora_termino: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Causa</label>
+                            <input type="text" value={editProgramacion.emb_causa || ''} onChange={e => setEditProgramacion({...editProgramacion, emb_causa: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Talla</label>
+                            <input type="text" value={editProgramacion.emb_talla || ''} onChange={e => setEditProgramacion({...editProgramacion, emb_talla: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Peso</label>
+                            <input type="text" value={editProgramacion.emb_peso || ''} onChange={e => setEditProgramacion({...editProgramacion, emb_peso: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Pertenencia</label>
+                            <input type="text" value={editProgramacion.emb_pertenencia || ''} onChange={e => setEditProgramacion({...editProgramacion, emb_pertenencia: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Marbete Ataúd</label>
+                            <input type="text" value={editProgramacion.emb_marbete_ataud || ''} onChange={e => setEditProgramacion({...editProgramacion, emb_marbete_ataud: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* INSTALACION DEL SERVICIO */}
+                      <div className="space-y-3 bg-white p-3 rounded-xl border border-slate-200 col-span-full">
+                        <h5 className="text-[10px] font-bold text-slate-600 bg-slate-100 p-1.5 rounded uppercase text-center">INSTALACION DEL SERVICIO</h5>
+                        <div className="grid grid-cols-4 gap-2">
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Domicilio o Sala</label>
+                            <input type="text" value={editProgramacion.inst_domicilio_sala || ''} onChange={e => setEditProgramacion({...editProgramacion, inst_domicilio_sala: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Hora</label>
+                            <input type="time" value={editProgramacion.inst_hora || ''} onChange={e => setEditProgramacion({...editProgramacion, inst_hora: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Unidad</label>
+                            <input type="text" value={editProgramacion.inst_unidad || ''} onChange={e => setEditProgramacion({...editProgramacion, inst_unidad: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Operativo</label>
+                            <input type="text" value={editProgramacion.inst_operativo || ''} onChange={e => setEditProgramacion({...editProgramacion, inst_operativo: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* MISA O EVENTO RELIGIOSO */}
+                      <div className="space-y-3 bg-white p-3 rounded-xl border border-slate-200 col-span-full">
+                        <h5 className="text-[10px] font-bold text-slate-600 bg-slate-100 p-1.5 rounded uppercase text-center">MISA O EVENTO RELIGIOSO</h5>
+                        <div className="grid grid-cols-4 gap-2">
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Domicilio o Sala</label>
+                            <input type="text" value={editProgramacion.misa_domicilio_sala || ''} onChange={e => setEditProgramacion({...editProgramacion, misa_domicilio_sala: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Hora</label>
+                            <input type="time" value={editProgramacion.misa_hora || ''} onChange={e => setEditProgramacion({...editProgramacion, misa_hora: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Unidad</label>
+                            <input type="text" value={editProgramacion.misa_unidad || ''} onChange={e => setEditProgramacion({...editProgramacion, misa_unidad: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Operativo</label>
+                            <input type="text" value={editProgramacion.misa_operativo || ''} onChange={e => setEditProgramacion({...editProgramacion, misa_operativo: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* DESTINO FINAL */}
+                      <div className="space-y-3 bg-white p-3 rounded-xl border border-slate-200 col-span-full">
+                        <h5 className="text-[10px] font-bold text-slate-600 bg-slate-100 p-1.5 rounded uppercase text-center">DESTINO FINAL</h5>
+                        <div className="grid grid-cols-3 gap-2">
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Inhumación o Cremación</label>
+                            <select value={editProgramacion.destino_tipo || ''} onChange={e => setEditProgramacion({...editProgramacion, destino_tipo: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]">
+                              <option value="">Seleccione...</option>
+                              <option value="INHUMACION">INHUMACIÓN</option>
+                              <option value="CREMACION">CREMACIÓN</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Panteón o Crematorio</label>
+                            <input type="text" value={editProgramacion.destino_lugar || ''} onChange={e => setEditProgramacion({...editProgramacion, destino_lugar: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                          <div>
+                            <label className="text-[9px] text-slate-500 font-bold block mb-1">Hora de Inhum/Cremación</label>
+                            <input type="time" value={editProgramacion.destino_hora || ''} onChange={e => setEditProgramacion({...editProgramacion, destino_hora: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-[10px]" />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Seccion 2: Datos Logísticos y Rastro de Homenaje Público */}
-                  <div className="space-y-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-200">
-                    <h4 className="font-bold text-xs text-slate-850 border-b pb-2 uppercase tracking-wider flex items-center gap-1.5 text-[#1E3A8A]">
-                      ✨ Rastro Público & Velación
+                  {/* Nueva Seccion: Consultores */}
+                  <div className="space-y-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-200 col-span-full">
+                    <h4 className="font-bold text-xs text-slate-850 border-b pb-2 uppercase tracking-wider flex items-center gap-1.5 text-amber-700">
+                      👥 Consultores Asignados
                     </h4>
-
-                    <div className="space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div>
-                        <label className="text-[10px] text-slate-500 font-bold block mb-1">Ubicación General de Velación</label>
+                        <label className="text-[10px] text-slate-500 font-bold block mb-1">Consultor Inicial</label>
                         <input
                           type="text"
-                          placeholder="Ej. Capilla San Gabriel, Gomez Morin"
-                          value={editWakeLocation}
-                          onChange={(e) => setEditWakeLocation(e.target.value)}
+                          value={editConsultantInitial}
+                          onChange={(e) => setEditConsultantInitial(e.target.value)}
                           disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
                           className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
                         />
                       </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                          <label className="text-[10px] text-slate-500 font-bold block mb-1">Sala de Velación (Público)</label>
-                          <input
-                            type="text"
-                            placeholder="Ej. Sala Cruz Mayor"
-                            value={editWakeRoom}
-                            onChange={(e) => setEditWakeRoom(e.target.value)}
-                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
-                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
-                          />
-                        </div>
-                        <div>
-                          <label className="text-[10px] text-slate-500 font-bold block mb-1">Hora Cremación/Sepelio (Público)</label>
-                          <input
-                            type="datetime-local"
-                            value={editCremationTime}
-                            onChange={(e) => setEditCremationTime(e.target.value)}
-                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
-                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
-                          />
-                        </div>
-                      </div>
-
                       <div>
-                        <label className="text-[10px] text-slate-500 font-bold block mb-1">Cosas Extras Solicitadas (Notas)</label>
-                        <textarea
-                          rows={2}
-                          placeholder="Ej. Catering premium, flores adicionales, violinista..."
-                          value={editExtras}
-                          onChange={(e) => setEditExtras(e.target.value)}
+                        <label className="text-[10px] text-slate-500 font-bold block mb-1">Consultor Secundario</label>
+                        <input
+                          type="text"
+                          value={editConsultantSecondary}
+                          onChange={(e) => setEditConsultantSecondary(e.target.value)}
                           disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
-                          className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none resize-none"
+                          className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-slate-500 font-bold block mb-1">Consultor Final</label>
+                        <input
+                          type="text"
+                          value={editConsultantFinal}
+                          onChange={(e) => setEditConsultantFinal(e.target.value)}
+                          disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                          className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
                         />
                       </div>
                     </div>
                   </div>
-
-                {/* Sección 3: Campos Extra (visibles o no al cliente) */}
-                <div className="space-y-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-200 col-span-full">
-                  <h4 className="font-bold text-xs text-slate-850 border-b pb-2 uppercase tracking-wider flex items-center gap-1.5 text-amber-700">
-                    ✨ Campos Extra de Información (Del 1 al 5)
-                  </h4>
-                  <p className="text-[10px] text-slate-400 -mt-2">Cada campo tiene un título personalizable, su valor, y una casilla para decidir si el cliente puede verlo en la consulta de seguimiento.</p>
-
-                  <div className="grid grid-cols-1 gap-4">
+                    {/* Sección 3: Campos Extra (visibles o no al cliente) */}
+                <div className="space-y-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-200 col-span-full transition-all">
+                  <div className="flex items-center justify-between border-b pb-2">
+                    <h4 className="font-bold text-xs text-slate-850 uppercase tracking-wider flex items-center gap-1.5 text-amber-700">
+                      ✨ Campos Extra de Información
+                    </h4>
+                    <button
+                      type="button"
+                      onClick={() => setShowCamposExtra(!showCamposExtra)}
+                      className="bg-white border border-slate-200 hover:bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 transition-all shadow-sm"
+                    >
+                      {showCamposExtra ? (
+                        <><ChevronDown className="w-3.5 h-3.5" /> Ocultar Campos</>
+                      ) : (
+                        <><ChevronRight className="w-3.5 h-3.5" /> Mostrar Campos Extra</>
+                      )}
+                    </button>
+                  </div>
+                  
+                  {showCamposExtra && (
+                    <div className="space-y-4 animate-fade-in">
+                      <p className="text-[10px] text-slate-400 -mt-1">Cada campo tiene un título personalizable, su valor, y una casilla para decidir si el cliente puede verlo en la consulta de seguimiento.</p>
+                      
+                      <div className="grid grid-cols-1 gap-4">
                     {editExtraFields.map((field, i) => (
                       <div key={i} className="bg-white border border-slate-200 rounded-xl p-3 space-y-2">
                         <div className="flex items-center justify-between">
@@ -4683,10 +5620,226 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
                         </div>
                       </div>
                     ))}
-                  </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
-
               </div>
+            )}
+
+            {activeTab === 'precios' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Seccion 1: Finanzas y lo Contratado */}
+                  <div className="space-y-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-200">
+                    <h4 className="font-bold text-xs text-slate-850 border-b pb-2 uppercase tracking-wider flex items-center gap-1.5">
+                      💵 Finanzas y Costo del Servicio
+                    </h4>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <label className="text-[10px] text-slate-500 font-bold block mb-1">Paquete / Servicio Contratado</label>
+                        <input
+                          type="text"
+                          value={editPackage}
+                          onChange={(e) => setEditPackage(e.target.value)}
+                          disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                          className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
+                        />
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-bold block mb-1">A) Precio de servicio</label>
+                          <input
+                            type="number"
+                            value={editServicePrice}
+                            onChange={(e) => setEditServicePrice(e.target.value)}
+                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-bold block mb-1">B) Mejoras</label>
+                          <input
+                            type="number"
+                            value={editUpgrades}
+                            onChange={(e) => setEditUpgrades(e.target.value)}
+                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-bold block mb-1">C) Monto pendiente de plan previsor</label>
+                          <input
+                            type="number"
+                            value={editPendingPlan}
+                            onChange={(e) => setEditPendingPlan(e.target.value)}
+                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-bold block mb-1">D) Abonos</label>
+                          <input
+                            type="number"
+                            value={editPayments}
+                            onChange={(e) => setEditPayments(e.target.value)}
+                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-[#1E3A8A]/5 p-3 rounded-xl border border-[#1E3A8A]/10 mt-2">
+                        <label className="text-xs text-[#1E3A8A] font-bold block mb-1">E) Monto a cobrar</label>
+                        <div className="text-lg font-bold text-slate-800">
+                          ${((Number(editServicePrice) || 0) + (Number(editUpgrades) || 0) + (Number(editPendingPlan) || 0) - (Number(editPayments) || 0)).toLocaleString('es-MX', { minimumFractionDigits: 2 })}
+                        </div>
+                        <p className="text-[9px] text-slate-500 mt-0.5">E = A + B + C - D</p>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3 mt-3">
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-bold block mb-1">Estatus de Pago</label>
+                          <select
+                            value={editPaymentStatus}
+                            onChange={(e) => setEditPaymentStatus(e.target.value)}
+                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
+                          >
+                            <option value="PENDIENTE">PENDIENTE</option>
+                            <option value="PAGADO">PAGADO</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-bold block mb-1">Método de Pago</label>
+                          <input
+                            type="text"
+                            placeholder="Ej. Tarjeta de Crédito, Transferencia"
+                            value={editPaymentMethod}
+                            onChange={(e) => setEditPaymentMethod(e.target.value)}
+                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    {/* Seccion 2: Datos Logísticos y Rastro de Homenaje Público */}
+                  <div className="space-y-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-200">
+                    <h4 className="font-bold text-xs text-slate-850 border-b pb-2 uppercase tracking-wider flex items-center gap-1.5 text-[#1E3A8A]">
+                      ✨ Rastro Público & Velación
+                    </h4>
+
+                    <div className="space-y-3">
+                      <div>
+                        <label className="text-[10px] text-slate-500 font-bold block mb-1">Ubicación General de Velación (URL de Google Maps)</label>
+                        <input
+                          type="text"
+                          placeholder="Pegar enlace de Google Maps aquí..."
+                          value={editWakeLocation}
+                          onChange={(e) => setEditWakeLocation(e.target.value)}
+                          disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                          className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
+                        />
+                        {editWakeLocation && (editWakeLocation.includes('http') || editWakeLocation.includes('google')) && (
+                          <div className="mt-2 w-full h-40 rounded-xl overflow-hidden border border-slate-200">
+                            {editWakeLocation.includes('<iframe') ? (
+                               <div dangerouslySetInnerHTML={{ __html: editWakeLocation }} className="w-full h-full [&>iframe]:w-full [&>iframe]:h-full" />
+                            ) : (
+                               <iframe 
+                                 title="Mapa de Velación"
+                                 width="100%" 
+                                 height="100%" 
+                                 style={{border:0}} 
+                                 loading="lazy" 
+                                 allowFullScreen 
+                                 src={editWakeLocation.includes('/embed/') ? editWakeLocation : `https://maps.google.com/maps?q=${encodeURIComponent(editWakeLocation)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}>
+                               </iframe>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-bold block mb-1">Sala de Velación (Público)</label>
+                          <input
+                            type="text"
+                            placeholder="Ej. Sala Cruz Mayor"
+                            value={editWakeRoom}
+                            onChange={(e) => setEditWakeRoom(e.target.value)}
+                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-bold block mb-1">Hora Cremación/Sepelio (Público)</label>
+                          <input
+                            type="datetime-local"
+                            value={editCremationTime}
+                            onChange={(e) => setEditCremationTime(e.target.value)}
+                            disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="text-[10px] text-slate-500 font-bold block mb-1">Cosas Extras Solicitadas (Notas)</label>
+                        <textarea
+                          rows={2}
+                          placeholder="Ej. Catering premium, flores adicionales, violinista..."
+                          value={editExtras}
+                          onChange={(e) => setEditExtras(e.target.value)}
+                          disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                          className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none resize-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                )}
+
+                {activeTab === 'esquelas' && (
+                  <div className="grid grid-cols-1 gap-6">
+                    {/* Nueva Seccion: Esquelas */}
+                  <div className="space-y-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-200 col-span-full">
+                    <div className="flex justify-between items-center border-b pb-2">
+                      <h4 className="font-bold text-xs text-slate-850 uppercase tracking-wider flex items-center gap-1.5 text-indigo-700">
+                        🖼️ Esquelas de Pantalla
+                      </h4>
+                      <label className="cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm">
+                        <Upload className="w-3.5 h-3.5 inline mr-1" />
+                        Subir Esquela
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleEsquelaUpload}
+                          disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
+                        />
+                      </label>
+                    </div>
+                    {selectedService.esquelas && selectedService.esquelas.length > 0 ? (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        {selectedService.esquelas.map((esq, idx) => (
+                          <div key={idx} className="relative group rounded-xl overflow-hidden border border-slate-200 shadow-sm aspect-square bg-white">
+                            <img src={esq.path} alt={esq.name} className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                              <a href={esq.path} target="_blank" rel="noopener noreferrer" className="bg-white/90 text-slate-800 p-2 rounded-full hover:bg-white">
+                                <Eye className="w-4 h-4" />
+                              </a>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-slate-400 italic py-4 text-center border-2 border-dashed border-slate-200 rounded-xl">No hay esquelas cargadas para este servicio.</p>
+                    )}
+                  </div>
+                  </div>
+                )}
 
                 <div className="flex justify-end gap-3 border-t pt-4">
                   <button
@@ -4694,10 +5847,9 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
                     disabled={selectedService.isLocked && currentUser.role !== ROLES.ADMIN}
                     className="bg-[#1E3A8A] hover:bg-[#1E40AF] text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md transition-all disabled:opacity-40"
                   >
-                    Guardar Cambios de Expediente
+                    Guardar Cambios de {activeTab === 'expediente' ? 'Expediente' : activeTab === 'programacion' ? 'Programación' : activeTab === 'esquelas' ? 'Esquelas' : 'Precios'}
                   </button>
                 </div>
-
               </form>
             )}
 
@@ -4714,12 +5866,45 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
       {showCreateModal && (
         <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white border border-slate-200 rounded-3xl p-8 max-w-lg w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl">
-            <h3 className="font-serif font-bold text-slate-900 text-xl border-b pb-3">Generar Ficha de Servicio</h3>
+            <h3 className="font-serif font-bold text-slate-900 text-xl border-b pb-3">Datos del servicio funerario</h3>
             
             <form onSubmit={handleCreateService} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-xs text-slate-500 font-semibold block">Número de Servicio (Folio automático)</label>
+                <input
+                  type="text"
+                  readOnly
+                  value={nextFolioPreview}
+                  className="w-full bg-slate-100 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-600 font-mono font-bold cursor-not-allowed"
+                />
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs text-slate-500 font-semibold block">Cliente Contratista *</label>
+                  <label className="text-xs text-slate-500 font-semibold block">Folio contrato profeco</label>
+                  <input
+                    type="text"
+                    placeholder="Ej. PRF-2023-001"
+                    value={contractProfeco}
+                    onChange={(e) => setContractProfeco(e.target.value)}
+                    className="w-full bg-[#FAFAFA] border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500 font-semibold block">Categoría del servicio funerario</label>
+                  <input
+                    type="text"
+                    placeholder="Ej. Velación Estándar"
+                    value={serviceCategory}
+                    onChange={(e) => setServiceCategory(e.target.value)}
+                    className="w-full bg-[#FAFAFA] border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500 font-semibold block">Cliente solicitante *</label>
                   <input
                     type="text"
                     required
@@ -4729,36 +5914,51 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
                     className="w-full bg-[#FAFAFA] border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none"
                   />
                 </div>
-
                 <div className="space-y-1.5">
-                  <label className="text-xs text-slate-500 font-semibold block">Homenajeado / Finado *</label>
+                  <label className="text-xs text-slate-500 font-semibold block">Número de cliente</label>
                   <input
                     type="text"
-                    required
-                    placeholder="Ej. Rosa Sánchez"
-                    value={deceasedName}
-                    onChange={(e) => setDeceasedName(e.target.value)}
+                    placeholder="Ej. CTE-001"
+                    value={clientNumber}
+                    onChange={(e) => setClientNumber(e.target.value)}
                     className="w-full bg-[#FAFAFA] border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none"
                   />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs text-slate-500 font-semibold block">Orden de Servicio / Paquete Adquirido *</label>
+                <label className="text-xs text-slate-500 font-semibold block">Persona finada *</label>
                 <input
                   type="text"
                   required
-                  placeholder="Ej. Aeternum Memorial Premium / Cremación Express"
-                  value={orderService}
-                  onChange={(e) => setOrderService(e.target.value)}
+                  placeholder="Ej. Rosa Sánchez"
+                  value={deceasedName}
+                  onChange={(e) => setDeceasedName(e.target.value)}
                   className="w-full bg-[#FAFAFA] border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none"
                 />
               </div>
 
-              {/* Teléfonos de contacto (Máx 3) */}
+              <div className="space-y-1.5">
+                <label className="text-xs text-slate-500 font-semibold block">Consultor familiar inicial</label>
+                <input
+                  type="text"
+                  list="consultores-list"
+                  placeholder="Nombre del consultor a cargo"
+                  value={initialConsultant}
+                  onChange={(e) => setInitialConsultant(e.target.value)}
+                  className="w-full bg-[#FAFAFA] border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none"
+                />
+                <datalist id="consultores-list">
+                  {activeUsers?.filter(u => u.role?.toLowerCase().includes('consultor') || u.roleId?.toLowerCase().includes('consultor')).map(u => (
+                    <option key={u.id} value={u.name} />
+                  ))}
+                </datalist>
+              </div>
+
+              {/* Teléfonos de contacto (Máx 2) */}
               <div className="space-y-2 bg-slate-50 p-3 rounded-2xl border border-slate-150">
-                <label className="text-xs text-slate-650 font-bold block mb-1">Teléfonos de Contacto (Máx. 3)</label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <label className="text-xs text-slate-650 font-bold block mb-1">Teléfonos de Contacto</label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <input
                     type="text"
                     placeholder="Teléfono 1 *"
@@ -4769,26 +5969,107 @@ function OperationsModule({ services, setServices, currentUser, addAuditLog, tri
                   />
                   <input
                     type="text"
-                    placeholder="Teléfono 2"
+                    placeholder="Teléfono alternativo"
                     value={phone2}
                     onChange={(e) => setPhone2(e.target.value)}
-                    className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Teléfono 3"
-                    value={phone3}
-                    onChange={(e) => setPhone3(e.target.value)}
                     className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none"
                   />
                 </div>
               </div>
 
-              <div className="space-y-1.5">
+              {/* Nuevos campos: Rastro Público y Finanzas (Captura Inicial) */}
+              <div className="border-t border-slate-200 pt-4 mt-4">
+                <h4 className="font-bold text-xs text-slate-850 mb-3 uppercase tracking-wider text-[#1E3A8A]">
+                  Datos Logísticos y Financieros (Iniciales)
+                </h4>
+                
+                <div className="space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="text-xs text-slate-500 font-semibold block">Ubicación de Velación</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Ej. Capilla San Gabriel o URL de Google Maps..."
+                        value={initialWakeLocation}
+                        onChange={(e) => setInitialWakeLocation(e.target.value)}
+                        className="w-full bg-[#FAFAFA] border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none"
+                      />
+                      <button 
+                        type="button" 
+                        onClick={handleGetLocation} 
+                        className="bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 hover:border-blue-300 rounded-xl px-4 flex items-center justify-center transition-colors"
+                        title="Obtener mi ubicación actual (GPS)"
+                      >
+                        <MapPin className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs text-slate-500 font-semibold block flex items-center justify-between">
+                      Esquelas de Pantalla Inicial
+                      {initialEsquelas.length > 0 && <span className="text-[10px] text-emerald-600 font-bold truncate max-w-[150px]">{initialEsquelas.length} seleccionada(s)</span>}
+                    </label>
+                    <label className="w-full bg-[#FAFAFA] hover:bg-slate-100 border border-slate-200 border-dashed rounded-xl px-4 py-2.5 text-xs text-slate-500 font-semibold cursor-pointer flex justify-center items-center gap-2 transition-colors">
+                      <Upload className="w-4 h-4" />
+                      Agregar Imagen (PNG/JPG)
+                      <input 
+                        type="file" 
+                        accept="image/*"
+                        className="hidden" 
+                        onChange={handleInitialEsquelaSelect} 
+                      />
+                    </label>
+
+                    {initialEsquelas.length > 0 && (
+                      <div className="mt-2 space-y-2 max-h-[150px] overflow-y-auto">
+                        {initialEsquelas.map((esq) => (
+                          <div key={esq.id} className="flex items-center justify-between bg-white border border-slate-200 p-2 rounded-xl text-xs">
+                            <span className="font-semibold text-slate-700 truncate max-w-[120px]" title={esq.name}>{esq.name}</span>
+                            <div className="flex gap-1.5">
+                              <button type="button" onClick={() => viewInitialEsquela(esq.path)} className="p-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100" title="Ver Esquela">
+                                <Eye className="w-3.5 h-3.5" />
+                              </button>
+                              <label className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 cursor-pointer" title="Reemplazar Esquela">
+                                <Edit3 className="w-3.5 h-3.5" />
+                                <input type="file" accept="image/*" className="hidden" onChange={(e) => replaceInitialEsquela(e, esq.id)} />
+                              </label>
+                              <button type="button" onClick={() => removeInitialEsquela(esq.id)} className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100" title="Eliminar Esquela">
+                                <Trash className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-150">
+                    <div>
+                      <label className="text-[10px] text-slate-500 font-bold block mb-1">Precio Servicio ($)</label>
+                      <input type="number" min="0" value={initialServicePrice} onChange={(e) => setInitialServicePrice(e.target.value)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none" />
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-slate-500 font-bold block mb-1">Mejoras ($)</label>
+                      <input type="number" min="0" value={initialUpgradesPrice} onChange={(e) => setInitialUpgradesPrice(e.target.value)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none" />
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-slate-500 font-bold block mb-1">Plan Previsor ($)</label>
+                      <input type="number" min="0" value={initialPendingPlan} onChange={(e) => setInitialPendingPlan(e.target.value)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none" />
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-slate-500 font-bold block mb-1">Abonos ($)</label>
+                      <input type="number" min="0" value={initialPayments} onChange={(e) => setInitialPayments(e.target.value)} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-1.5 pt-2">
                 <label className="text-xs text-slate-500 font-semibold block">Notas Iniciales</label>
                 <textarea
-                  rows={3}
-                  placeholder="Ej. Se solicita preparar capilla San Gabriel para el viernes por la mañana..."
+                  rows={2}
+                  placeholder="Ej. Se solicita preparar capilla San Gabriel para el viernes..."
                   value={initialNotes}
                   onChange={(e) => setInitialNotes(e.target.value)}
                   className="w-full bg-[#FAFAFA] border border-slate-200 rounded-xl px-4 py-2 text-xs text-slate-800 focus:outline-none resize-none"
@@ -7071,6 +8352,8 @@ function SuperAdminModule({
   const [showRoleModal, setShowRoleModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [showUserModal, setShowUserModal] = useState(false);
+  const [showBatchModal, setShowBatchModal] = useState(false);
+  const [batchText, setBatchText] = useState('');
 
   // Directory management states
   const [editingDir, setEditingDir] = useState(null);
@@ -7152,7 +8435,7 @@ function SuperAdminModule({
     const newRole = {
       ...editingRole,
       id: editingRole.id || 'rol_' + Date.now(),
-      permissions: editingRole.permissions || { INTRANET: true, OPERATIONS: false, CRM: false, DOCS: false, ADMIN: false }
+      permissions: editingRole.permissions || { INTRANET: true, OPERATIONS: false, CRM: false, CONTRACTS: false, HR: false, DOCS: false, ADMIN: false }
     };
     const isNew = !roles.find(r => r.id === newRole.id);
     const updated = isNew ? [...roles, newRole] : roles.map(r => r.id === newRole.id ? newRole : r);
@@ -8265,7 +9548,7 @@ function SuperAdminModule({
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {['INTRANET', 'OPERATIONS', 'CRM', 'DOCS', 'ADMIN'].map(menu => (
+                    {['INTRANET', 'OPERATIONS', 'CRM', 'CONTRACTS', 'HR', 'DOCS', 'ADMIN'].map(menu => (
                       <button
                         key={menu}
                         onClick={() => handleToggleRolePermission(r.id, menu)}
@@ -8287,9 +9570,14 @@ function SuperAdminModule({
                 <h4 className="font-serif font-bold text-slate-950 text-base">Directorio de Empleados</h4>
                 <p className="text-xs text-slate-450 mt-1">Administra accesos y contraseñas.</p>
               </div>
-              <button onClick={() => { setEditingUser({ name: '', email: '', password: '', roleId: roles[0]?.id || '' }); setShowUserModal(true); }} className="bg-[#081225] text-white text-xs px-4 py-2 rounded-full font-bold shadow-md hover:bg-slate-800">
-                + Empleado
-              </button>
+              <div className="flex gap-2">
+                <button onClick={() => setShowBatchModal(true)} className="bg-slate-100 text-[#081225] border border-slate-200 text-xs px-4 py-2 rounded-full font-bold shadow-sm hover:bg-slate-200">
+                  Carga Masiva
+                </button>
+                <button onClick={() => { setEditingUser({ name: '', email: '', password: '', passEmail: '', passContpaqi: '', extension: '', entryDate: '', position: '', roleId: roles[0]?.id || '' }); setShowUserModal(true); }} className="bg-[#081225] text-white text-xs px-4 py-2 rounded-full font-bold shadow-md hover:bg-slate-800">
+                  + Empleado
+                </button>
+              </div>
             </div>
 
             <div className="space-y-3">
@@ -8588,7 +9876,7 @@ function SuperAdminModule({
     {/* Modals for Roles and Users */}
     {showRoleModal && (
       <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm flex items-center justify-center z-[60] p-4">
-        <div className="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl relative">
+        <div className="bg-white rounded-3xl p-6 w-full max-w-lg shadow-2xl relative max-h-[90vh] overflow-y-auto">
           <h3 className="font-serif font-bold text-lg mb-4">{editingRole.id ? 'Editar Rol' : 'Nuevo Rol'}</h3>
           <form onSubmit={handleSaveRole} className="space-y-4">
             <div>
@@ -8604,30 +9892,131 @@ function SuperAdminModule({
       </div>
     )}
 
+    
+    {/* BATCH UPLOAD MODAL */}
+    {showBatchModal && (
+      <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm flex items-center justify-center z-[60] p-4">
+        <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl relative flex flex-col items-center text-center">
+          <div className="w-16 h-16 bg-blue-100 text-[#1E3A8A] rounded-full flex items-center justify-center mb-4">
+            <Upload className="w-8 h-8" />
+          </div>
+          <h3 className="font-serif font-bold text-2xl mb-2 text-slate-900">Carga Masiva (Excel)</h3>
+          <p className="text-sm text-slate-500 mb-6 leading-relaxed">Sube tu plantilla de Excel llena con los datos de los empleados. Las columnas requeridas son: Nombre, Correo, Puesto, Extensión, Plataforma, Email, Contpaqi.</p>
+          
+          <div className="flex flex-col gap-3 w-full">
+            <button 
+              onClick={() => {
+                const ws = XLSX.utils.json_to_sheet([
+                  { 'Nombre Completo': '', 'Correo Electrónico': '', 'Puesto / Rol': '', 'Extensión': '', 'Contraseña Plataforma': '', 'Contraseña Correo Institucional': '', 'Contraseña Contpaqi': '' }
+                ]);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Empleados");
+                XLSX.writeFile(wb, "Plantilla_Empleados.xlsx");
+              }}
+              className="w-full border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold py-3 px-4 rounded-xl shadow-sm transition-all text-sm flex items-center justify-center gap-2"
+            >
+              <Download className="w-4 h-4" /> 1. Descargar Plantilla
+            </button>
+            
+            <label className="w-full bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-bold py-3 px-4 rounded-xl shadow-md cursor-pointer transition-all text-sm flex items-center justify-center gap-2">
+              <Upload className="w-4 h-4" /> 2. Subir Archivo Lleno
+              <input type="file" accept=".xlsx, .xls, .csv" className="hidden" onChange={(e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (evt) => {
+                  const bstr = evt.target.result;
+                  const wb = XLSX.read(bstr, {type: 'binary'});
+                  const wsname = wb.SheetNames[0];
+                  const ws = wb.Sheets[wsname];
+                  const data = XLSX.utils.sheet_to_json(ws);
+                  if (data && data.length > 0) {
+                    const newUsers = data.map(r => {
+                      const name = r['Nombre Completo'] || r['Nombre'] || 'Sin Nombre';
+                      const email = r['Correo Electrónico'] || r['Correo'] || '';
+                      const position = r['Puesto / Rol'] || r['Puesto'] || '';
+                      let foundRole = roles.find(rl => rl.name.toLowerCase() === position.toLowerCase());
+                      return {
+                        id: 'u_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                        name,
+                        email,
+                        roleId: foundRole ? foundRole.id : roles[0].id,
+                        position,
+                        extension: String(r['Extensión'] || ''),
+                        password: String(r['Contraseña Plataforma'] || r['Plataforma'] || ''),
+                        passEmail: String(r['Contraseña Correo Institucional'] || r['Correo Institucional'] || ''),
+                        passContpaqi: String(r['Contraseña Contpaqi'] || r['Contpaqi'] || ''),
+                        entryDate: new Date().toISOString().split('T')[0],
+                        hrInfo: {},
+                        isActive: true
+                      };
+                    });
+                    const updated = [...activeUsers, ...newUsers];
+                    setActiveUsers(updated);
+                    triggerNotification(`${newUsers.length} empleados cargados exitosamente.`);
+                    setShowBatchModal(false);
+                  }
+                };
+                reader.readAsBinaryString(file);
+              }} />
+            </label>
+          </div>
+          
+          <button onClick={() => setShowBatchModal(false)} className="mt-6 text-sm font-bold text-slate-400 hover:text-slate-600 underline">
+            Cerrar Ventana
+          </button>
+        </div>
+      </div>
+    )}
+
     {showUserModal && (
       <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm flex items-center justify-center z-[60] p-4">
         <div className="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl relative">
           <h3 className="font-serif font-bold text-lg mb-4">{editingUser.id ? 'Editar Empleado' : 'Nuevo Empleado'}</h3>
           <form onSubmit={handleSaveUser} className="space-y-4">
-            <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">Nombre Completo</label>
-              <input type="text" value={editingUser.name} onChange={e => setEditingUser({...editingUser, name: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" required />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="col-span-2">
+                <label className="text-xs font-bold text-slate-700 block mb-1">Nombre Completo</label>
+                <input type="text" value={editingUser.name || ''} onChange={e => setEditingUser({...editingUser, name: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" required />
+              </div>
+              <div className="col-span-2">
+                <label className="text-xs font-bold text-slate-700 block mb-1">Puesto / Posición</label>
+                <input type="text" value={editingUser.position || ''} onChange={e => setEditingUser({...editingUser, position: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Rol Sistema</label>
+                <select value={editingUser.roleId || ''} onChange={e => setEditingUser({...editingUser, roleId: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" required>
+                  <option value="" disabled>Seleccione un rol...</option>
+                  {roles.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Extensión / Tel</label>
+                <input type="text" value={editingUser.extension || ''} onChange={e => setEditingUser({...editingUser, extension: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" />
+              </div>
             </div>
-            <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">Correo (Usuario)</label>
-              <input type="email" value={editingUser.email} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" required />
+            
+            <h4 className="text-xs font-bold text-[#1E3A8A] uppercase tracking-wider border-b border-slate-100 pb-1 mt-4">Accesos y Credenciales</h4>
+            
+            <div className="grid grid-cols-2 gap-4 mt-2">
+              <div className="col-span-2">
+                <label className="text-xs font-bold text-slate-700 block mb-1">Correo Electrónico (Usuario)</label>
+                <input type="email" value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" required />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Pass. Plataforma</label>
+                <input type="text" value={editingUser.password || ''} onChange={e => setEditingUser({...editingUser, password: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" required />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Pass. Correo Inst.</label>
+                <input type="text" value={editingUser.passEmail || ''} onChange={e => setEditingUser({...editingUser, passEmail: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" />
+              </div>
+              <div className="col-span-2">
+                <label className="text-xs font-bold text-slate-700 block mb-1">Pass. Contpaqi</label>
+                <input type="text" value={editingUser.passContpaqi || ''} onChange={e => setEditingUser({...editingUser, passContpaqi: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" />
+              </div>
             </div>
-            <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">Contraseña</label>
-              <input type="text" value={editingUser.password} onChange={e => setEditingUser({...editingUser, password: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" required />
-            </div>
-            <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">Puesto / Rol</label>
-              <select value={editingUser.roleId} onChange={e => setEditingUser({...editingUser, roleId: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-[#1E3A8A]" required>
-                <option value="" disabled>Seleccione un rol...</option>
-                {roles.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
-              </select>
-            </div>
+
             <div className="flex justify-end gap-2 pt-4">
               <button type="button" onClick={() => setShowUserModal(false)} className="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-800">Cancelar</button>
               <button type="submit" className="px-4 py-2 text-xs font-bold bg-[#1E3A8A] text-white rounded-full hover:bg-[#1E40AF]">Guardar Empleado</button>
@@ -10133,8 +11522,7 @@ function SessionsAdminPanel({ activeSessions, setActiveSessions, systemConfig, s
 
   const handleKick = (session) => {
     triggerConfirm(
-      '¿Forzar Cierre de Sesión?',
-      `El colaborador ${session.name} será expulsado inmediatamente y perderá cualquier cambio no guardado en su pestaña activa.`,
+      `¿Forzar Cierre de Sesión? El colaborador ${session.name} será expulsado inmediatamente y perderá cualquier cambio no guardado en su pestaña activa.`,
       () => {
         setActiveSessions(prev => prev.filter(s => s.sessionId !== session.sessionId));
         addAuditLog('sessions', session.userId, 'KICK', session, null);
@@ -10377,6 +11765,855 @@ function SessionsAdminPanel({ activeSessions, setActiveSessions, systemConfig, s
 
       </div>
 
+    </div>
+  );
+}
+
+
+const DocumentBox = ({ docKey, title, accept, hasPhotoOption, requiredStage, roleCheck, selectedContract, isAdmin, handleViewDocument, handleFileUpload }) => {
+  const docPath = selectedContract.documents?.[docKey];
+  const isStageOwner = roleCheck && selectedContract.stage === requiredStage;
+  const canEdit = isStageOwner || isAdmin; 
+  
+  return (
+    <div className={`border border-dashed rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2 transition-colors ${docPath ? 'border-emerald-300 bg-emerald-50' : 'border-slate-300 bg-white hover:bg-slate-50'}`}>
+      <div className="flex items-center gap-2">
+        {docPath ? <CheckCircle className="w-5 h-5 text-emerald-500" /> : (hasPhotoOption ? <Camera className="w-5 h-5 text-slate-400" /> : <Upload className="w-5 h-5 text-slate-400" />)}
+        <span className={`text-[10px] font-bold ${docPath ? 'text-emerald-700' : 'text-slate-700'}`}>{title}</span>
+      </div>
+      
+      {docPath && (
+        <div className="flex gap-2 w-full mt-2">
+          <button onClick={() => handleViewDocument(docPath)} className="flex-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 text-[10px] font-bold py-2 rounded-lg flex items-center justify-center gap-1 transition-colors">
+            <Eye className="w-3 h-3" /> Ver
+          </button>
+          {canEdit && (
+            <label className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold py-2 rounded-lg cursor-pointer flex items-center justify-center gap-1 transition-colors">
+              <RefreshCw className="w-3 h-3" /> Cambiar
+              <input type="file" className="hidden" accept={accept} onChange={(e) => handleFileUpload(e, docKey)} />
+            </label>
+          )}
+        </div>
+      )}
+
+      {!docPath && canEdit && hasPhotoOption && (
+        <div className="flex gap-2 w-full mt-2">
+          <label className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold py-2 rounded-lg cursor-pointer flex flex-col items-center gap-1 transition-colors">
+            <Upload className="w-3 h-3" /> Subir
+            <input type="file" className="hidden" accept={accept} onChange={(e) => handleFileUpload(e, docKey)} />
+          </label>
+          <label className="flex-1 bg-blue-100 hover:bg-blue-200 text-blue-700 text-[10px] font-bold py-2 rounded-lg cursor-pointer flex flex-col items-center gap-1 transition-colors">
+            <Camera className="w-3 h-3" /> Foto
+            <input type="file" className="hidden" accept="image/*" capture="environment" onChange={(e) => handleFileUpload(e, docKey)} />
+          </label>
+        </div>
+      )}
+
+      {!docPath && canEdit && !hasPhotoOption && (
+        <div className="flex w-full mt-2">
+          <label className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold py-2 rounded-lg cursor-pointer flex items-center justify-center gap-1 transition-colors">
+            <Upload className="w-3 h-3" /> Subir Archivo
+            <input type="file" className="hidden" accept={accept} onChange={(e) => handleFileUpload(e, docKey)} />
+          </label>
+        </div>
+      )}
+    </div>
+  );
+};
+
+function ContractsModule({ currentUser, contractRequests, setContractRequests, triggerNotification, triggerConfirm, adminPassword }) {
+  const [view, setView] = useState('LIST'); // 'LIST', 'NEW', 'DETAIL'
+  const [selectedContract, setSelectedContract] = useState(null);
+  const [filterStage, setFilterStage] = useState('ALL');
+  const [chatInput, setChatInput] = useState('');
+  const chatEndRef = useRef(null);
+
+  // Secure Delete State
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [contractToDelete, setContractToDelete] = useState(null);
+
+  const executeSecureDelete = () => {
+    if (!contractToDelete) return;
+    const updated = contractRequests.filter(c => c.id !== contractToDelete.id);
+    setContractRequests(updated);
+    if (selectedContract?.id === contractToDelete.id) {
+      setSelectedContract(null);
+      setView('LIST');
+    }
+    setDeleteModalOpen(false);
+    setContractToDelete(null);
+    triggerNotification('Solicitud de contrato eliminada y respaldada con éxito.');
+  };
+
+  const isAsesor = ['ASESOR_COMISIONISTA', 'ASESOR_CRM', 'MARKETING', 'GERENTE_VENTAS', 'GERENTE_EMPRESAS', 'ADMIN'].includes(currentUser.role);
+  const isCajas = currentUser.role === 'CAJAS' || currentUser.role === 'ADMIN';
+  const isNomina = currentUser.role === 'NOMINA' || currentUser.role === 'ADMIN';
+  const isAdmin = currentUser.role === 'ADMIN';
+
+
+  const handleViewDocument = (docPath) => {
+    if (!docPath) return;
+    if (docPath.startsWith('/uploads/')) {
+      window.open(docPath, '_blank');
+    } else {
+      // Fallback legacy para contratos que ya estaban en base64
+      try {
+        const arr = docPath.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        const blob = new Blob([u8arr], {type: mime});
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+      } catch(e) {
+        console.error("Error opening document", e);
+        const w = window.open();
+        if (w) {
+          w.document.write('<iframe src="' + docPath  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+        }
+      }
+    }
+  };
+
+
+
+
+  // Keep selected contract in sync if it gets updated globally (polling)
+  useEffect(() => {
+    if (selectedContract) {
+      const updated = contractRequests.find(c => c.id === selectedContract.id);
+      if (updated) setSelectedContract(updated);
+    }
+  }, [contractRequests]);
+
+  // Scroll chat to bottom
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [selectedContract?.messages]);
+
+  const visibleContracts = contractRequests.filter(c => {
+    if (isAsesor && !isAdmin && c.createdBy !== currentUser.name) return false;
+    if (filterStage !== 'ALL' && c.stage !== filterStage) return false;
+    return true;
+  });
+
+  const getNextFolio = (type) => {
+    const prefix = type === 'SERVICIO' ? 'S' : 'E';
+    const sameTypeContracts = contractRequests.filter(c => c.id.startsWith(prefix));
+    
+    if (sameTypeContracts.length === 0) {
+      return `${prefix}-0001`;
+    }
+    
+    const numbers = sameTypeContracts.map(c => parseInt(c.id.split('-')[1], 10)).filter(n => !isNaN(n));
+    if (numbers.length === 0) return `${prefix}-0001`;
+    
+    const maxNumber = Math.max(...numbers);
+    const nextNumber = (maxNumber + 1).toString().padStart(4, '0');
+    return `${prefix}-${nextNumber}`;
+  };
+
+  useEffect(() => {
+    if (view === 'DETAIL') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [view]);
+
+  const handleCreateNew = (data) => {
+    const newFolio = getNextFolio(data.type);
+    const newContract = {
+      id: newFolio,
+      type: data.type,
+      clientName: data.clientName,
+      createdAt: Date.now(),
+      createdBy: currentUser.name,
+      stage: 'ASESOR',
+      hasAlert: false,
+      messages: [],
+      documents: {
+        asesorContract: null,
+        asesorINEFrente: null,
+        asesorINEReverso: null,
+        asesorCSF: null,
+        asesorPayment: null,
+        cajasAnexo: null,
+        cajasContrato: null,
+        cajasRecibo: null
+      },
+      paymentValidated: false,
+      nominaChecklist: {},
+      commission: { amount: 0, percentage: 0, total: 0 }
+    };
+    setContractRequests([newContract, ...contractRequests]);
+    triggerNotification(`Contrato ${newFolio} creado exitosamente`, 'success');
+    setView('LIST');
+  };
+
+  const updateContract = (id, changes) => {
+    setContractRequests(prev => prev.map(c => c.id === id ? { ...c, ...changes } : c));
+  };
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (!chatInput.trim() || !selectedContract) return;
+    
+    const newMsg = {
+      id: Date.now().toString(),
+      sender: currentUser.name,
+      text: chatInput.trim(),
+      timestamp: Date.now()
+    };
+    
+    const updatedMessages = [...(selectedContract.messages || []), newMsg];
+    updateContract(selectedContract.id, { messages: updatedMessages, hasAlert: false });
+    setChatInput('');
+  };
+
+  const toggleAlert = () => {
+    const newVal = !selectedContract.hasAlert;
+    const msg = newVal 
+      ? `🚨 Se ha marcado un error en el expediente. Favor de revisar.`
+      : `✅ El error ha sido marcado como resuelto.`;
+      
+    const newMsg = {
+      id: Date.now().toString(),
+      sender: 'SISTEMA',
+      text: msg,
+      timestamp: Date.now(),
+      isSystem: true
+    };
+    
+    updateContract(selectedContract.id, { 
+      hasAlert: newVal,
+      messages: [...(selectedContract.messages || []), newMsg]
+    });
+  };
+
+  const handleFileUpload = (e, docKey) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    triggerNotification(`Subiendo ${file.name}...`, 'success');
+    
+    // Convert to readable stream or send via fetch
+    fetch(`/api/upload?filename=${selectedContract.id}_${docKey}_${Date.now()}_${file.name.replace(/\s+/g, '_')}`, {
+      method: 'POST',
+      body: file
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.success) {
+        const newDocs = { ...selectedContract.documents, [docKey]: data.path };
+        updateContract(selectedContract.id, { documents: newDocs });
+        triggerNotification(`Documento subido con éxito`, 'success');
+      }
+    })
+    .catch(() => triggerNotification('Error al subir archivo', 'error'));
+  };
+
+  const STAGES = [
+    { id: 'ASESOR', label: 'Subir Documentos' },
+    { id: 'CAJAS', label: 'Generando Documentos' },
+    { id: 'NOMINA', label: 'En Revisión (Comisión)' },
+    { id: 'POR_PAGAR', label: 'Por Pagar' },
+    { id: 'FINALIZADO', label: 'Pagado' }
+  ];
+
+  const getCurrentStageIndex = (stage) => STAGES.findIndex(s => s.id === stage);
+
+  return (
+    <div className="flex flex-col h-full bg-slate-50 overflow-hidden animate-fade-in relative">
+      <SecureDeleteModal
+        isOpen={deleteModalOpen}
+        onClose={() => { setDeleteModalOpen(false); setContractToDelete(null); }}
+        onConfirm={executeSecureDelete}
+        itemName={`Solicitud ${contractToDelete?.id}`}
+        adminPassword={adminPassword}
+        dataToBackup={contractToDelete}
+        backupFilename={`Respaldo_Contrato_${contractToDelete?.id}_${Date.now()}.json`}
+      />
+      <div className="p-6 border-b border-slate-200 bg-white flex justify-between items-center shadow-sm z-10">
+        <div>
+          <h2 className="text-2xl font-serif text-[#081225] flex items-center gap-2">
+            <FileText className="w-6 h-6 text-[#1E3A8A]" />
+            Solicitudes de Contrato
+          </h2>
+          <p className="text-xs text-slate-500 mt-1 font-medium">Flujo transparente de validación y comisiones.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          {view !== 'LIST' && (
+            <button onClick={() => setView('LIST')} className="text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors">
+              Volver a la Lista
+            </button>
+          )}
+          {isAsesor && view === 'LIST' && (
+            <button onClick={() => setView('NEW')} className="bg-[#1E3A8A] hover:bg-[#1e40af] text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-md transition-transform active:scale-95">
+              <Plus className="w-4 h-4" /> Nuevo Contrato
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-6">
+        {view === 'LIST' && (
+          <div className="space-y-6 max-w-6xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+               <div className="p-4 border-b border-slate-100 flex gap-2 overflow-x-auto bg-slate-50/50">
+                  {['ALL', ...STAGES.map(s => s.id)].map(s => (
+                    <button 
+                      key={s} 
+                      onClick={() => setFilterStage(s)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors ${filterStage === s ? 'bg-[#081225] text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                    >
+                      {s === 'ALL' ? 'Todos' : STAGES.find(x => x.id === s)?.label || s}
+                    </button>
+                  ))}
+               </div>
+               
+               <div className="divide-y divide-slate-100">
+                 {visibleContracts.length === 0 ? (
+                   <div className="p-12 text-center text-slate-400">
+                      <FileText className="w-12 h-12 mx-auto mb-3 opacity-20" />
+                      <p>No hay contratos en esta etapa.</p>
+                   </div>
+                 ) : (
+                   visibleContracts.map(c => (
+                     <div 
+                       key={c.id} 
+                       onClick={() => { setSelectedContract(c); setView('DETAIL'); }}
+                       className="p-4 hover:bg-blue-50/50 transition-colors flex justify-between items-center cursor-pointer group"
+                     >
+                        <div className="flex items-center gap-4 w-full">
+                           <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-700 font-bold font-mono shrink-0">
+                             {c.id.split('-')[0]}
+                           </div>
+                           <div className="flex-1">
+                             <div className="flex items-center gap-3">
+                               <h3 className="font-bold text-slate-800">{c.id} - {c.clientName}</h3>
+                               {c.hasAlert && <Bell className="w-4 h-4 text-red-500 animate-bounce" />}
+                               {isAdmin && (
+                                 <button
+                                   onClick={(e) => {
+                                     e.stopPropagation();
+                                     setContractToDelete(c);
+                                     setDeleteModalOpen(true);
+                                   }}
+                                   className="ml-auto p-1.5 rounded-full text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors"
+                                   title="Eliminar permanentemente"
+                                 >
+                                   <Trash className="w-4 h-4" />
+                                 </button>
+                               )}
+                             </div>
+                             
+                             {/* Mini Progress Bar for List */}
+                             <div className="mt-2 flex items-center gap-1 w-full max-w-md">
+                                {STAGES.map((s, idx) => (
+                                  <div key={s.id} className={`h-1.5 flex-1 rounded-full ${idx <= getCurrentStageIndex(c.stage) ? 'bg-blue-500' : 'bg-slate-200'}`} title={s.label}></div>
+                                ))}
+                             </div>
+
+                             <p className="text-[10px] text-slate-500 mt-1.5">
+                               Creado por: {c.createdBy} • Etapa: {STAGES.find(x => x.id === c.stage)?.label}
+                             </p>
+                           </div>
+                        </div>
+                        <div className="text-slate-300 group-hover:text-blue-500 transition-colors px-2">
+                          <Eye className="w-5 h-5" />
+                        </div>
+                     </div>
+                   ))
+                 )}
+               </div>
+            </div>
+          </div>
+        )}
+
+        {view === 'NEW' && isAsesor && (
+          <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
+            <h3 className="font-serif text-xl font-bold text-[#081225] mb-6">Generar Nuevo Folio de Contrato</h3>
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              handleCreateNew({
+                type: e.target.type.value,
+                clientName: e.target.clientName.value
+              });
+            }} className="space-y-6">
+              
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Tipo de Venta</label>
+                <div className="grid grid-cols-2 gap-4">
+                  <label className="border border-slate-200 rounded-xl p-4 flex items-center gap-3 cursor-pointer hover:bg-slate-50 transition-colors [&:has(input:checked)]:border-blue-500 [&:has(input:checked)]:bg-blue-50">
+                    <input type="radio" name="type" value="SERVICIO" defaultChecked className="w-4 h-4 text-blue-600" />
+                    <span className="font-bold text-slate-700">Servicio</span>
+                  </label>
+                  <label className="border border-slate-200 rounded-xl p-4 flex items-center gap-3 cursor-pointer hover:bg-slate-50 transition-colors [&:has(input:checked)]:border-blue-500 [&:has(input:checked)]:bg-blue-50">
+                    <input type="radio" name="type" value="ESPACIO" className="w-4 h-4 text-blue-600" />
+                    <span className="font-bold text-slate-700">Espacio</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Nombre del Cliente</label>
+                <input type="text" name="clientName" required className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium text-slate-800" placeholder="Ej. Juan Pérez" />
+              </div>
+
+              <div className="pt-4 flex justify-end">
+                <button type="submit" className="bg-[#1E3A8A] hover:bg-[#1e40af] text-white px-8 py-3 rounded-xl font-bold shadow-md hover:shadow-lg transition-all active:scale-95">
+                  Generar Folio
+                </button>
+              </div>
+
+            </form>
+          </div>
+        )}
+
+        {view === 'DETAIL' && selectedContract && (
+          <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 pb-20">
+            
+             {/* Left Column: Flow & Forms */}
+             <div className="flex-1 space-y-6">
+               <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+                  <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                    <div>
+                      <h3 className="font-serif text-2xl font-bold text-[#081225] flex items-center gap-3">
+                        {selectedContract.id}
+                        {selectedContract.hasAlert && <Bell className="w-5 h-5 text-red-500 animate-bounce" />}
+                      </h3>
+                      <p className="text-slate-500 font-medium">{selectedContract.clientName}</p>
+                    </div>
+                    <button 
+                      onClick={toggleAlert}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-colors ${selectedContract.hasAlert ? 'bg-red-100 text-red-700 hover:bg-red-200' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                    >
+                      <Bell className="w-4 h-4" />
+                      {selectedContract.hasAlert ? 'Quitar Alerta' : 'Marcar Error'}
+                    </button>
+                  </div>
+
+                  {/* Main Progress Bar */}
+                  <div className="p-6 border-b border-slate-100">
+                    <div className="relative flex justify-between">
+                       <div className="absolute top-1/2 left-0 w-full h-1 bg-slate-200 -z-10 -translate-y-1/2"></div>
+                       {STAGES.map((s, idx) => {
+                         const isActive = idx === getCurrentStageIndex(selectedContract.stage);
+                         const isPassed = idx < getCurrentStageIndex(selectedContract.stage);
+                         return (
+                           <div key={s.id} className="flex flex-col items-center gap-2 bg-white px-2">
+                             <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors ${isActive ? 'bg-blue-600 text-white ring-4 ring-blue-100' : isPassed ? 'bg-blue-500 text-white' : 'bg-slate-200 text-slate-400'}`}>
+                               {isPassed ? <CheckCircle className="w-4 h-4" /> : (idx + 1)}
+                             </div>
+                             <span className={`text-[10px] font-bold text-center max-w-[80px] leading-tight ${isActive ? 'text-blue-700' : isPassed ? 'text-slate-600' : 'text-slate-400'}`}>
+                               {s.label}
+                             </span>
+                           </div>
+                         );
+                       })}
+                    </div>
+                  </div>
+
+                  <div className="p-6 space-y-8">
+                    {/* Etapa 1: ASESOR */}
+                    <div className={`p-6 rounded-2xl border ${selectedContract.stage === 'ASESOR' ? 'border-blue-300 bg-blue-50/30' : 'border-slate-200 opacity-60'}`}>
+                      <h4 className="font-bold text-slate-800 mb-4 text-sm">1. Documentación del Asesor</h4>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                        <DocumentBox docKey="asesorContract" title="Formato Solicitud (PDF)" accept=".pdf" hasPhotoOption={false} requiredStage="ASESOR" roleCheck={isAsesor} selectedContract={selectedContract} isAdmin={isAdmin} handleViewDocument={handleViewDocument} handleFileUpload={handleFileUpload} />
+                        <DocumentBox docKey="asesorPayment" title="Evidencia de Pago" accept="image/*,.pdf" hasPhotoOption={true} requiredStage="ASESOR" roleCheck={isAsesor} selectedContract={selectedContract} isAdmin={isAdmin} handleViewDocument={handleViewDocument} handleFileUpload={handleFileUpload} />
+                        <DocumentBox docKey="asesorINEFrente" title="INE (FRENTE)" accept="image/*,.pdf" hasPhotoOption={true} requiredStage="ASESOR" roleCheck={isAsesor} selectedContract={selectedContract} isAdmin={isAdmin} handleViewDocument={handleViewDocument} handleFileUpload={handleFileUpload} />
+                        <DocumentBox docKey="asesorINEReverso" title="INE (REVERSO)" accept="image/*,.pdf" hasPhotoOption={true} requiredStage="ASESOR" roleCheck={isAsesor} selectedContract={selectedContract} isAdmin={isAdmin} handleViewDocument={handleViewDocument} handleFileUpload={handleFileUpload} />
+                        <DocumentBox docKey="asesorCSF" title="Constancia Sit. Fiscal" accept=".pdf" hasPhotoOption={false} requiredStage="ASESOR" roleCheck={isAsesor} selectedContract={selectedContract} isAdmin={isAdmin} handleViewDocument={handleViewDocument} handleFileUpload={handleFileUpload} />
+                      </div>
+
+                      {isAsesor && selectedContract.stage === 'ASESOR' && (
+                        <div className="mt-6 flex justify-end">
+                          <button 
+                            onClick={() => {
+                              triggerConfirm("¿Confirmar envío a Cajas? Pasará a Generación de Documentos.", () => {
+                                updateContract(selectedContract.id, { stage: 'CAJAS' });
+                                triggerNotification("Enviado a Cajas exitosamente", "success");
+                              });
+                            }}
+                            className="bg-[#1E3A8A] hover:bg-[#1e40af] text-white px-6 py-2 rounded-xl font-bold transition-all text-sm"
+                          >
+                            Terminar y Enviar a Cajas
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Etapa 2: CAJAS */}
+                    <div className={`p-6 rounded-2xl border ${selectedContract.stage === 'CAJAS' ? 'border-amber-300 bg-amber-50/30' : 'border-slate-200 opacity-60'}`}>
+                      <h4 className="font-bold text-slate-800 mb-4 text-sm">2. Generación de Documentos Oficiales</h4>
+                      
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl">
+                          <input type="checkbox" className="w-4 h-4 text-amber-600 rounded" disabled={!isCajas || selectedContract.stage !== 'CAJAS'} />
+                          <span className="font-bold text-slate-700 text-sm">Pago Validado Correctamente</span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                          <DocumentBox docKey="cajasAnexo" title="Anexo" accept=".pdf" hasPhotoOption={false} requiredStage="CAJAS" roleCheck={isCajas} selectedContract={selectedContract} isAdmin={isAdmin} handleViewDocument={handleViewDocument} handleFileUpload={handleFileUpload} />
+                          <DocumentBox docKey="cajasContrato" title="Contrato Oficial" accept=".pdf" hasPhotoOption={false} requiredStage="CAJAS" roleCheck={isCajas} selectedContract={selectedContract} isAdmin={isAdmin} handleViewDocument={handleViewDocument} handleFileUpload={handleFileUpload} />
+                          <DocumentBox docKey="cajasRecibo" title="Recibo / Factura" accept=".pdf" hasPhotoOption={false} requiredStage="CAJAS" roleCheck={isCajas} selectedContract={selectedContract} isAdmin={isAdmin} handleViewDocument={handleViewDocument} handleFileUpload={handleFileUpload} />
+                        </div>
+                      </div>
+
+                      {isCajas && selectedContract.stage === 'CAJAS' && (
+                        <div className="mt-6 flex justify-end">
+                          <button 
+                            onClick={() => {
+                              triggerConfirm("¿Enviar a Nómina? Se enviará a Revisión de Comisión.", () => {
+                                updateContract(selectedContract.id, { stage: 'NOMINA' });
+                                triggerNotification("Enviado a Nómina exitosamente", "success");
+                              });
+                            }}
+                            className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-xl font-bold transition-all text-sm"
+                          >
+                            Enviar a Nómina
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Etapa 3: NÓMINA (Revisión) */}
+                    <div className={`p-6 rounded-2xl border ${selectedContract.stage === 'NOMINA' ? 'border-purple-300 bg-purple-50/30' : 'border-slate-200 opacity-60'}`}>
+                      <h4 className="font-bold text-slate-800 mb-4 text-sm">3. Revisión para Comisión</h4>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div className="space-y-1">
+                          <label className="text-[10px] uppercase font-bold text-slate-500">Monto de Venta</label>
+                          <input type="number" placeholder="$0.00" disabled={!isNomina || selectedContract.stage !== 'NOMINA'} className="w-full border border-slate-200 rounded-lg p-2 text-sm font-mono" />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[10px] uppercase font-bold text-slate-500">% Comisión</label>
+                          <input type="number" placeholder="0%" disabled={!isNomina || selectedContract.stage !== 'NOMINA'} className="w-full border border-slate-200 rounded-lg p-2 text-sm font-mono" />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[10px] uppercase font-bold text-slate-500">Total Calculado</label>
+                          <input type="text" placeholder="$0.00" disabled className="w-full border border-slate-200 bg-slate-50 rounded-lg p-2 text-sm font-mono font-bold text-purple-700" />
+                        </div>
+                      </div>
+
+                      {isNomina && selectedContract.stage === 'NOMINA' && (
+                        <div className="flex justify-end">
+                          <button 
+                            onClick={() => {
+                              triggerConfirm("¿Aprobar Comisión? Pasará al listado de pagos pendientes.", () => {
+                                updateContract(selectedContract.id, { stage: 'POR_PAGAR' });
+                                triggerNotification("Aprobado y enviado a Por Pagar", "success");
+                              });
+                            }}
+                            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-xl font-bold transition-all text-sm"
+                          >
+                            Aprobar y Mandar a Por Pagar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Etapa 4: POR PAGAR */}
+                    <div className={`p-6 rounded-2xl border ${selectedContract.stage === 'POR_PAGAR' ? 'border-emerald-300 bg-emerald-50/30' : 'border-slate-200 opacity-60'}`}>
+                      <h4 className="font-bold text-slate-800 mb-4 text-sm">4. Emisión de Pago</h4>
+                      <p className="text-xs text-slate-500 mb-4">Comisión autorizada. En espera de transferencia y comprobante de pago al asesor.</p>
+                      
+                      {isNomina && selectedContract.stage === 'POR_PAGAR' && (
+                        <div className="flex justify-end gap-3">
+                          <button className="border border-slate-200 bg-white hover:bg-slate-50 px-4 py-2 rounded-xl text-xs font-bold text-slate-600 flex items-center gap-2">
+                            <Upload className="w-4 h-4" /> Subir Comprobante
+                          </button>
+                          <button 
+                            onClick={() => {
+                              triggerConfirm("¿Marcar como Pagado? Se cerrará el folio de forma definitiva.", () => {
+                                updateContract(selectedContract.id, { stage: 'FINALIZADO' });
+                                triggerNotification("Comisión Pagada Exitosamente", "success");
+                              });
+                            }}
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-xl font-bold transition-all text-sm"
+                          >
+                            Marcar como Pagado
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+               </div>
+             </div>
+
+             {/* Right Column: Live Chat */}
+             <div className="w-full lg:w-80 h-[600px] bg-white rounded-3xl shadow-sm border border-slate-200 flex flex-col overflow-hidden shrink-0">
+               <div className="p-4 bg-[#081225] text-white flex items-center gap-2">
+                 <MessageSquare className="w-5 h-5 text-blue-400" />
+                 <h4 className="font-bold text-sm">Observaciones y Chat</h4>
+               </div>
+               
+               <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
+                 {(!selectedContract.messages || selectedContract.messages.length === 0) ? (
+                   <p className="text-xs text-center text-slate-400 mt-10">No hay observaciones. Escribe el primer mensaje.</p>
+                 ) : (
+                   selectedContract.messages.map(msg => {
+                     const isMe = msg.sender === currentUser.name;
+                     if (msg.isSystem) {
+                       return (
+                         <div key={msg.id} className="text-center my-2">
+                           <span className="bg-slate-200 text-slate-600 text-[10px] px-3 py-1 rounded-full font-bold">
+                             {msg.text}
+                           </span>
+                         </div>
+                       );
+                     }
+                     return (
+                       <div key={msg.id} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
+                         <span className="text-[9px] text-slate-400 font-bold mb-0.5 px-1">{msg.sender}</span>
+                         <div className={`px-3 py-2 rounded-2xl max-w-[85%] text-xs shadow-sm ${isMe ? 'bg-blue-600 text-white rounded-tr-sm' : 'bg-white border border-slate-200 text-slate-700 rounded-tl-sm'}`}>
+                           {msg.text}
+                         </div>
+                         <span className="text-[9px] text-slate-400 mt-0.5 px-1">
+                           {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                         </span>
+                       </div>
+                     );
+                   })
+                 )}
+                 <div ref={chatEndRef} />
+               </div>
+
+               <div className="p-3 bg-white border-t border-slate-200">
+                 <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+                   <input 
+                     type="text" 
+                     value={chatInput}
+                     onChange={e => setChatInput(e.target.value)}
+                     placeholder="Escribe algo..." 
+                     className="flex-1 border border-slate-200 rounded-full px-4 py-2 text-xs focus:outline-none focus:border-blue-500 bg-slate-50"
+                   />
+                   <button type="submit" disabled={!chatInput.trim()} className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:opacity-50 transition-colors">
+                     <Send className="w-4 h-4" />
+                   </button>
+                 </form>
+               </div>
+             </div>
+
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+
+function HRModule({ currentUser, triggerNotification, triggerConfirm, activeUsers, setActiveUsers }) {
+  const [hrView, setHrView] = useState('DASHBOARD'); // 'DASHBOARD', 'EMPLOYEES', 'INCIDENCES'
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  
+  const filteredEmployees = activeUsers.filter(emp => 
+    (emp.name && emp.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (emp.role && emp.role.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (emp.position && emp.position.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  const handleSaveHrInfo = (e) => {
+    e.preventDefault();
+    const updated = activeUsers.map(u => u.id === selectedEmployee.id ? selectedEmployee : u);
+    setActiveUsers(updated);
+    triggerNotification('Expediente digital guardado exitosamente.');
+    setSelectedEmployee(null);
+  };
+
+  return (
+    <div className="flex flex-col h-full bg-slate-50 overflow-hidden animate-fade-in relative">
+      {/* Header */}
+      <div className="p-6 border-b border-slate-200 bg-white flex justify-between items-center shadow-sm z-10">
+        <div>
+          <h2 className="text-2xl font-serif text-[#081225] flex items-center gap-2">
+            <Users className="w-6 h-6 text-[#1E3A8A]" />
+            RH
+          </h2>
+          <p className="text-xs text-slate-500 mt-1 font-medium">Panel de control de personal y expedientes digitales JAE.</p>
+        </div>
+        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl">
+          <button 
+            onClick={() => { setHrView('DASHBOARD'); setSelectedEmployee(null); }} 
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${hrView === 'DASHBOARD' ? 'bg-[#081225] text-white shadow-sm' : 'text-slate-650 hover:bg-slate-200'}`}
+          >
+            Dashboard
+          </button>
+          <button 
+            onClick={() => { setHrView('EMPLOYEES'); setSelectedEmployee(null); }} 
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${hrView === 'EMPLOYEES' ? 'bg-[#081225] text-white shadow-sm' : 'text-slate-650 hover:bg-slate-200'}`}
+          >
+            Empleados & Expedientes
+          </button>
+          <button 
+            onClick={() => { setHrView('INCIDENCES'); setSelectedEmployee(null); }} 
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${hrView === 'INCIDENCES' ? 'bg-[#081225] text-white shadow-sm' : 'text-slate-650 hover:bg-slate-200'}`}
+          >
+            Vacaciones & Faltas
+          </button>
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-6">
+        {hrView === 'DASHBOARD' && (
+          <div className="space-y-6 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="bg-[#081225] text-white p-6 rounded-3xl border border-slate-800 shadow-lg relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-6 opacity-10"><Users className="w-24 h-24" /></div>
+                <h3 className="font-serif text-lg text-slate-300">Total Plantilla</h3>
+                <p className="text-5xl font-bold mt-2">{activeUsers.length}</p>
+                <div className="mt-6 inline-block bg-white/10 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
+                  +12% vs mes anterior
+                </div>
+              </div>
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+                <div>
+                  <h3 className="font-serif text-lg font-bold text-slate-850">Avisos de Capital Humano 📢</h3>
+                  <p className="text-xs text-slate-550 leading-relaxed mt-2">
+                    Recuerda que todos los empleados deben tener su Constancia de Situación Fiscal actualizada al corriente para el timbrado correcto de la nómina.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {hrView === 'EMPLOYEES' && !selectedEmployee && (
+          <div className="space-y-6 max-w-6xl mx-auto">
+            <div className="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm gap-4">
+              <div className="flex-1 relative">
+                <Search className="w-4 h-4 text-slate-450 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input 
+                  type="text" 
+                  value={searchTerm} 
+                  onChange={e => setSearchTerm(e.target.value)}
+                  placeholder="Buscar colaborador..." 
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium text-slate-800"
+                />
+              </div>
+              <button 
+                onClick={() => triggerNotification('Para dar de alta a un empleado, solicítalo al Administrador del Sistema.', 'warning')}
+                className="bg-[#1E3A8A] hover:bg-[#1E40AF] text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer shadow-sm active:scale-95 transition-transform shrink-0"
+              >
+                <Plus className="w-4 h-4" /> Solicitud de Alta
+              </button>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="divide-y divide-slate-100">
+                {filteredEmployees.length === 0 ? (
+                  <div className="p-12 text-center text-slate-450">No se encontraron empleados.</div>
+                ) : (
+                  filteredEmployees.map(emp => (
+                    <div key={emp.id} className="p-4 hover:bg-slate-50/50 flex justify-between items-center transition-colors">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-400 font-bold overflow-hidden border border-slate-300">
+                          {emp.avatar ? <img src={emp.avatar} alt="foto" className="w-full h-full object-cover"/> : (emp.name ? emp.name.charAt(0) : '?')}
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-slate-800 text-sm">{emp.name}</h4>
+                          <p className="text-[10px] text-slate-450 font-semibold">{emp.position || emp.role} • {emp.email}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${emp.isActive !== false ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`}>
+                          {emp.isActive !== false ? 'Activo' : 'Inactivo'}
+                        </span>
+                        <button 
+                          onClick={() => setSelectedEmployee({ ...emp, hrInfo: emp.hrInfo || {} })}
+                          className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 cursor-pointer transition-colors"
+                        >
+                          <FileText className="w-3.5 h-3.5" /> Expediente
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {hrView === 'EMPLOYEES' && selectedEmployee && (
+          <div className="max-w-4xl mx-auto space-y-6">
+            <button onClick={() => setSelectedEmployee(null)} className="flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-slate-800">
+              <ChevronLeft className="w-4 h-4"/> Volver al Directorio
+            </button>
+            
+            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex items-center gap-6">
+               <div className="w-24 h-24 rounded-full bg-slate-200 flex items-center justify-center text-slate-400 font-bold text-3xl overflow-hidden border-4 border-slate-50 shadow-inner">
+                 {selectedEmployee.avatar ? <img src={selectedEmployee.avatar} alt="foto" className="w-full h-full object-cover"/> : (selectedEmployee.name ? selectedEmployee.name.charAt(0) : '?')}
+               </div>
+               <div>
+                 <h2 className="text-2xl font-bold text-slate-800">{selectedEmployee.name}</h2>
+                 <p className="text-sm font-semibold text-[#1E3A8A] mt-1">{selectedEmployee.position || selectedEmployee.role}</p>
+                 <div className="flex items-center gap-4 mt-3 text-xs text-slate-500">
+                   <span className="flex items-center gap-1"><Mail className="w-3.5 h-3.5"/> {selectedEmployee.email}</span>
+                   <span className="flex items-center gap-1"><Phone className="w-3.5 h-3.5"/> Ext: {selectedEmployee.extension || 'N/A'}</span>
+                   <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5"/> Ingreso: {selectedEmployee.entryDate || 'No registrado'}</span>
+                 </div>
+               </div>
+            </div>
+
+            <form onSubmit={handleSaveHrInfo} className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+              <div className="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+                <h3 className="font-bold text-sm text-slate-800 uppercase tracking-wider">Documentación y Datos Personales</h3>
+                <span className="text-[10px] text-slate-400 italic">Acceso exclusivo RH</span>
+              </div>
+              <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">NSS (Seguro Social)</label>
+                  <input type="text" value={selectedEmployee.hrInfo?.nss || ''} onChange={e => setSelectedEmployee({...selectedEmployee, hrInfo: {...selectedEmployee.hrInfo, nss: e.target.value}})} className="w-full border-b border-slate-200 py-1 text-sm font-semibold text-slate-800 focus:outline-none focus:border-[#1E3A8A]" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">RFC</label>
+                  <input type="text" value={selectedEmployee.hrInfo?.rfc || ''} onChange={e => setSelectedEmployee({...selectedEmployee, hrInfo: {...selectedEmployee.hrInfo, rfc: e.target.value}})} className="w-full border-b border-slate-200 py-1 text-sm font-semibold text-slate-800 focus:outline-none focus:border-[#1E3A8A]" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">CURP</label>
+                  <input type="text" value={selectedEmployee.hrInfo?.curp || ''} onChange={e => setSelectedEmployee({...selectedEmployee, hrInfo: {...selectedEmployee.hrInfo, curp: e.target.value}})} className="w-full border-b border-slate-200 py-1 text-sm font-semibold text-slate-800 focus:outline-none focus:border-[#1E3A8A]" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Contacto de Emergencia</label>
+                  <input type="text" value={selectedEmployee.hrInfo?.emergencyContact || ''} onChange={e => setSelectedEmployee({...selectedEmployee, hrInfo: {...selectedEmployee.hrInfo, emergencyContact: e.target.value}})} className="w-full border-b border-slate-200 py-1 text-sm font-semibold text-slate-800 focus:outline-none focus:border-[#1E3A8A]" placeholder="Nombre y Teléfono" />
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Dirección Completa</label>
+                  <input type="text" value={selectedEmployee.hrInfo?.address || ''} onChange={e => setSelectedEmployee({...selectedEmployee, hrInfo: {...selectedEmployee.hrInfo, address: e.target.value}})} className="w-full border-b border-slate-200 py-1 text-sm font-semibold text-slate-800 focus:outline-none focus:border-[#1E3A8A]" />
+                </div>
+                <div className="space-y-2 md:col-span-2 mt-4">
+                  <label className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Anotaciones Confidenciales de RH</label>
+                  <textarea rows="3" value={selectedEmployee.hrInfo?.notes || ''} onChange={e => setSelectedEmployee({...selectedEmployee, hrInfo: {...selectedEmployee.hrInfo, notes: e.target.value}})} className="w-full border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-800 focus:outline-none focus:border-[#1E3A8A]" placeholder="Comentarios sobre desempeño, actas administrativas, etc." />
+                </div>
+              </div>
+              <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-end gap-2">
+                <button type="submit" className="bg-[#081225] hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-md transition-all">
+                  Guardar Expediente
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {hrView === 'INCIDENCES' && (
+          <div className="bg-white rounded-3xl border border-slate-200 p-8 text-center max-w-2xl mx-auto shadow-sm my-10 space-y-4">
+            <Clock className="w-12 h-12 text-[#1E3A8A] mx-auto opacity-40 animate-pulse" />
+            <h3 className="font-serif text-xl font-bold text-slate-800">Control de Vacaciones y Permisos</h3>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Esta sección permitirá a los colaboradores solicitar vacaciones y permisos y a los encargados de Capital Humano autorizarlas de forma secuencial.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
