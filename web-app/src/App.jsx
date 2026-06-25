@@ -1453,17 +1453,30 @@ export default function App() {
 
   // Registro de Auditoría
   const addAuditLog = (tableName, recordId, action, oldValue, newValue) => {
+    const cleanLogObj = (obj) => {
+      if (!obj) return obj;
+      try {
+        const copy = JSON.parse(JSON.stringify(obj));
+        for (let k in copy) {
+          if (typeof copy[k] === 'string' && copy[k].length > 1000) {
+            copy[k] = '[TEXTO LARGO OMITIDO]';
+          }
+        }
+        return copy;
+      } catch(e) { return obj; }
+    };
+
     const newLog = {
       id: 'log_' + Math.random().toString(36).substr(2, 9),
       tableName,
       recordId,
       action,
-      oldValue,
-      newValue,
+      oldValue: cleanLogObj(oldValue),
+      newValue: cleanLogObj(newValue),
       userId: currentUser.role === ROLES.CLIENTE ? 'cliente_anonimo' : currentUser.id || 'sistema',
       createdAt: new Date().toISOString()
     };
-    setAuditLogs(prev => [newLog, ...prev]);
+    setAuditLogs(prev => [newLog, ...prev].slice(0, 50));
   };
 
   // Manejo de Login Autorizado
