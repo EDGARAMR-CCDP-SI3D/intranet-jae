@@ -1277,11 +1277,7 @@ export default function App() {
           if (data.customFormFields) setCustomFormFields(data.customFormFields);
           if (data.contactMethods) setContactMethods(data.contactMethods);
           if (data.activeUsers) {
-            if (data.activeUsers.length < 30) {
-              // Legacy users, ignore to use hardcoded 50+ users
-            } else {
-              setActiveUsers(data.activeUsers);
-            }
+            setActiveUsers(data.activeUsers);
           }
           if (data.systemConfig) setSystemConfig(data.systemConfig);
           if (data.activeSessions) setActiveSessions(data.activeSessions);
@@ -1367,12 +1363,14 @@ export default function App() {
 
   // Polling silencioso en tiempo real
   const dbSavingRef = useRef(false);
+  const lastChangeRef = useRef(0);
   useEffect(() => { dbSavingRef.current = dbSaving; }, [dbSaving]);
 
   useEffect(() => {
     if (!dbLoaded) return;
     const interval = setInterval(() => {
       if (dbSavingRef.current) return;
+      if (Date.now() - lastChangeRef.current < 5000) return;
       fetch('/api/data')
         .then(res => {
           if (!res.ok) throw new Error();
@@ -1396,6 +1394,7 @@ export default function App() {
   // Guardado permanente automático en la base de datos de la PC host (debounced)
   useEffect(() => {
     if (!dbLoaded) return;
+    lastChangeRef.current = Date.now();
 
     const timer = setTimeout(() => {
       setDbSaving(true);
@@ -1651,9 +1650,7 @@ export default function App() {
                     if (data.crmColumns) setCrmColumns(data.crmColumns);
                     if (data.customFormFields) setCustomFormFields(data.customFormFields);
                     if (data.activeUsers) {
-                      if (data.activeUsers.length >= 30) {
-                        setActiveUsers(data.activeUsers);
-                      }
+                      setActiveUsers(data.activeUsers);
                     }
                     if (data.crmForms) setCrmForms(data.crmForms);
                     if (data.crmFormSubmissions) setCrmFormSubmissions(data.crmFormSubmissions);
@@ -3224,12 +3221,7 @@ export default function App() {
                 </div>
               )}
 
-              {/* Ayudas de Credenciales para la Demo */}
-              <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl space-y-1 text-[11px] text-[#081225]">
-                <p className="font-semibold text-center mb-1 text-slate-800">💡 Credenciales para la demo:</p>
-                <p>👤 <span className="font-semibold">Administrador:</span> soporte@grupojae.mx / 12345#JAE</p>
-                <p>👤 <span className="font-semibold">Empleado:</span> empleado@grupojae.mx / 54321#JAE</p>
-              </div>
+
 
               <div className="flex gap-3 justify-end pt-2">
                 <button
@@ -8309,6 +8301,10 @@ function SuperAdminModule({
 }) {
   const [activeSubTab, setActiveSubTab] = useState('BRANCHES_ADMIN');
   const [selectedLog, setSelectedLog] = useState(null);
+  const [rolesSearch, setRolesSearch] = useState('');
+  const [usersSearch, setUsersSearch] = useState('');
+  const [isRolesCollapsed, setIsRolesCollapsed] = useState(true);
+  const [isUsersCollapsed, setIsUsersCollapsed] = useState(true);
 
   // Estados de la Base de Datos
   const [selectedTableName, setSelectedTableName] = useState('');
@@ -8536,7 +8532,7 @@ function SuperAdminModule({
               label: 'Área Interna / Trabajadores',
               icon: Users,
               items: [
-                { id: 'ROLES_PERMISSIONS', label: '🛡️ Menús y Empleados', desc: 'Configura permisos de módulos y accesos de colaboradores.' },
+                { id: 'ROLES_PERMISSIONS', label: '🛡️ Empleados y Roles', desc: 'Configura permisos de módulos y accesos de colaboradores.' },
                 { id: 'CAROUSEL_ADMIN', label: '📢 Anuncios e Intranet', desc: 'Publica circulares y banners de información interna.' },
                 { id: 'FORM_BUILDER', label: '⚙️ Constructor CRM', desc: 'Diseña el embudo de ventas y agrega campos dinámicos.' }
               ]
@@ -9539,90 +9535,128 @@ function SuperAdminModule({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Roles Management */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-6 flex flex-col h-full max-h-[600px] overflow-y-auto">
-            <div className="flex justify-between items-center sticky top-0 bg-white pb-2 z-10 border-b border-slate-100">
-              <div>
-                <h4 className="font-serif font-bold text-slate-950 text-base">Puestos y Roles</h4>
-                <p className="text-xs text-slate-450 mt-1">Crea puestos de trabajo y define qué módulos pueden operar.</p>
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+            <div className="flex justify-between items-center sticky top-0 bg-white z-10">
+              <div className="flex items-center gap-3">
+                <button onClick={() => setIsRolesCollapsed(!isRolesCollapsed)} className="p-1 text-slate-400 hover:text-slate-700 bg-slate-100 rounded-lg">
+                  <ChevronDown className={`w-5 h-5 transition-transform ${isRolesCollapsed ? '-rotate-90' : ''}`} />
+                </button>
+                <div>
+                  <h4 className="font-serif font-bold text-slate-950 text-base">Puestos y Roles</h4>
+                  <p className="text-xs text-slate-450 mt-1">Crea puestos y define accesos.</p>
+                </div>
               </div>
               <button onClick={() => { setEditingRole({ name: '', permissions: {} }); setShowRoleModal(true); }} className="bg-[#1E3A8A] text-white text-xs px-4 py-2 rounded-full font-bold shadow-md hover:bg-[#1E40AF]">
                 + Nuevo Rol
               </button>
             </div>
 
-            <div className="space-y-3">
-              {roles.map(r => (
-                <div key={r.id} className="bg-[#FAFAFA] border border-slate-200 p-4 rounded-2xl flex flex-col space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="font-bold text-sm text-[#081225]">{r.name}</span>
-                    <div className="flex gap-3">
-                      <button onClick={() => { setEditingRole(r); setShowRoleModal(true); }} className="text-slate-500 hover:text-[#081225] text-xs font-semibold">Editar</button>
-                      <button onClick={() => handleDeleteRole(r.id)} className="text-red-400 hover:text-red-600 text-xs font-semibold">Eliminar</button>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {['INTRANET', 'OPERATIONS', 'CRM', 'CONTRACTS', 'HR', 'DOCS', 'ADMIN'].map(menu => (
-                      <button
-                        key={menu}
-                        onClick={() => handleToggleRolePermission(r.id, menu)}
-                        className={`text-[10px] px-2 py-1 rounded-md font-bold transition-all ${r.permissions[menu] ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-400 border border-slate-200 hover:bg-slate-200'}`}
-                      >
-                        {menu}
-                      </button>
-                    ))}
-                  </div>
+            {!isRolesCollapsed && (
+              <>
+                <div className="mt-4 mb-3 relative">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input 
+                    type="text" 
+                    placeholder="Buscar rol por nombre..."
+                    value={rolesSearch}
+                    onChange={e => setRolesSearch(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-xs text-slate-800 outline-none focus:border-[#1E3A8A] transition-colors"
+                  />
                 </div>
-              ))}
-            </div>
+                <div className="space-y-3 overflow-y-auto max-h-[500px] pr-2">
+                  {roles.filter(r => r.name.toLowerCase().includes(rolesSearch.toLowerCase())).map(r => (
+                    <div key={r.id} className="bg-[#FAFAFA] border border-slate-200 p-4 rounded-2xl flex flex-col space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-sm text-[#081225]">{r.name}</span>
+                        <div className="flex gap-3">
+                          <button onClick={() => { setEditingRole(r); setShowRoleModal(true); }} className="text-slate-500 hover:text-[#081225] text-xs font-semibold">Editar</button>
+                          <button onClick={() => handleDeleteRole(r.id)} className="text-red-400 hover:text-red-600 text-xs font-semibold">Eliminar</button>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {['INTRANET', 'OPERATIONS', 'CRM', 'CONTRACTS', 'HR', 'DOCS', 'ADMIN'].map(menu => (
+                          <button
+                            key={menu}
+                            onClick={() => handleToggleRolePermission(r.id, menu)}
+                            className={`text-[10px] px-2 py-1 rounded-md font-bold transition-all ${r.permissions[menu] ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-400 border border-slate-200 hover:bg-slate-200'}`}
+                          >
+                            {menu}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
 
           {/* User Management */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-6 flex flex-col h-full max-h-[600px] overflow-y-auto">
-            <div className="flex justify-between items-center sticky top-0 bg-white pb-2 z-10 border-b border-slate-100">
-              <div>
-                <h4 className="font-serif font-bold text-slate-950 text-base">Directorio de Empleados</h4>
-                <p className="text-xs text-slate-450 mt-1">Administra accesos y contraseñas.</p>
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+            <div className="flex justify-between items-center sticky top-0 bg-white z-10">
+              <div className="flex items-center gap-3">
+                <button onClick={() => setIsUsersCollapsed(!isUsersCollapsed)} className="p-1 text-slate-400 hover:text-slate-700 bg-slate-100 rounded-lg">
+                  <ChevronDown className={`w-5 h-5 transition-transform ${isUsersCollapsed ? '-rotate-90' : ''}`} />
+                </button>
+                <div>
+                  <h4 className="font-serif font-bold text-slate-950 text-base">Directorio de Empleados</h4>
+                  <p className="text-xs text-slate-450 mt-1">Administra accesos y contraseñas.</p>
+                </div>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => setShowBatchModal(true)} className="bg-slate-100 text-[#081225] border border-slate-200 text-xs px-4 py-2 rounded-full font-bold shadow-sm hover:bg-slate-200">
+                <button onClick={() => setShowBatchModal(true)} className="bg-slate-100 text-[#081225] border border-slate-200 text-xs px-3 py-2 rounded-full font-bold shadow-sm hover:bg-slate-200">
                   Carga Masiva
                 </button>
-                <button onClick={() => { setEditingUser({ name: '', email: '', password: '', passEmail: '', passContpaqi: '', extension: '', entryDate: '', position: '', roleId: roles[0]?.id || '' }); setShowUserModal(true); }} className="bg-[#081225] text-white text-xs px-4 py-2 rounded-full font-bold shadow-md hover:bg-slate-800">
+                <button onClick={() => { setEditingUser({ name: '', email: '', password: '', passEmail: '', passContpaqi: '', extension: '', entryDate: '', position: '', roleId: roles[0]?.id || '' }); setShowUserModal(true); }} className="bg-[#081225] text-white text-xs px-3 py-2 rounded-full font-bold shadow-md hover:bg-slate-800">
                   + Empleado
                 </button>
               </div>
             </div>
 
-            <div className="space-y-3">
-              {activeUsers.map(u => (
-                <div key={u.id} className="bg-[#FAFAFA] border border-slate-200 p-3 rounded-2xl flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden border border-slate-300">
-                      {u.avatar ? <img src={u.avatar} alt={u.name} className="w-full h-full object-cover"/> : <div className="w-full h-full flex items-center justify-center font-bold text-slate-400 text-xs">{u.name.charAt(0)}</div>}
-                    </div>
-                    <div>
-                      <h5 className="font-bold text-xs text-slate-800">{u.name}</h5>
-                      <span className="text-[10px] text-slate-500">{u.email}</span>
-                    </div>
-                  </div>
-                  <div className="text-right flex flex-col items-end gap-1">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-[#1E3A8A] bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">
-                      {roles.find(r => r.id === u.roleId)?.name || u.role}
-                    </span>
-                    <div className="flex gap-2 mt-1">
-                      <button onClick={() => { setEditingUser(u); setShowUserModal(true); }} className="text-slate-400 hover:text-slate-800 text-[10px] font-semibold">Editar</button>
-                      <button onClick={() => handleDeleteUser(u.id)} className="text-red-300 hover:text-red-600 text-[10px] font-semibold">Baja</button>
-                    </div>
-                  </div>
+            {!isUsersCollapsed && (
+              <>
+                <div className="mt-4 mb-3 relative">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input 
+                    type="text" 
+                    placeholder="Buscar empleado por nombre o correo..."
+                    value={usersSearch}
+                    onChange={e => setUsersSearch(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-xs text-slate-800 outline-none focus:border-[#1E3A8A] transition-colors"
+                  />
                 </div>
-              ))}
-            </div>
+                <div className="space-y-3 overflow-y-auto max-h-[500px] pr-2">
+                  {activeUsers.filter(u => u.name.toLowerCase().includes(usersSearch.toLowerCase()) || u.email.toLowerCase().includes(usersSearch.toLowerCase())).map(u => (
+                    <div key={u.id} className="bg-[#FAFAFA] border border-slate-200 p-3 rounded-2xl flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden border border-slate-300">
+                          {u.avatar ? <img src={u.avatar} alt={u.name} className="w-full h-full object-cover"/> : <div className="w-full h-full flex items-center justify-center font-bold text-slate-400 text-xs">{u.name.charAt(0)}</div>}
+                        </div>
+                        <div>
+                          <h5 className="font-bold text-xs text-slate-800">{u.name}</h5>
+                          <span className="text-[10px] text-slate-500">{u.email}</span>
+                        </div>
+                      </div>
+                      <div className="text-right flex flex-col items-end gap-1">
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-[#1E3A8A] bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">
+                          {roles.find(r => r.id === u.roleId)?.name || u.role}
+                        </span>
+                        <div className="flex gap-2 mt-1">
+                          <button onClick={() => { setEditingUser(u); setShowUserModal(true); }} className="text-slate-400 hover:text-slate-800 text-[10px] font-semibold">Editar</button>
+                          <button onClick={() => handleDeleteUser(u.id)} className="text-red-300 hover:text-red-600 text-[10px] font-semibold">Baja</button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
 
         </div>
       )}
 
-      {/* 2. Historial de Auditoría */}
+{/* 2. Historial de Auditoría */}
       {activeSubTab === 'AUDIT' && (
         <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-6">
           <div className="flex justify-between items-center">
