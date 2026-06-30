@@ -8,12 +8,8 @@ export default defineConfig({
     host: '0.0.0.0',   // Exponer en todas las interfaces de red (LAN + Tailscale)
     port: 5173,
     strictPort: true,   // Fallar si el puerto ya está ocupado (evita puertos aleatorios)
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
-      }
-    }
+  },
+  build: {
+    chunkSizeWarningLimit: 5000,
   }
 })
