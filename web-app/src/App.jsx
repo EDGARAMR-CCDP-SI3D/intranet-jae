@@ -3305,7 +3305,7 @@ export default function App() {
 
       {/* Dynamic Toast System */}
       {toast.show && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 max-w-md w-full px-4 animate-toast-in">
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[999] max-w-md w-full px-4 animate-toast-in">
           <div className={`glassmorphism border px-4 py-3 rounded-2xl flex items-center gap-3 shadow-lg ${
             toast.type === 'error'
               ? 'bg-rose-50/90 border-rose-250 text-rose-800'
