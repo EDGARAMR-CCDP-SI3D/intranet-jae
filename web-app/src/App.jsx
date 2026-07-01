@@ -41,32 +41,27 @@ export default function App() {
       </div>
 
       {/* Main Content Glass Card */}
-      <div className="relative z-20 animate-scale-up">
-        <div className="glassmorphism-dark rounded-3xl p-10 max-w-lg w-full text-center shadow-2xl border border-slate-700/50 backdrop-blur-xl relative overflow-hidden group">
+      <div className="relative z-20 w-full max-w-lg mx-auto px-4 sm:px-6 animate-scale-up">
+        <div className="glassmorphism-dark rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 text-center shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-slate-700/50 backdrop-blur-xl relative overflow-hidden group flex flex-col items-center justify-center">
           
           {/* Subtle animated background glow */}
-          <div className="absolute -inset-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 group-hover:animate-slide-in-right opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          
-          {/* Logo Placeholder */}
-          <div className="mb-8 flex justify-center animate-fade-in" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
-             <img src="/assets/logo_jae_blanco.png" alt="Grupo JAE" className="h-16 w-auto opacity-80" />
-          </div>
+          <div className="absolute -inset-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 group-hover:animate-slide-in-right opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-6 tracking-tight animate-toast-in" style={{ animationDelay: '0.5s', animationFillMode: 'both' }}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 sm:mb-8 tracking-tight animate-toast-in drop-shadow-md" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
             Servicio Suspendido
           </h1>
           
-          <div className="space-y-6 text-slate-300 text-lg leading-relaxed font-light animate-toast-in" style={{ animationDelay: '0.7s', animationFillMode: 'both' }}>
-            <p>
+          <div className="space-y-4 sm:space-y-6 text-slate-300 text-base sm:text-lg md:text-xl leading-relaxed font-light animate-toast-in max-w-sm mx-auto" style={{ animationDelay: '0.5s', animationFillMode: 'both' }}>
+            <p className="drop-shadow-sm">
               Agradecemos profundamente su interés y el tiempo compartido.
             </p>
-            <p className="text-slate-400/90 text-base">
+            <p className="text-slate-400/90 text-sm sm:text-base md:text-lg drop-shadow-sm">
               Esperamos tener la oportunidad de volver a colaborar con ustedes en un futuro brillante.
             </p>
           </div>
           
-          <div className="mt-10 pt-6 border-t border-slate-700/50 animate-toast-in" style={{ animationDelay: '0.9s', animationFillMode: 'both' }}>
-            <p className="text-slate-400 text-sm tracking-widest uppercase font-semibold">
+          <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-slate-700/50 w-full animate-toast-in" style={{ animationDelay: '0.7s', animationFillMode: 'both' }}>
+            <p className="text-slate-400 text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] uppercase font-semibold">
               Atte: Edgar
             </p>
           </div>
