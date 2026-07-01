@@ -47,11 +47,11 @@ export default function App() {
           {/* Subtle animated background glow */}
           <div className="absolute -inset-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 group-hover:animate-slide-in-right opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 sm:mb-8 tracking-tight animate-toast-in drop-shadow-md" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 sm:mb-8 tracking-tight animate-fade-in drop-shadow-md" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
             Servicio Suspendido
           </h1>
           
-          <div className="space-y-4 sm:space-y-6 text-slate-300 text-base sm:text-lg md:text-xl leading-relaxed font-light animate-toast-in max-w-sm mx-auto" style={{ animationDelay: '0.5s', animationFillMode: 'both' }}>
+          <div className="space-y-4 sm:space-y-6 text-slate-300 text-base sm:text-lg md:text-xl leading-relaxed font-light animate-fade-in max-w-sm mx-auto" style={{ animationDelay: '0.5s', animationFillMode: 'both' }}>
             <p className="drop-shadow-sm">
               Agradecemos profundamente su interés y el tiempo compartido.
             </p>
@@ -60,7 +60,7 @@ export default function App() {
             </p>
           </div>
           
-          <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-slate-700/50 w-full animate-toast-in" style={{ animationDelay: '0.7s', animationFillMode: 'both' }}>
+          <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-slate-700/50 w-full animate-fade-in" style={{ animationDelay: '0.7s', animationFillMode: 'both' }}>
             <p className="text-slate-400 text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] uppercase font-semibold">
               Atte: Edgar
             </p>
